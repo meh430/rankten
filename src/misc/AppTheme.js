@@ -23,6 +23,12 @@ const appThemeDark = createMuiTheme({
     ...appThemeLight,
     pallete: {
         ...appThemeLight.palette,
+        primary: {
+            ...appThemeLight.primary
+        },
+        secondary: {
+            ...appThemeLight.secondary
+        },
         type: 'dark'
     }
 });
