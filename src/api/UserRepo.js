@@ -6,10 +6,11 @@ export async function getUser(name) {
 }
 
 export async function updateBio(bio, token) {
-    var response = await api.put('/users', { 'bio': bio }, {}, token)
+    var response = await api.put('/users', token, { 'bio': bio });
     return response;
 }
 
 export async function updateProfilePic(profPic, token) {
-    var response = await api.put('/users', { 'prof_pic': profPic }, {}, token);
+    var response = await api.put('/users', token, { 'prof_pic': profPic });
+    return response;
 }
