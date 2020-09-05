@@ -29,11 +29,7 @@ export async function get(endpoint, bearerToken = "") {
     return [hasError, jsonResponse];
 }
 
-export async function post(endpoint, body, bearerToken = "") {
-    if (!body) {
-        body = {};
-    }
-
+export async function post(endpoint, bearerToken = "", body = {}) {
     var hasError = false;
     var jsonResponse;
 
@@ -51,11 +47,7 @@ export async function post(endpoint, body, bearerToken = "") {
     return [hasError, jsonResponse];
 }
 
-export async function put(endpoint, body, bearerToken = "") {
-    if (!body) {
-        body = {};
-    }
-
+export async function put(endpoint, bearerToken = "", body = {}) {
     var hasError = false;
     var jsonResponse;
 
