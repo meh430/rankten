@@ -4,6 +4,7 @@ import { UserContext, ThemeContext } from "./Contexts";
 import { ThemeProvider } from "@material-ui/core/styles";
 import { userReducer } from "./reducers/UserReducer";
 import { isDark } from "./misc/PrefStore";
+import { appThemeDark, appThemeLight } from "./misc/AppTheme";
 import "./App.css";
 
 const App = () => {
@@ -16,7 +17,7 @@ const App = () => {
     return (
         <ThemeContext.Provider value={themeValue}>
             <UserContext.Provider value={userValue}>
-                <ThemeProvider>
+                <ThemeProvider theme={theme === "dark" ? appThemeDark : appThemeLight}>
                     <div className="App">
                         <Logo />
                     </div>

@@ -1,22 +1,22 @@
-
-
-const palePurple = '#f1e3f3';
-const lavender = '#c2bbf0';
-const darkSienna = '#4a051c';
-const hanPurple = '#6320ee';
-const paraPink = '#ef476f';
+export const appColors = {
+    palePurple: '#f1e3f3',
+    lavender: '#c2bbf0',
+    darkSienna: '#4a051c',
+    hanPurple: '#6320ee',
+    paraPink: '#ef476f'
+}
 
 export const appThemeLight = createMuiTheme({
     palette: {
         type: 'light',
         primary: {
-            main: lavender,
-            light: palePurple,
-            dark: hanPurple
+            main: appColors.lavender,
+            light: appColors.palePurple,
+            dark: appColors.hanPurple
         },
         secondary: {
-            main: paraPink,
-            dark: darkSienna
+            main: appColors.paraPink,
+            dark: appColors.darkSienna
         }
     }
 });
