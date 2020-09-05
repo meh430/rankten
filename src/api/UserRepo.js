@@ -1,14 +1,7 @@
 import * as api from './RankApi';
 
-export async function getUser(name, token) {
-    var response;
-
-    if (token) {
-        response = await api.get('/users/' + name, token); 
-    } else {
-        response = await api.get('/users/' + name);
-    }
-
+export async function getUser(name) {
+    var response = await api.get('/users/' + name);
     return response;
 }
 
