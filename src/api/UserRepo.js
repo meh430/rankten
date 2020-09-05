@@ -40,3 +40,16 @@ export async function likeList(listId, token) {
         }
     }
 }
+
+export async function likeComment(commentId, token) {
+    var [hasError, response] = await api.post('/like_comment/' + commentId, token);
+    if (hasError) {
+        return [hasError, response];
+    } else {
+        if (response.message.includes("unliked")) {
+            return [true, "UNLIKED"];
+        } else {
+            return [true, "LIKED"];
+        }
+    }
+}
