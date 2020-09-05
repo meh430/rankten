@@ -53,3 +53,8 @@ export async function likeComment(commentId, token) {
         }
     }
 }
+
+export async function getLikedListIds(name, token) {
+    var response = await api.get('/likes/1/0?ids=True', token);
+    return response;
+}
