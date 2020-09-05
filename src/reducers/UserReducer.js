@@ -5,8 +5,7 @@ export const UserReducerTypes = {
     updateBioAction: 'UPDATE_BIO_ACTION',
     updateProfilePicAction: 'UPDATE_PROFILE_PIC_ACTION',
     followUserAction: 'FOLLOW_USER_ACTION',
-    likeListAction: 'LIKE_LIST_ACTION',
-    likeCommentAction: 'LIKE_COMMENT_ACTION'
+    likeListAction: 'LIKE_LIST_ACTION'
 }
 
 export function userReducer(state, action) {
@@ -60,7 +59,6 @@ export function userReducer(state, action) {
             }
 
             return stateCopy;
-
     }
 }
 
