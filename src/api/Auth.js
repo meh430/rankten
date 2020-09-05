@@ -15,3 +15,13 @@ async function loginUser(userName, password) {
         return response;
     }
 }
+
+async function signupUser(userName, password, bio) {
+    var [hasError, response] = await api.post('/signup', { 'user_name': userName, 'password': password, 'bio': bio });
+    if (hasError) {
+        return undefined;
+    } else {
+        saveCred(response.jwtToken, userName, password);
+        return response;
+    }
+}
