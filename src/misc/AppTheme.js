@@ -1,10 +1,12 @@
+
+
 const palePurple = '#f1e3f3';
 const lavender = '#c2bbf0';
 const darkSienna = '#4a051c';
 const hanPurple = '#6320ee';
 const paraPink = '#ef476f';
 
-const appThemeLight = createMuiTheme({
+export const appThemeLight = createMuiTheme({
     palette: {
         type: 'light',
         primary: {
@@ -19,7 +21,7 @@ const appThemeLight = createMuiTheme({
     }
 });
 
-const appThemeDark = createMuiTheme({
+export const appThemeDark = createMuiTheme({
     ...appThemeLight,
     pallete: {
         ...appThemeLight.palette,
