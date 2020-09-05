@@ -1,6 +1,6 @@
 const baseUrl = "http://192.168.0.22:5000";
 
-async function validateImage(imageUrl) {
+export async function validateImage(imageUrl) {
     var isValid = false;
     try {
         var response = await fetch(imageUrl);
@@ -12,7 +12,7 @@ async function validateImage(imageUrl) {
     return isValid;
 }
 
-async function get(endpoint, bearerToken = "") {
+export async function get(endpoint, bearerToken = "") {
     var hasError = false;
     var jsonResponse;
 
@@ -29,7 +29,7 @@ async function get(endpoint, bearerToken = "") {
     return [hasError, jsonResponse];
 }
 
-async function post(endpoint, body, bearerToken = "") {
+export async function post(endpoint, body, bearerToken = "") {
     if (!body) {
         body = {};
     }
@@ -51,7 +51,7 @@ async function post(endpoint, body, bearerToken = "") {
     return [hasError, jsonResponse];
 }
 
-async function put(endpoint, body, bearerToken = "") {
+export async function put(endpoint, body, bearerToken = "") {
     if (!body) {
         body = {};
     }
@@ -73,7 +73,7 @@ async function put(endpoint, body, bearerToken = "") {
     return [hasError, jsonResponse];
 }
 
-async function del(endpoint, bearerToken = "") {
+export async function del(endpoint, bearerToken = "") {
     var hasError = false;
     var jsonResponse;
 
