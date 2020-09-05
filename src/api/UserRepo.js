@@ -27,3 +27,16 @@ export async function followUser(name, token) {
         }
     }
 }
+
+export async function likeList(listId, token) {
+    var [hasError, response] = await api.post('/like/' + listId, token);
+    if (hasError) {
+        return [hasError, response];
+    } else {
+        if (response.message.includes("unliked")) {
+            return [true, "UNLIKED"];
+        } else {
+            return [true, "LIKED"];
+        }
+    }
+}
