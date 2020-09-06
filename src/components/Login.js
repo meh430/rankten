@@ -68,7 +68,7 @@ export const Login = () => {
                 <h1 style={textTheme}>Log In</h1>
                 <TextField
                     error={nameError}
-                    helperText={nameError ? "Invalid username" : ""}
+                    helperText={nameError ? "Name can only have 3-15 characters" : ""}
                     style={fieldTheme}
                     id="outlined-basic"
                     label="Username"
@@ -78,7 +78,7 @@ export const Login = () => {
 
                 <TextField
                     error={passwordError}
-                    helperText={passwordError ? "Invalid password" : ""}
+                    helperText={passwordError ? "Password needs a number, an uppercase letter, and a special character" : ""}
                     style={fieldTheme}
                     id="outlined-password-input"
                     label="Password"

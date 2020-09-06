@@ -1,10 +1,19 @@
 import { Button, Card, CardContent, useTheme, TextField } from "@material-ui/core";
-import React from "react";
-import { Link } from "react-router-dom";
+import React, { useState } from "react";
+import { Link, Redirect } from "react-router-dom";
 import { appThemeConstants } from "../misc/AppTheme";
+import { namePattern, passwordPattern } from "./Login";
 import "../App.css";
+let userName = "";
+let password = "";
+let bio = "";
 export const SignUp = () => {
     const currentTheme = useTheme();
+    const [nameError, setNameError] = useState(false);
+    const [passwordError, setPasswordError] = useState(false);
+    const [bioError, setBioError] = useState(false);
+    const [successfulLogin, setSuccess] = useState(false);
+
     const fieldTheme = {
         color: appThemeConstants.lavender,
         width: "90%",
@@ -16,6 +25,44 @@ export const SignUp = () => {
         fontFamily: appThemeConstants.fontFamily,
         color: currentTheme.palette.secondary.dark,
     };
+
+    const submitSignup = () => {
+        let error = false;
+        console.log(userName);
+        if (!userName.match(namePattern)) {
+            error = true;
+            setNameError(true);
+            setSuccess(false);
+        } else {
+            setNameError(false);
+        }
+
+        if (!password.match(passwordPattern)) {
+            error = true;
+            setPasswordError(true);
+            setSuccess(false);
+        } else {
+            setPasswordError(false);
+        }
+
+        if (!bio || bio === "") {
+            error = true;
+            setBioError(true);
+            setSuccess(false);
+        } else {
+            setBioError(false);
+        }
+
+        if (!error) {
+            //make api call to login. If has error, show snackbar, else push main route
+            setSuccess(true);
+        }
+    };
+
+    if (!passwordError && !nameError && !bioError && successfulLogin) {
+        return <Redirect to="/main" />;
+    }
+
     return (
         <Card
             style={{
@@ -30,19 +77,41 @@ export const SignUp = () => {
             <CardContent className="col" style={{ alignItems: "center", paddingBottom: "2px" }}>
                 <h1 style={textTheme}>Sign Up</h1>
 
-                <TextField style={fieldTheme} label="Username" variant="outlined" />
+                <TextField
+                    error={nameError}
+                    helperText={nameError ? "Name can only have 3-15 characters" : ""}
+                    style={fieldTheme}
+                    id="outlined-basic"
+                    label="Username"
+                    variant="outlined"
+                    onChange={(event) => (userName = event.target.value)}
+                />
 
                 <TextField
+                    error={passwordError}
+                    helperText={passwordError ? "Password needs a number, an uppercase letter, and a special character" : ""}
                     style={fieldTheme}
+                    id="outlined-password-input"
                     label="Password"
                     type="password"
                     autoComplete="current-password"
                     variant="outlined"
+                    onChange={(event) => (password = event.target.value)}
                 />
 
-                <TextField style={fieldTheme} label="Bio" multiline rows={4} variant="outlined" />
+                <TextField
+                    style={fieldTheme}
+                    label="Bio"
+                    multiline
+                    rows={4}
+                    variant="outlined"
+                    error={bioError}
+                    helperText={bioError ? "Bio cannot be empty" : ""}
+                    onChange={(event) => (bio = event.target.value)}
+                />
 
                 <Button
+                    onClick={() => submitSignup()}
                     variant="contained"
                     style={{
                         width: "70%",
