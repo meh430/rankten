@@ -1,6 +1,6 @@
 import { Button, Card, CardContent, useTheme, TextField } from "@material-ui/core";
 import React from "react";
-import { Link } from 'react-router-dom';
+import { Link } from "react-router-dom";
 import { appThemeConstants } from "../misc/AppTheme";
 import "../App.css";
 export const SignUp = () => {
@@ -40,13 +40,7 @@ export const SignUp = () => {
                     variant="outlined"
                 />
 
-                <TextField
-                    style={fieldTheme}
-                    label="Bio"
-                    multiline
-                    rows={4}
-                    variant="outlined"
-                />
+                <TextField style={fieldTheme} label="Bio" multiline rows={4} variant="outlined" />
 
                 <Button
                     variant="contained"
@@ -61,7 +55,12 @@ export const SignUp = () => {
                     Sign Up
                 </Button>
 
-                <h4 style={textTheme}>Have an account? <Link to='/login' style={{color: currentTheme.palette.secondary.dark}}>Log in</Link></h4>
+                <h4 style={textTheme}>
+                    Have an account?{" "}
+                    <Link to="/login" style={{ color: currentTheme.palette.secondary.dark }}>
+                        Log in
+                    </Link>
+                </h4>
             </CardContent>
         </Card>
     );

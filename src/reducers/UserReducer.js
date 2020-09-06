@@ -1,12 +1,12 @@
-const clone = require('rfdc')()
+const clone = require("rfdc")();
 
 export const UserReducerTypes = {
-    getUserAction: 'GET_USER_ACTION',
-    updateBioAction: 'UPDATE_BIO_ACTION',
-    updateProfilePicAction: 'UPDATE_PROFILE_PIC_ACTION',
-    followUserAction: 'FOLLOW_USER_ACTION',
-    likeListAction: 'LIKE_LIST_ACTION'
-}
+    getUserAction: "GET_USER_ACTION",
+    updateBioAction: "UPDATE_BIO_ACTION",
+    updateProfilePicAction: "UPDATE_PROFILE_PIC_ACTION",
+    followUserAction: "FOLLOW_USER_ACTION",
+    likeListAction: "LIKE_LIST_ACTION",
+};
 
 export function userReducer(state, action) {
     var stateCopy = {};
@@ -24,7 +24,7 @@ export function userReducer(state, action) {
         //{profPic: string}
         case UserReducerTypes.updateProfilePicAction:
             stateCopy = clone(state);
-            stateCopy['prof_pic'] = action.payload.profPic;
+            stateCopy["prof_pic"] = action.payload.profPic;
             return stateCopy;
         //{hasFollowed: bool, targetId: objectId}
         case UserReducerTypes.followUserAction:
@@ -36,7 +36,7 @@ export function userReducer(state, action) {
                 stateCopy.following.push(targetId);
             } else {
                 for (i = 0; i < stateCopy.following.length; i++) {
-                    if (stateCopy.following[i]['$oid'] === targetId['$oid']) {
+                    if (stateCopy.following[i]["$oid"] === targetId["$oid"]) {
                         stateCopy.following.splice(i, 1);
                         break;
                     }
@@ -51,11 +51,11 @@ export function userReducer(state, action) {
             targetId = action.payload.targetId;
 
             if (hasLiked) {
-                stateCopy['liked_lists'].push(targetId);
+                stateCopy["liked_lists"].push(targetId);
             } else {
                 for (i = 0; i < stateCopy.following.length; i++) {
-                    if (stateCopy['liked_lists'][i]['$oid'] === targetId['$oid']) {
-                        stateCopy['liked_lists'].splice(i, 1);
+                    if (stateCopy["liked_lists"][i]["$oid"] === targetId["$oid"]) {
+                        stateCopy["liked_lists"].splice(i, 1);
                         break;
                     }
                 }
@@ -66,4 +66,3 @@ export function userReducer(state, action) {
             return state;
     }
 }
-

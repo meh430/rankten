@@ -1,6 +1,6 @@
 import { Button, Card, CardContent, useTheme, TextField } from "@material-ui/core";
 import React from "react";
-import { Link, Redirect } from 'react-router-dom';
+import { Link, Redirect } from "react-router-dom";
 import { appThemeConstants } from "../misc/AppTheme";
 import "../App.css";
 export const Login = () => {
@@ -19,12 +19,10 @@ export const Login = () => {
         color: currentTheme.palette.secondary.dark,
     };
 
-    const submitLogin = () => {
-
-    }
+    const submitLogin = () => {};
 
     if (!loginError && successfulLogin) {
-        return <Redirect to="/main"/>
+        return <Redirect to="/main" />;
     }
 
     return (
@@ -63,7 +61,12 @@ export const Login = () => {
                     Log In
                 </Button>
 
-                <h4 style={textTheme}>Don't have an account? <Link to='/signup' style={{color: currentTheme.palette.secondary.dark}}>Sign up</Link></h4>
+                <h4 style={textTheme}>
+                    Don't have an account?{" "}
+                    <Link to="/signup" style={{ color: currentTheme.palette.secondary.dark }}>
+                        Sign up
+                    </Link>
+                </h4>
             </CardContent>
         </Card>
     );

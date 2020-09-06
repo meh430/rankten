@@ -19,7 +19,7 @@ export const LoginSignUp = (props) => {
             }}
         >
             <div className="col" style={{ justifyContent: "center" }}>
-                <Logo width="500"/>
+                <Logo width="500" />
                 <h1
                     style={{
                         alignSelf: "center",

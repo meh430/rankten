@@ -5,7 +5,7 @@ import { appThemeConstants } from "../misc/AppTheme";
 import { useTheme } from "@material-ui/core";
 import { Redirect } from "react-router-dom";
 
-import '../App.css';
+import "../App.css";
 import { UserReducerTypes } from "../reducers/UserReducer";
 import { UserContext } from "../Contexts";
 import { tokenValid } from "../api/Auth";
@@ -15,19 +15,19 @@ export const Splash = () => {
     const currentTheme = useTheme();
     const { userDispatch } = useContext(UserContext);
     useEffect(() => {
-        console.log("called splash")
+        console.log("called splash");
         const storedToken = getToken();
         if (storedToken) {
             const [hasError, userInfo] = tokenValid(storedToken);
             if (hasError) {
-                setStartRoute('/login');
+                setStartRoute("/login");
             } else {
                 //set user object?
                 userDispatch({ type: UserReducerTypes.GET_USER_ACTION, payload: userInfo });
                 //set home?
             }
         } else {
-            setStartRoute('/signup');
+            setStartRoute("/signup");
         }
     }, [setStartRoute, userDispatch]);
 
@@ -45,7 +45,7 @@ export const Splash = () => {
                 backgroundColor: currentTheme.palette.background.default,
             }}
         >
-            <Logo width="600"/>
+            <Logo width="600" />
             <ReactLoading type="bars" color={appThemeConstants.hanPurple} />
         </div>
     );

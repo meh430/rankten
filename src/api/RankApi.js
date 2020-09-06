@@ -17,10 +17,12 @@ export async function get(endpoint, bearerToken = "") {
     var jsonResponse = null;
 
     try {
-        jsonResponse = await parseResponse(await fetch(baseUrl + endpoint, {
-            method: 'GET',
-            headers: getHeaders(bearerToken)
-        }));
+        jsonResponse = await parseResponse(
+            await fetch(baseUrl + endpoint, {
+                method: "GET",
+                headers: getHeaders(bearerToken),
+            })
+        );
     } catch (e) {
         hasError = true;
         jsonResponse = e.message;
@@ -34,11 +36,13 @@ export async function post(endpoint, bearerToken = "", body = {}) {
     var jsonResponse = null;
 
     try {
-        jsonResponse = await parseResponse(await fetch(baseUrl + endpoint, {
-            method: 'POST',
-            body: JSON.stringify(body),
-            headers: getHeaders(bearerToken)
-        }));
+        jsonResponse = await parseResponse(
+            await fetch(baseUrl + endpoint, {
+                method: "POST",
+                body: JSON.stringify(body),
+                headers: getHeaders(bearerToken),
+            })
+        );
     } catch (e) {
         hasError = true;
         jsonResponse = e.message;
@@ -52,11 +56,13 @@ export async function put(endpoint, bearerToken = "", body = {}) {
     var jsonResponse = null;
 
     try {
-        jsonResponse = await parseResponse(await fetch(baseUrl + endpoint, {
-            method: 'PUT',
-            body: JSON.stringify(body),
-            headers: getHeaders(bearerToken)
-        }));
+        jsonResponse = await parseResponse(
+            await fetch(baseUrl + endpoint, {
+                method: "PUT",
+                body: JSON.stringify(body),
+                headers: getHeaders(bearerToken),
+            })
+        );
     } catch (e) {
         hasError = true;
         jsonResponse = e.message;
@@ -70,10 +76,12 @@ export async function del(endpoint, bearerToken = "") {
     var jsonResponse;
 
     try {
-        jsonResponse = await parseResponse(await fetch(baseUrl + endpoint, {
-            method: 'DELETE',
-            headers: getHeaders(bearerToken)
-        }));
+        jsonResponse = await parseResponse(
+            await fetch(baseUrl + endpoint, {
+                method: "DELETE",
+                headers: getHeaders(bearerToken),
+            })
+        );
     } catch (e) {
         hasError = true;
         jsonResponse = e.message;
@@ -83,23 +91,23 @@ export async function del(endpoint, bearerToken = "") {
 }
 
 function getHeaders(bearerToken = "") {
-    return bearerToken === "" ?
-        {
-            Accept: "application/json",
-            "Content-Type": "application/json",
-        } :
-        {
-            Authorization: "Bearer $bearerToken",
-            Accept: "application/json",
-            "Content-Type": "application/json",
-        };
+    return bearerToken === ""
+        ? {
+              Accept: "application/json",
+              "Content-Type": "application/json",
+          }
+        : {
+              Authorization: "Bearer $bearerToken",
+              Accept: "application/json",
+              "Content-Type": "application/json",
+          };
 }
 
 async function parseResponse(response) {
     var parsed;
     switch (response.status) {
         case 200:
-             parsed = await response.json();
+            parsed = await response.json();
             return parsed;
         case 400:
             parsed = await response.json();

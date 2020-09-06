@@ -6,7 +6,7 @@ import { getCurrentTheme } from "./misc/PrefStore";
 import { appThemeConstants } from "./misc/AppTheme";
 import "./App.css";
 import { Splash } from "./routes/Splash";
-import { Switch, Route } from 'react-router-dom';
+import { Switch, Route } from "react-router-dom";
 import { LoginSignUp } from "./routes/LoginSignup";
 import { MainRoute } from "./routes/MainRoute";
 const appThemeLight = {
@@ -20,7 +20,7 @@ const appThemeLight = {
         secondary: {
             main: appThemeConstants.paraPink,
             dark: appThemeConstants.darkSienna,
-        }
+        },
     },
 };
 
@@ -35,7 +35,6 @@ const appThemeDark = {
         secondary: {
             ...appThemeLight.palette.secondary,
             dark: appThemeConstants.palePurple,
-
         },
     },
 };
@@ -57,9 +56,9 @@ const App = () => {
                     <ThemeProvider theme={theme === "light" ? darkTheme : lightTheme}>
                         <Switch>
                             <Route path="/" component={Splash} exact />
-                            <Route path="/login" render={() => <LoginSignUp isLogin={true}/>} />
+                            <Route path="/login" render={() => <LoginSignUp isLogin={true} />} />
                             <Route path="/signup" render={() => <LoginSignUp isLogin={false} />} />
-                            <Route path="/main" component={MainRoute}/>
+                            <Route path="/main" component={MainRoute} />
                         </Switch>
                     </ThemeProvider>
                 </UserContext.Provider>

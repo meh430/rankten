@@ -1,5 +1,5 @@
-import React from 'react';
+import React from "react";
 
 export const MainRoute = () => {
-    return <h1>This is the main route</h1>
-}
+    return <h1>This is the main route</h1>;
+};
