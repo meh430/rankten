@@ -2,7 +2,7 @@ import { Button, Card, CardContent, useTheme, TextField } from "@material-ui/cor
 import React from "react";
 import { appThemeConstants } from "../misc/AppTheme";
 import "../App.css";
-export const Login = () => {
+export const SignUp = () => {
     const currentTheme = useTheme();
     const fieldTheme = {
         color: appThemeConstants.lavender,
@@ -18,6 +18,7 @@ export const Login = () => {
     return (
         <Card
             style={{
+                margin: "10px",
                 alignSelf: "center",
                 boxShadow: currentTheme.shadows[4],
                 width: "500px",
@@ -26,7 +27,8 @@ export const Login = () => {
             }}
         >
             <CardContent className="col" style={{ alignItems: "center", paddingBottom: "2px" }}>
-                <h1 style={textTheme}>Login</h1>
+                <h1 style={textTheme}>Sign Up</h1>
+
                 <TextField style={fieldTheme} id="outlined-basic" label="Username" variant="outlined" />
 
                 <TextField
@@ -38,20 +40,30 @@ export const Login = () => {
                     variant="outlined"
                 />
 
+                <TextField
+                    style={fieldTheme}
+                    id="outlined-multiline-static"
+                    label="Multiline"
+                    multiline
+                    rows={4}
+                    defaultValue="Default Value"
+                    variant="outlined"
+                />
+
                 <Button
                     variant="contained"
                     style={{
                         width: "70%",
-                        marginTop: "15px",
-                        marginBottom: "15px",
+                        marginTop: "20px",
+                        marginBottom: "0px",
                         color: "#ffffff",
                         backgroundColor: appThemeConstants.hanPurple,
                     }}
                 >
-                    Login
+                    Sign Up
                 </Button>
 
-                <h4 style={textTheme}>Don't have an account? Sign Up</h4>
+                <h4 style={textTheme}>Have an account? Sign in</h4>
             </CardContent>
         </Card>
     );
