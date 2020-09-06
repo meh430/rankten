@@ -6,6 +6,7 @@ import { getCurrentTheme } from "./misc/PrefStore";
 import { appColors } from "./misc/AppTheme";
 import "./App.css";
 import { Splash } from "./components/Splash";
+import { Switch, Route } from 'react-router-dom';
 const appThemeLight = {
     palette: {
         type: "light",
@@ -49,7 +50,10 @@ const App = () => {
             <ThemeContext.Provider value={themeValue}>
                 <UserContext.Provider value={userValue}>
                     <ThemeProvider theme={theme === "dark" ? darkTheme : lightTheme}>
-                        <Splash />
+                        <Switch>
+                            <Route path="/" component={Splash} exact />
+                            
+                        </Switch>
                     </ThemeProvider>
                 </UserContext.Provider>
             </ThemeContext.Provider>
