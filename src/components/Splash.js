@@ -4,15 +4,12 @@ import { Logo } from "./Logo";
 import { appColors } from "../misc/AppTheme";
 import { useTheme } from "@material-ui/core";
 import { Redirect } from "react-router-dom";
-import { getToken } from "../misc/PrefStore";
-import {tokenValid} from "../api/Auth"
-import { UserContext } from "../Contexts";
-import { UserReducerTypes } from "../reducers/UserReducer";
+import '../App.css';
 export const Splash = () => {
     const [startRoute, setStartRoute] = useState(null);
     const currentTheme = useTheme();
 
-    useEffect(() => {
+    /*useEffect(() => {
         const storedToken = getToken();
         if (storedToken) {
             const [hasError, userInfo] = tokenValid(storedToken);
@@ -27,7 +24,7 @@ export const Splash = () => {
         } else {
             //login?
         }
-    }, [setStartRoute]);
+    }, [setStartRoute]);*/
 
     if (startRoute) {
         return <Redirect to={startRoute} />;
@@ -35,9 +32,8 @@ export const Splash = () => {
 
     return (
         <div
+            className="col"
             style={{
-                display: "flex",
-                flexDirection: "column",
                 alignItems: "center",
                 height: "100vh",
                 justifyContent: "space-around",
