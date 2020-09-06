@@ -29,11 +29,10 @@ export const SignUp = () => {
             <CardContent className="col" style={{ alignItems: "center", paddingBottom: "2px" }}>
                 <h1 style={textTheme}>Sign Up</h1>
 
-                <TextField style={fieldTheme} id="outlined-basic" label="Username" variant="outlined" />
+                <TextField style={fieldTheme} label="Username" variant="outlined" />
 
                 <TextField
                     style={fieldTheme}
-                    id="outlined-password-input"
                     label="Password"
                     type="password"
                     autoComplete="current-password"
@@ -42,11 +41,9 @@ export const SignUp = () => {
 
                 <TextField
                     style={fieldTheme}
-                    id="outlined-multiline-static"
-                    label="Multiline"
+                    label="Bio"
                     multiline
                     rows={4}
-                    defaultValue="Default Value"
                     variant="outlined"
                 />
 

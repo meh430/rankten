@@ -53,7 +53,7 @@ const App = () => {
         <div className="App">
             <ThemeContext.Provider value={themeValue}>
                 <UserContext.Provider value={userValue}>
-                    <ThemeProvider theme={theme === "light" ? darkTheme : lightTheme}>
+                    <ThemeProvider theme={theme === "dark" ? darkTheme : lightTheme}>
                         <Switch>
                             <Route path="/" component={Splash} exact />
                             <Route path="/login" render={() => <LoginSignUp isLogin={true}/>} />
