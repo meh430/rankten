@@ -12,9 +12,9 @@ const appThemeLight = {
     palette: {
         type: "light",
         primary: {
-            main: appThemeConstants.lavender,
+            main: appThemeConstants.hanPurple,
             light: appThemeConstants.palePurple,
-            dark: appThemeConstants.hanPurple,
+            dark: appThemeConstants.lavender,
         },
         secondary: {
             main: appThemeConstants.paraPink,
@@ -29,6 +29,7 @@ const appThemeDark = {
         type: "dark",
         primary: {
             ...appThemeLight.palette.primary,
+            main: appThemeConstants.lavender,
         },
         secondary: {
             ...appThemeLight.palette.secondary,
@@ -52,7 +53,7 @@ const App = () => {
         <div className="App">
             <ThemeContext.Provider value={themeValue}>
                 <UserContext.Provider value={userValue}>
-                    <ThemeProvider theme={theme === "dark" ? darkTheme : lightTheme}>
+                    <ThemeProvider theme={theme === "light" ? darkTheme : lightTheme}>
                         <Switch>
                             <Route path="/" component={Splash} exact />
                             <Route path="/auth" component={LoginSignUp} />
