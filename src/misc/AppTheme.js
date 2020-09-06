@@ -1,3 +1,5 @@
+import { createMuiTheme } from '@material-ui/core/styles';
+
 export const appColors = {
     palePurple: '#f1e3f3',
     lavender: '#c2bbf0',

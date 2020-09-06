@@ -15,7 +15,7 @@ export function saveCred(token, userName, password) {
 
 export function isDark() {
     var dark = localStorage.getItem(DARK_THEME);
-    return dark != undefined ? dark : false;
+    return dark !== undefined ? dark : false;
 }
 
 export function getToken() {

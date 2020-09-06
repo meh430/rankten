@@ -1,4 +1,4 @@
 import React from 'react';
 export const Logo = () => {
-    return <img src={require('../assets/ranktenlogo.png')} width="500px"/>
+    return <img src={require('../assets/ranktenlogo.png')} style={{maxWidth: "80%"}} width="600px"/>
 }
