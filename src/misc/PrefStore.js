@@ -1,10 +1,10 @@
-const DARK_THEME = "DARKTHEME";
+const CURRENT_THEME = "CURRENT_THEME";
 const JWT_TOKEN = "JWTTOKEN";
 const USER_NAME_KEY = "USERNAME";
 const PASSWORD_KEY = "PASSWORD";
 
-export function saveDarkTheme(value) {
-    localStorage.setItem(DARK_THEME, value);
+export function saveTheme(value) {
+    localStorage.setItem(CURRENT_THEME, value);
 }
 
 export function saveCred(token, userName, password) {
@@ -13,9 +13,9 @@ export function saveCred(token, userName, password) {
     localStorage.setItem(PASSWORD_KEY, password);
 }
 
-export function isDark() {
-    var dark = localStorage.getItem(DARK_THEME);
-    return dark !== undefined ? dark : false;
+export function getCurrentTheme() {
+    var theme = localStorage.getItem(CURRENT_THEME);
+    return theme != undefined ? theme : "light";
 }
 
 export function getToken() {
