@@ -5,8 +5,9 @@ import { userReducer } from "./reducers/UserReducer";
 import { getCurrentTheme } from "./misc/PrefStore";
 import { appColors } from "./misc/AppTheme";
 import "./App.css";
-import { Splash } from "./components/Splash";
+import { Splash } from "./routes/Splash";
 import { Switch, Route } from 'react-router-dom';
+import { LoginSignUp } from "./routes/LoginSignup";
 const appThemeLight = {
     palette: {
         type: "light",
@@ -52,6 +53,7 @@ const App = () => {
                     <ThemeProvider theme={theme === "dark" ? darkTheme : lightTheme}>
                         <Switch>
                             <Route path="/" component={Splash} exact />
+                            <Route path="/auth" component={LoginSignUp} />
                         </Switch>
                     </ThemeProvider>
                 </UserContext.Provider>

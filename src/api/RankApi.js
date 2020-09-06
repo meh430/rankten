@@ -14,16 +14,16 @@ export async function validateImage(imageUrl) {
 
 export async function get(endpoint, bearerToken = "") {
     var hasError = false;
-    var jsonResponse;
+    var jsonResponse = null;
 
     try {
-        var jsonResponse = await parseResponse(await fetch(baseUrl + endpoint, {
+        jsonResponse = await parseResponse(await fetch(baseUrl + endpoint, {
             method: 'GET',
             headers: getHeaders(bearerToken)
         }));
     } catch (e) {
         hasError = true;
-        jsonResponse = e;
+        jsonResponse = e.message;
     }
 
     return [hasError, jsonResponse];
@@ -31,17 +31,17 @@ export async function get(endpoint, bearerToken = "") {
 
 export async function post(endpoint, bearerToken = "", body = {}) {
     var hasError = false;
-    var jsonResponse;
+    var jsonResponse = null;
 
     try {
-        var jsonResponse = await parseResponse(await fetch(baseUrl + endpoint, {
+        jsonResponse = await parseResponse(await fetch(baseUrl + endpoint, {
             method: 'POST',
             body: JSON.stringify(body),
             headers: getHeaders(bearerToken)
         }));
     } catch (e) {
         hasError = true;
-        jsonResponse = e;
+        jsonResponse = e.message;
     }
 
     return [hasError, jsonResponse];
@@ -49,17 +49,17 @@ export async function post(endpoint, bearerToken = "", body = {}) {
 
 export async function put(endpoint, bearerToken = "", body = {}) {
     var hasError = false;
-    var jsonResponse;
+    var jsonResponse = null;
 
     try {
-        var jsonResponse = await parseResponse(await fetch(baseUrl + endpoint, {
+        jsonResponse = await parseResponse(await fetch(baseUrl + endpoint, {
             method: 'PUT',
             body: JSON.stringify(body),
             headers: getHeaders(bearerToken)
         }));
     } catch (e) {
         hasError = true;
-        jsonResponse = e;
+        jsonResponse = e.message;
     }
 
     return [hasError, jsonResponse];
@@ -70,20 +70,20 @@ export async function del(endpoint, bearerToken = "") {
     var jsonResponse;
 
     try {
-        var jsonResponse = await parseResponse(await fetch(baseUrl + endpoint, {
+        jsonResponse = await parseResponse(await fetch(baseUrl + endpoint, {
             method: 'DELETE',
             headers: getHeaders(bearerToken)
         }));
     } catch (e) {
         hasError = true;
-        jsonResponse = e;
+        jsonResponse = e.message;
     }
 
     return [hasError, jsonResponse];
 }
 
 function getHeaders(bearerToken = "") {
-    return bearerToken == "" ?
+    return bearerToken === "" ?
         {
             Accept: "application/json",
             "Content-Type": "application/json",
@@ -96,22 +96,23 @@ function getHeaders(bearerToken = "") {
 }
 
 async function parseResponse(response) {
+    var parsed;
     switch (response.status) {
         case 200:
-            var parsed = await response.json();
+             parsed = await response.json();
             return parsed;
         case 400:
-            var parsed = await response.json();
+            parsed = await response.json();
             if (parsed.message.includes("page")) {
-                throw "Page does not exist";
+                throw new Error("Page does not exist");
             } else {
-                throw "Bad request";
+                throw new Error("Bad request");
             }
-            case 401:
-                throw "Authentication error";
-            case 403:
-                throw "Unauthorized";
-            default:
-                throw "Something went wrong";
+        case 401:
+            throw new Error("Authentication error");
+        case 403:
+            throw new Error("Unauthorized");
+        default:
+            throw new Error("Something went wrong");
     }
 }

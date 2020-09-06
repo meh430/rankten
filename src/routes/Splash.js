@@ -1,30 +1,34 @@
 import ReactLoading from "react-loading";
 import React, { useState, useEffect, useContext } from "react";
-import { Logo } from "./Logo";
+import { Logo } from "../components/Logo";
 import { appColors } from "../misc/AppTheme";
 import { useTheme } from "@material-ui/core";
 import { Redirect } from "react-router-dom";
+
 import '../App.css';
+import { UserReducerTypes } from "../reducers/UserReducer";
+import { UserContext } from "../Contexts";
+import { tokenValid } from "../api/Auth";
+import { getToken } from "../misc/PrefStore";
 export const Splash = () => {
     const [startRoute, setStartRoute] = useState(null);
     const currentTheme = useTheme();
-
-    /*useEffect(() => {
+    const { userDispatch } = useContext(UserContext);
+    useEffect(() => {
         const storedToken = getToken();
         if (storedToken) {
             const [hasError, userInfo] = tokenValid(storedToken);
             if (hasError) {
-                //login?
+                setStartRoute('/auth');
             } else {
                 //set user object?
-                const { userDispatch } = useContext(UserContext);
                 userDispatch({ type: UserReducerTypes.GET_USER_ACTION, payload: userInfo });
                 //set home?
             }
         } else {
-            //login?
+            setStartRoute('/auth');
         }
-    }, [setStartRoute]);*/
+    }, [setStartRoute, userDispatch]);
 
     if (startRoute) {
         return <Redirect to={startRoute} />;

@@ -13,7 +13,7 @@ export function saveToken(token) {
 
 export function getCurrentTheme() {
     var theme = localStorage.getItem(CURRENT_THEME);
-    return theme != undefined ? theme : "light";
+    return theme ? theme : "light";
 }
 
 export function getToken() {
