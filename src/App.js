@@ -19,7 +19,7 @@ const appThemeLight = {
         secondary: {
             main: appColors.paraPink,
             dark: appColors.darkSienna,
-        },
+        }
     },
 };
 
@@ -50,7 +50,7 @@ const App = () => {
         <div className="App">
             <ThemeContext.Provider value={themeValue}>
                 <UserContext.Provider value={userValue}>
-                    <ThemeProvider theme={theme === "dark" ? darkTheme : lightTheme}>
+                    <ThemeProvider theme={theme === "light" ? darkTheme : lightTheme}>
                         <Switch>
                             <Route path="/" component={Splash} exact />
                             <Route path="/auth" component={LoginSignUp} />

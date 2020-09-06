@@ -15,6 +15,7 @@ export const Splash = () => {
     const currentTheme = useTheme();
     const { userDispatch } = useContext(UserContext);
     useEffect(() => {
+        console.log("called splash")
         const storedToken = getToken();
         if (storedToken) {
             const [hasError, userInfo] = tokenValid(storedToken);
@@ -39,12 +40,12 @@ export const Splash = () => {
             className="col"
             style={{
                 alignItems: "center",
-                height: "100vh",
+                minHeight: "100vh",
                 justifyContent: "space-around",
                 backgroundColor: currentTheme.palette.background.paper,
             }}
         >
-            <Logo />
+            <Logo width="600"/>
             <ReactLoading type="bars" color={appColors.hanPurple} />
         </div>
     );
