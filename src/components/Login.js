@@ -1,9 +1,12 @@
 import { Button, Card, CardContent, useTheme, TextField } from "@material-ui/core";
 import React from "react";
+import { Link, Redirect } from 'react-router-dom';
 import { appThemeConstants } from "../misc/AppTheme";
 import "../App.css";
 export const Login = () => {
     const currentTheme = useTheme();
+    const [loginError, setError] = useState(false);
+    const [successfulLogin, setSuccess] = useState(false);
     const fieldTheme = {
         color: appThemeConstants.lavender,
         width: "90%",
@@ -15,6 +18,15 @@ export const Login = () => {
         fontFamily: appThemeConstants.fontFamily,
         color: currentTheme.palette.secondary.dark,
     };
+
+    const submitLogin = () => {
+
+    }
+
+    if (!loginError && successfulLogin) {
+        return <Redirect to="/main"/>
+    }
+
     return (
         <Card
             style={{
@@ -26,7 +38,7 @@ export const Login = () => {
             }}
         >
             <CardContent className="col" style={{ alignItems: "center", paddingBottom: "2px" }}>
-                <h1 style={textTheme}>Login</h1>
+                <h1 style={textTheme}>Log In</h1>
                 <TextField style={fieldTheme} id="outlined-basic" label="Username" variant="outlined" />
 
                 <TextField
@@ -48,10 +60,10 @@ export const Login = () => {
                         backgroundColor: appThemeConstants.hanPurple,
                     }}
                 >
-                    Login
+                    Log In
                 </Button>
 
-                <h4 style={textTheme}>Don't have an account? Sign Up</h4>
+                <h4 style={textTheme}>Don't have an account? <Link to='/signup' style={{color: currentTheme.palette.secondary.dark}}>Sign up</Link></h4>
             </CardContent>
         </Card>
     );

@@ -19,10 +19,11 @@ export const LoginSignUp = (props) => {
             }}
         >
             <div className="col" style={{ justifyContent: "center" }}>
-                <Logo width="500" />
+                <Logo width="500"/>
                 <h1
                     style={{
                         alignSelf: "center",
+                        paddingTop: "20px",
                         fontFamily: appThemeConstants.fontFamily,
                         color: currentTheme.palette.secondary.dark,
                         maxWidth: "90%",

@@ -8,6 +8,7 @@ import "./App.css";
 import { Splash } from "./routes/Splash";
 import { Switch, Route } from 'react-router-dom';
 import { LoginSignUp } from "./routes/LoginSignup";
+import { MainRoute } from "./routes/MainRoute";
 const appThemeLight = {
     palette: {
         type: "light",
@@ -53,11 +54,12 @@ const App = () => {
         <div className="App">
             <ThemeContext.Provider value={themeValue}>
                 <UserContext.Provider value={userValue}>
-                    <ThemeProvider theme={theme === "dark" ? darkTheme : lightTheme}>
+                    <ThemeProvider theme={theme === "light" ? darkTheme : lightTheme}>
                         <Switch>
                             <Route path="/" component={Splash} exact />
                             <Route path="/login" render={() => <LoginSignUp isLogin={true}/>} />
-                            <Route path="/signup" render={() => <LoginSignUp isLogin={false}/>} />
+                            <Route path="/signup" render={() => <LoginSignUp isLogin={false} />} />
+                            <Route path="/main" component={MainRoute}/>
                         </Switch>
                     </ThemeProvider>
                 </UserContext.Provider>
