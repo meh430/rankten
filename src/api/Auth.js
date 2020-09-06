@@ -11,7 +11,7 @@ export async function loginUser(userName, password) {
     if (hasError) {
         return [hasError, response]
     } else {
-        saveCred(response.jwtToken, userName, password);
+        saveCred(response.jwtToken);
         return [hasError, response];
     }
 }
@@ -21,7 +21,7 @@ export async function signupUser(userName, password, bio) {
     if (hasError) {
         return [hasError, response];
     } else {
-        saveCred(response.jwtToken, userName, password);
+        saveCred(response.jwtToken);
         return [hasError, response];
     }
 }

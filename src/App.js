@@ -52,7 +52,6 @@ const App = () => {
                     <ThemeProvider theme={theme === "dark" ? darkTheme : lightTheme}>
                         <Switch>
                             <Route path="/" component={Splash} exact />
-                            
                         </Switch>
                     </ThemeProvider>
                 </UserContext.Provider>
