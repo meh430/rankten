@@ -9,8 +9,6 @@ export const passwordPattern = new RegExp("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])
 let userName = "";
 let password = "";
 export const Login = () => {
-
-
     const currentTheme = useTheme();
     const [nameError, setNameError] = useState(false);
     const [passwordError, setPasswordError] = useState(false);
@@ -37,7 +35,7 @@ export const Login = () => {
         } else {
             setNameError(false);
         }
-        
+
         if (!password.match(passwordPattern)) {
             error = true;
             setPasswordError(true);
@@ -46,11 +44,10 @@ export const Login = () => {
             setPasswordError(false);
         }
 
-        if(!error) {
+        if (!error) {
             //make api call to login. If has error, show snackbar, else push main route
             setSuccess(true);
         }
-
     };
 
     if (!passwordError && !nameError && successfulLogin) {
@@ -83,7 +80,6 @@ export const Login = () => {
                     error={passwordError}
                     helperText={passwordError ? "Invalid password" : ""}
                     style={fieldTheme}
-
                     id="outlined-password-input"
                     label="Password"
                     type="password"
