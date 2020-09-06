@@ -1,7 +1,7 @@
 import ReactLoading from "react-loading";
 import React, { useState, useEffect, useContext } from "react";
 import { Logo } from "../components/Logo";
-import { appColors } from "../misc/AppTheme";
+import { appThemeConstants } from "../misc/AppTheme";
 import { useTheme } from "@material-ui/core";
 import { Redirect } from "react-router-dom";
 
@@ -42,11 +42,11 @@ export const Splash = () => {
                 alignItems: "center",
                 minHeight: "100vh",
                 justifyContent: "space-around",
-                backgroundColor: currentTheme.palette.background.paper,
+                backgroundColor: currentTheme.palette.background.default,
             }}
         >
             <Logo width="600"/>
-            <ReactLoading type="bars" color={appColors.hanPurple} />
+            <ReactLoading type="bars" color={appThemeConstants.hanPurple} />
         </div>
     );
 };

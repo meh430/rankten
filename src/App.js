@@ -3,7 +3,7 @@ import { UserContext, ThemeContext } from "./Contexts";
 import { ThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import { userReducer } from "./reducers/UserReducer";
 import { getCurrentTheme } from "./misc/PrefStore";
-import { appColors } from "./misc/AppTheme";
+import { appThemeConstants } from "./misc/AppTheme";
 import "./App.css";
 import { Splash } from "./routes/Splash";
 import { Switch, Route } from 'react-router-dom';
@@ -12,13 +12,13 @@ const appThemeLight = {
     palette: {
         type: "light",
         primary: {
-            main: appColors.lavender,
-            light: appColors.palePurple,
-            dark: appColors.hanPurple,
+            main: appThemeConstants.lavender,
+            light: appThemeConstants.palePurple,
+            dark: appThemeConstants.hanPurple,
         },
         secondary: {
-            main: appColors.paraPink,
-            dark: appColors.darkSienna,
+            main: appThemeConstants.paraPink,
+            dark: appThemeConstants.darkSienna,
         }
     },
 };
@@ -32,6 +32,8 @@ const appThemeDark = {
         },
         secondary: {
             ...appThemeLight.palette.secondary,
+            dark: appThemeConstants.palePurple,
+
         },
     },
 };
@@ -50,7 +52,7 @@ const App = () => {
         <div className="App">
             <ThemeContext.Provider value={themeValue}>
                 <UserContext.Provider value={userValue}>
-                    <ThemeProvider theme={theme === "light" ? darkTheme : lightTheme}>
+                    <ThemeProvider theme={theme === "dark" ? darkTheme : lightTheme}>
                         <Switch>
                             <Route path="/" component={Splash} exact />
                             <Route path="/auth" component={LoginSignUp} />
