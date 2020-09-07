@@ -9,24 +9,27 @@ import "../App.css";
 import { UserReducerTypes } from "../reducers/UserReducer";
 import { UserContext } from "../Contexts";
 import { tokenValid } from "../api/Auth";
-import { getToken } from "../misc/PrefStore";
+
 export const Splash = () => {
     const [startRoute, setStartRoute] = useState(null);
     const currentTheme = useTheme();
-    const { userDispatch } = useContext(UserContext);
+    const { userDispatch, userToken } = useContext(UserContext);
     useEffect(() => {
         console.log("called splash");
-        const storedToken = getToken();
-        if (storedToken) {
-            const [hasError, userInfo] = tokenValid(storedToken);
-            if (hasError) {
-                setStartRoute("/auth");
-            } else {
-                //set user object?
-                userDispatch({ type: UserReducerTypes.GET_USER_ACTION, payload: { user: userInfo } });
-                //set home?
-                setStartRoute("/main");
-            }
+
+        if (userToken) {
+            console.log(userToken);
+            (async () => {
+                const [hasError, userInfo] = await tokenValid(userToken);
+                if (hasError) {
+                    setStartRoute("/auth");
+                } else {
+                    //set user object?
+                    userDispatch({ type: UserReducerTypes.getUserAction, payload: { user: userInfo } });
+                    //set home?
+                    setStartRoute("/main");
+                }
+            })();
         } else {
             setStartRoute("/auth");
         }

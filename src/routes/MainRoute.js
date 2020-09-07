@@ -1,5 +1,6 @@
-import React from "react";
-
+import React, {useContext} from "react";
+import { UserContext } from "../Contexts";
 export const MainRoute = () => {
-    return <h1>This is the main route</h1>;
+    const { user } = useContext(UserContext);
+    return <h1>{JSON.stringify(user)}</h1>;
 };

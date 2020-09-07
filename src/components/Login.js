@@ -1,9 +1,10 @@
 import { Button, Card, CardContent, useTheme, TextField } from "@material-ui/core";
-import React, { useState } from "react";
+import React, { useState, useContext } from "react";
 import { Redirect } from "react-router-dom";
-//import { UserContext } from "../Contexts";
+import { UserContext } from "../Contexts";
 import { appThemeConstants } from "../misc/AppTheme";
 import { loginUser } from "../api/Auth";
+import {UserReducerTypes} from "../reducers/UserReducer"
 import ReactLoading from "react-loading";
 import "../App.css";
 
@@ -100,7 +101,7 @@ export const Login = (props) => {
     const [passwordError, setPasswordError] = useState(false);
     const [successfulLogin, setSuccess] = useState(false);
     const [loading, setLoading] = useState(false);
-    //const { userDispatch } = useContext(UserContext);
+    const { userDispatch, setUserToken } = useContext(UserContext);
 
     const textTheme = {
         fontFamily: appThemeConstants.fontFamily,
@@ -136,11 +137,13 @@ export const Login = (props) => {
                 setLoading(false);
                 return;
             } else {
-                console.log("SUCCESS");
+                userDispatch({ type: UserReducerTypes.getUserAction, payload: { user: userInfo } });
+                setUserToken(userInfo['jwt_token']);
                 setSuccess(true);
                 setLoading(false);
             }
         } else {
+            setSuccess(false);
             setLoading(false);
         }
     };

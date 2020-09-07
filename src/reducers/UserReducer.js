@@ -15,7 +15,7 @@ export function userReducer(state, action) {
     switch (action.type) {
         //{user: object}
         case UserReducerTypes.getUserAction:
-            return clone(action.payload.user);
+            return {...state,  ...clone(action.payload.user) };
         //{bio: string}
         case UserReducerTypes.updateBioAction:
             stateCopy = clone(state);

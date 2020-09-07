@@ -97,7 +97,7 @@ function getHeaders(bearerToken = "") {
               "Content-Type": "application/json",
           }
         : {
-              Authorization: "Bearer $bearerToken",
+              Authorization: `Bearer ${bearerToken}`,
               Accept: "application/json",
               "Content-Type": "application/json",
           };

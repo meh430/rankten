@@ -2,7 +2,7 @@ import React, { useReducer, useMemo, useState } from "react";
 import { UserContext, ThemeContext } from "./Contexts";
 import { ThemeProvider, createMuiTheme } from "@material-ui/core/styles";
 import { userReducer } from "./reducers/UserReducer";
-import { getCurrentTheme } from "./misc/PrefStore";
+import { getCurrentTheme, getToken } from "./misc/PrefStore";
 import { appThemeConstants } from "./misc/AppTheme";
 import "./App.css";
 import { Splash } from "./routes/Splash";
@@ -41,9 +41,11 @@ const appThemeDark = {
 
 const App = () => {
     const [user, userDispatch] = useReducer(userReducer, null);
+    const [userToken, setUserToken] = useState(getToken());
+    console.log("Stored Token: " + userToken);
     const [theme, setTheme] = useState(getCurrentTheme());
 
-    const userValue = useMemo(() => ({ user, userDispatch }), [user, userDispatch]);
+    const userValue = useMemo(() => ({ user, userDispatch, userToken, setUserToken }), [user, userDispatch, userToken, setUserToken]);
     const themeValue = useMemo(() => ({ theme, setTheme }), [theme, setTheme]);
 
     const darkTheme = createMuiTheme(appThemeDark);
