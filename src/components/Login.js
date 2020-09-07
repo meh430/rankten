@@ -4,8 +4,72 @@ import { Link, Redirect } from "react-router-dom";
 //import { UserContext } from "../Contexts";
 import { appThemeConstants } from "../misc/AppTheme";
 import { loginUser } from "../api/Auth";
-import ReactLoading from 'react-loading';
+import ReactLoading from "react-loading";
 import "../App.css";
+
+export const fieldTheme = {
+    color: appThemeConstants.lavender,
+    width: "90%",
+    borderRadius: "15px",
+    margin: "10px",
+};
+
+//error: bool
+//onChange: callback
+export const NameField = (props) => {
+    return (
+        <TextField
+            error={props.error}
+            helperText={props.error ? "Name can only have 3-15 characters" : ""}
+            style={fieldTheme}
+            id="name-field"
+            label="User Name"
+            variant="outlined"
+            onChange={props.onChange}
+        />
+    );
+};
+
+export const PasswordField = (props) => {
+    return (
+        <TextField
+            error={props.error}
+            helperText={props.error ? "Password needs a number, an uppercase letter, and a special character" : ""}
+            style={fieldTheme}
+            id="password-field"
+            label="Password"
+            type="password"
+            autoComplete="current-password"
+            variant="outlined"
+            onChange={props.onChange}
+        />
+    );
+};
+
+//isLogin: bool
+//loading: bool
+//onClick: callback
+export const AuthSubmit = (props) => {
+    if (props.loading) {
+        return <ReactLoading type="bubbles" color={appThemeConstants.hanPurple} />;
+    } else {
+        return (
+            <Button
+                onClick={props.onClick}
+                variant="contained"
+                style={{
+                    width: "70%",
+                    marginTop: "15px",
+                    marginBottom: "15px",
+                    color: "#ffffff",
+                    backgroundColor: appThemeConstants.hanPurple,
+                }}
+            >
+                {props.isLogin ? "Log In" : "Sign Up"}
+            </Button>
+        );
+    }
+};
 
 export const namePattern = new RegExp("^[a-z0-9_-]{3,15}$");
 export const passwordPattern = new RegExp("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$");
@@ -19,19 +83,12 @@ export const Login = (props) => {
     const [loading, setLoading] = useState(false);
     //const { userDispatch } = useContext(UserContext);
 
-    const fieldTheme = {
-        color: appThemeConstants.lavender,
-        width: "90%",
-        borderRadius: "15px",
-        margin: "10px",
-    };
-
     const textTheme = {
         fontFamily: appThemeConstants.fontFamily,
         color: currentTheme.palette.secondary.dark,
     };
 
-    const submitLogin = async() => {
+    const submitLogin = async () => {
         setLoading(true);
         let error = false;
         console.log(userName);
@@ -54,10 +111,10 @@ export const Login = (props) => {
         if (!error) {
             //make api call to login. If has error, show snackbar, else push main route
             const [hasError, userInfo] = await loginUser(userName, password);
-            
+
             if (hasError) {
                 setSuccess(false);
-                props.onAuthFail(prevState => ({ message: "Incorrect username or password", failed: true }));
+                props.onAuthFail((prevState) => ({ message: "Incorrect username or password", failed: true }));
                 setLoading(false);
                 return;
             } else {
@@ -87,44 +144,11 @@ export const Login = (props) => {
         >
             <CardContent className="col" style={{ alignItems: "center", paddingBottom: "2px" }}>
                 <h1 style={textTheme}>Log In</h1>
-                <TextField
-                    error={nameError}
-                    helperText={nameError ? "Name can only have 3-15 characters" : ""}
-                    style={fieldTheme}
-                    id="outlined-basic"
-                    label="User Name"
-                    variant="outlined"
-                    onChange={(event) => (userName = event.target.value)}
-                />
+                <NameField error={nameError} onChange={(event) => (userName = event.target.value)} />
+                <PasswordField error={passwordError} onChange={(event) => (password = event.target.value)} />
 
-                <TextField
-                    error={passwordError}
-                    helperText={
-                        passwordError ? "Password needs a number, an uppercase letter, and a special character" : ""
-                    }
-                    style={fieldTheme}
-                    id="outlined-password-input"
-                    label="Password"
-                    type="password"
-                    autoComplete="current-password"
-                    variant="outlined"
-                    onChange={(event) => (password = event.target.value)}
-                />
-
-                {loading ? <ReactLoading type='bubbles' color={appThemeConstants.hanPurple} /> : <Button
-                    onClick={() => submitLogin()}
-                    variant="contained"
-                    style={{
-                        width: "70%",
-                        marginTop: "15px",
-                        marginBottom: "15px",
-                        color: "#ffffff",
-                        backgroundColor: appThemeConstants.hanPurple,
-                    }}
-                >
-                    Log In
-                </Button>}
-
+                <AuthSubmit loading={Loading} isLogin={true} onClick={() => submitLogin()}/>
+                
                 <h4 style={textTheme}>
                     Don't have an account?{" "}
                     <Link to="/signup" style={{ color: currentTheme.palette.secondary.dark }}>
