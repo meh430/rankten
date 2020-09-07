@@ -1,18 +1,21 @@
 import { Button, Card, CardContent, useTheme, TextField } from "@material-ui/core";
 import React, { useState } from "react";
 import { Link, Redirect } from "react-router-dom";
-import { appThemeConstants } from "../misc/AppTheme";
 import { namePattern, passwordPattern } from "./Login";
+import { appThemeConstants } from "../misc/AppTheme";
+import { signupUser } from "../api/Auth";
+import ReactLoading from 'react-loading';
 import "../App.css";
 let userName = "";
 let password = "";
 let bio = "";
-export const SignUp = () => {
+export const SignUp = (props) => {
     const currentTheme = useTheme();
     const [nameError, setNameError] = useState(false);
     const [passwordError, setPasswordError] = useState(false);
     const [bioError, setBioError] = useState(false);
     const [successfulLogin, setSuccess] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const fieldTheme = {
         color: appThemeConstants.lavender,
@@ -26,7 +29,8 @@ export const SignUp = () => {
         color: currentTheme.palette.secondary.dark,
     };
 
-    const submitSignup = () => {
+    const submitSignup = async() => {
+        setLoading(true);
         let error = false;
         console.log(userName);
         if (!userName.match(namePattern)) {
@@ -55,7 +59,20 @@ export const SignUp = () => {
 
         if (!error) {
             //make api call to login. If has error, show snackbar, else push main route
-            setSuccess(true);
+            const [hasError, userInfo] = await signupUser(userName, password);
+            
+            if (hasError) {
+                setSuccess(false);
+                props.onAuthFail(prevState => ({ message: "Username already exists", failed: true }));
+                setLoading(false);
+                return;
+            } else {
+                console.log("SUCCESS");
+                setSuccess(true);
+                setLoading(false);
+            }
+        } else {
+            setLoading(false);
         }
     };
 
@@ -112,7 +129,8 @@ export const SignUp = () => {
                     onChange={(event) => (bio = event.target.value)}
                 />
 
-                <Button
+                {loading ? <ReactLoading type='bubbles' color={appThemeConstants.hanPurple}/> :
+                    <Button
                     onClick={() => submitSignup()}
                     variant="contained"
                     style={{
@@ -124,7 +142,7 @@ export const SignUp = () => {
                     }}
                 >
                     Sign Up
-                </Button>
+                </Button>}
 
                 <h4 style={textTheme}>
                     Have an account?{" "}

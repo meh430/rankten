@@ -62,10 +62,9 @@ export const Login = (props) => {
                 return;
             } else {
                 console.log("SUCCESS");
+                setSuccess(true);
+                setLoading(false);
             }
-
-            setSuccess(true);
-            setLoading(false);
         } else {
             setLoading(false);
         }
