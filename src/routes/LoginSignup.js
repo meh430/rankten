@@ -1,6 +1,6 @@
 import React, { useState } from "react";
 import { useTheme, Snackbar, IconButton } from "@material-ui/core";
-import CloseIcon from '@material-ui/icons/Close';
+import CloseIcon from "@material-ui/icons/Close";
 import "../App.css";
 import { Logo } from "../components/Logo";
 import { Login } from "../components/Login";
@@ -11,7 +11,7 @@ export const LoginSignUp = (props) => {
     const currentTheme = useTheme();
     const [authFail, setAuthFail] = useState({ message: "", failed: false });
     const [isLogin, setLogin] = useState(true);
-    console.log(`IsLogin: ${isLogin}`)
+    console.log(`IsLogin: ${isLogin}`);
 
     const handleClose = (event, reason) => {
         if (reason === "clickaway") {
@@ -44,7 +44,11 @@ export const LoginSignUp = (props) => {
                     Quickly create and share top ten lists on Rank 10!
                 </h1>
             </div>
-            {isLogin ? <Login setAuthFail={setAuthFail} setLogin={setLogin} /> : <SignUp setAuthFail={setAuthFail} setLogin={setLogin}/>}
+            {isLogin ? (
+                <Login setAuthFail={setAuthFail} setLogin={setLogin} />
+            ) : (
+                <SignUp setAuthFail={setAuthFail} setLogin={setLogin} />
+            )}
 
             <Snackbar
                 anchorOrigin={{

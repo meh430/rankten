@@ -80,10 +80,7 @@ export const AltAuth = (props) => {
     return (
         <h4 style={props.textTheme}>
             {props.isLogin ? "Don't have an account? " : "Have an account? "}
-            <u
-                style={{ color: props.textTheme.color, cursor: "pointer" }}
-                onClick={props.onClick}
-            >
+            <u style={{ color: props.textTheme.color, cursor: "pointer" }} onClick={props.onClick}>
                 {props.isLogin ? "Log In" : "Sign Up"}
             </u>
         </h4>
@@ -168,7 +165,7 @@ export const Login = (props) => {
                 <NameField error={nameError} onChange={(event) => (userName = event.target.value)} />
                 <PasswordField error={passwordError} onChange={(event) => (password = event.target.value)} />
                 <AuthSubmit loading={loading} isLogin={true} onClick={() => submitLogin()} />
-                <AltAuth textTheme={textTheme} isLogin={true} onClick={() => props.setLogin(false)}/>
+                <AltAuth textTheme={textTheme} isLogin={true} onClick={() => props.setLogin(false)} />
             </CardContent>
         </Card>
     );

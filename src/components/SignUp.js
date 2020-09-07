@@ -3,7 +3,7 @@ import React, { useState } from "react";
 import { Redirect } from "react-router-dom";
 import { namePattern, passwordPattern, PasswordField, NameField, AltAuth, AuthSubmit, fieldTheme } from "./Login";
 import { signupUser } from "../api/Auth";
-import {appThemeConstants} from '../misc/AppTheme'
+import { appThemeConstants } from "../misc/AppTheme";
 import "../App.css";
 let userName = "";
 let password = "";
@@ -25,7 +25,7 @@ export const SignUp = (props) => {
     const [successfulLogin, setSuccess] = useState(false);
     const [loading, setLoading] = useState(false);
 
-    const submitSignup = async() => {
+    const submitSignup = async () => {
         setLoading(true);
         let error = false;
         console.log(userName);
@@ -56,10 +56,10 @@ export const SignUp = (props) => {
         if (!error) {
             //make api call to login. If has error, show snackbar, else push main route
             const [hasError, userInfo] = await signupUser(userName, password);
-            
+
             if (hasError) {
                 setSuccess(false);
-                props.setAuthFail(prevState => ({ message: "Username already exists", failed: true }));
+                props.setAuthFail((prevState) => ({ message: "Username already exists", failed: true }));
                 setLoading(false);
                 return;
             } else {
@@ -104,8 +104,8 @@ export const SignUp = (props) => {
                 />
 
                 <AuthSubmit loading={loading} isLogin={false} onClick={() => submitSignup()} />
-                <AltAuth textTheme={textTheme} isLogin={false} onClick={() => props.setLogin(true)}/>
+                <AltAuth textTheme={textTheme} isLogin={false} onClick={() => props.setLogin(true)} />
             </CardContent>
-            </Card>
+        </Card>
     );
 };

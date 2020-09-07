@@ -25,7 +25,7 @@ export const Splash = () => {
                 //set user object?
                 userDispatch({ type: UserReducerTypes.GET_USER_ACTION, payload: { user: userInfo } });
                 //set home?
-                setStartRoute('/main');
+                setStartRoute("/main");
             }
         } else {
             setStartRoute("/auth");
