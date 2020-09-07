@@ -7,10 +7,11 @@ import { Login } from "../components/Login";
 import { SignUp } from "../components/SignUp";
 import { appThemeConstants } from "../misc/AppTheme";
 
-//isLogin: bool
 export const LoginSignUp = (props) => {
     const currentTheme = useTheme();
     const [authFail, setAuthFail] = useState({ message: "", failed: false });
+    const [isLogin, setLogin] = useState(true);
+    console.log(`IsLogin: ${isLogin}`)
 
     const handleClose = (event, reason) => {
         if (reason === "clickaway") {
@@ -43,7 +44,7 @@ export const LoginSignUp = (props) => {
                     Quickly create and share top ten lists on Rank 10!
                 </h1>
             </div>
-            {props.isLogin ? <Login onAuthFail={setAuthFail} /> : <SignUp onAuthFail={setAuthFail} />}
+            {isLogin ? <Login setAuthFail={setAuthFail} setLogin={setLogin} /> : <SignUp setAuthFail={setAuthFail} setLogin={setLogin}/>}
 
             <Snackbar
                 anchorOrigin={{

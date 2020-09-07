@@ -1,6 +1,6 @@
 import { Button, Card, CardContent, useTheme, TextField } from "@material-ui/core";
 import React, { useState } from "react";
-import { Link, Redirect } from "react-router-dom";
+import { Redirect } from "react-router-dom";
 //import { UserContext } from "../Contexts";
 import { appThemeConstants } from "../misc/AppTheme";
 import { loginUser } from "../api/Auth";
@@ -30,6 +30,8 @@ export const NameField = (props) => {
     );
 };
 
+//error: bool
+//onChange: callback
 export const PasswordField = (props) => {
     return (
         <TextField
@@ -71,10 +73,30 @@ export const AuthSubmit = (props) => {
     }
 };
 
+//textTheme: object
+//isLogin: bool
+//onClick: callback
+export const AltAuth = (props) => {
+    return (
+        <h4 style={props.textTheme}>
+            {props.isLogin ? "Don't have an account? " : "Have an account? "}
+            <u
+                style={{ color: props.textTheme.color, cursor: "pointer" }}
+                onClick={props.onClick}
+            >
+                {props.isLogin ? "Log In" : "Sign Up"}
+            </u>
+        </h4>
+    );
+};
+
 export const namePattern = new RegExp("^[a-z0-9_-]{3,15}$");
 export const passwordPattern = new RegExp("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$");
 let userName = "";
 let password = "";
+
+//setAuthFail: callback
+//setLogin: callback
 export const Login = (props) => {
     const currentTheme = useTheme();
     const [nameError, setNameError] = useState(false);
@@ -91,7 +113,6 @@ export const Login = (props) => {
     const submitLogin = async () => {
         setLoading(true);
         let error = false;
-        console.log(userName);
         if (!userName.match(namePattern)) {
             error = true;
             setNameError(true);
@@ -114,7 +135,7 @@ export const Login = (props) => {
 
             if (hasError) {
                 setSuccess(false);
-                props.onAuthFail((prevState) => ({ message: "Incorrect username or password", failed: true }));
+                props.setAuthFail((prevState) => ({ message: "Incorrect username or password", failed: true }));
                 setLoading(false);
                 return;
             } else {
@@ -146,15 +167,8 @@ export const Login = (props) => {
                 <h1 style={textTheme}>Log In</h1>
                 <NameField error={nameError} onChange={(event) => (userName = event.target.value)} />
                 <PasswordField error={passwordError} onChange={(event) => (password = event.target.value)} />
-
-                <AuthSubmit loading={Loading} isLogin={true} onClick={() => submitLogin()}/>
-                
-                <h4 style={textTheme}>
-                    Don't have an account?{" "}
-                    <Link to="/signup" style={{ color: currentTheme.palette.secondary.dark }}>
-                        Sign up
-                    </Link>
-                </h4>
+                <AuthSubmit loading={loading} isLogin={true} onClick={() => submitLogin()} />
+                <AltAuth textTheme={textTheme} isLogin={true} onClick={() => props.setLogin(false)}/>
             </CardContent>
         </Card>
     );

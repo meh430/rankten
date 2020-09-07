@@ -20,7 +20,7 @@ export const Splash = () => {
         if (storedToken) {
             const [hasError, userInfo] = tokenValid(storedToken);
             if (hasError) {
-                setStartRoute("/login");
+                setStartRoute("/auth");
             } else {
                 //set user object?
                 userDispatch({ type: UserReducerTypes.GET_USER_ACTION, payload: { user: userInfo } });
@@ -28,7 +28,7 @@ export const Splash = () => {
                 setStartRoute('/main');
             }
         } else {
-            setStartRoute("/signup");
+            setStartRoute("/auth");
         }
     }, [setStartRoute, userDispatch]);
 

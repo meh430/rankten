@@ -56,8 +56,7 @@ const App = () => {
                     <ThemeProvider theme={theme === "light" ? darkTheme : lightTheme}>
                         <Switch>
                             <Route path="/" component={Splash} exact />
-                            <Route path="/login" render={() => <LoginSignUp isLogin={true} />} />
-                            <Route path="/signup" render={() => <LoginSignUp isLogin={false} />} />
+                            <Route path="/auth" component={LoginSignUp}/>
                             <Route path="/main" component={MainRoute} />
                         </Switch>
                     </ThemeProvider>
