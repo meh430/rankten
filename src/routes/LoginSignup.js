@@ -1,5 +1,6 @@
-import React from "react";
-import { useTheme } from "@material-ui/core";
+import React, { useState } from "react";
+import { useTheme, Snackbar, IconButton } from "@material-ui/core";
+import CloseIcon from '@material-ui/icons/Close';
 import "../App.css";
 import { Logo } from "../components/Logo";
 import { Login } from "../components/Login";
@@ -9,6 +10,16 @@ import { appThemeConstants } from "../misc/AppTheme";
 //isLogin: bool
 export const LoginSignUp = (props) => {
     const currentTheme = useTheme();
+    const [authFail, setAuthFail] = useState({ message: "", failed: false });
+
+    const handleClose = (event, reason) => {
+        if (reason === "clickaway") {
+            return;
+        }
+
+        setAuthFail((prevState) => ({ message: prevState.message, failed: false }));
+    };
+
     return (
         <div
             className="row"
@@ -32,7 +43,23 @@ export const LoginSignUp = (props) => {
                     Quickly create and share top ten lists on Rank 10!
                 </h1>
             </div>
-            {props.isLogin ? <Login /> : <SignUp />}
+            {props.isLogin ? <Login onAuthFail={setAuthFail} /> : <SignUp onAuthFail={setAuthFail} />}
+
+            <Snackbar
+                anchorOrigin={{
+                    vertical: "bottom",
+                    horizontal: "left",
+                }}
+                open={authFail.failed}
+                autoHideDuration={6000}
+                onClose={handleClose}
+                message={authFail.message}
+                action={
+                    <IconButton size="small" aria-label="close" color="inherit" onClick={handleClose}>
+                        <CloseIcon fontSize="small" />
+                    </IconButton>
+                }
+            />
         </div>
     );
 };

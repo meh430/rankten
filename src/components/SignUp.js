@@ -82,14 +82,16 @@ export const SignUp = () => {
                     helperText={nameError ? "Name can only have 3-15 characters" : ""}
                     style={fieldTheme}
                     id="outlined-basic"
-                    label="Username"
+                    label="User Name"
                     variant="outlined"
                     onChange={(event) => (userName = event.target.value)}
                 />
 
                 <TextField
                     error={passwordError}
-                    helperText={passwordError ? "Password needs a number, an uppercase letter, and a special character" : ""}
+                    helperText={
+                        passwordError ? "Password needs a number, an uppercase letter, and a special character" : ""
+                    }
                     style={fieldTheme}
                     id="outlined-password-input"
                     label="Password"
@@ -131,6 +133,6 @@ export const SignUp = () => {
                     </Link>
                 </h4>
             </CardContent>
-        </Card>
+            </Card>
     );
 };

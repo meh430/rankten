@@ -23,8 +23,9 @@ export const Splash = () => {
                 setStartRoute("/login");
             } else {
                 //set user object?
-                userDispatch({ type: UserReducerTypes.GET_USER_ACTION, payload: userInfo });
+                userDispatch({ type: UserReducerTypes.GET_USER_ACTION, payload: { user: userInfo } });
                 //set home?
+                setStartRoute('/main');
             }
         } else {
             setStartRoute("/signup");
