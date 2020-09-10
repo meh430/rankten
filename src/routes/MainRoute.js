@@ -1,10 +1,10 @@
 import React, { useContext } from "react";
-import { Switch, Route, Redirect } from "react-router-dom";
+import { Switch, Route, Link } from "react-router-dom";
 import { UserContext } from "../Contexts";
-import ExploreIcon from '@material-ui/icons/Explore';
-import AccountCircleIcon from '@material-ui/icons/AccountCircle';
-import ListIcon from '@material-ui/icons/List';
-import MenuIcon from '@material-ui/icons/Menu';
+import ExploreIcon from "@material-ui/icons/Explore";
+import AccountCircleIcon from "@material-ui/icons/AccountCircle";
+import ListIcon from "@material-ui/icons/List";
+import MenuIcon from "@material-ui/icons/Menu";
 import {
     TextField,
     Drawer,
@@ -67,26 +67,34 @@ export const MainRoute = (props) => {
     const container = window !== undefined ? () => window().document.body : undefined;
     const [mobileOpen, setMobileOpen] = React.useState(false);
     const classes = useStyles();
-
+    const linkStyle = {
+        textDecoration: "none",
+        color: currentTheme.palette.text.primary,
+    };
     const handleDrawerToggle = () => setMobileOpen(!mobileOpen);
     const drawer = (
         <div>
             <div className={classes.toolbar} />
             <Divider />
             <List>
-               <ListItem button key="feed">
+                <Link to="/main" style={linkStyle}>
+                    <ListItem button key="feed">
                         <ListItemIcon>{<ListIcon />}</ListItemIcon>
                         <ListItemText primary={"Feed"} />
-                </ListItem>
-                <ListItem button key="discover">
+                    </ListItem>
+                </Link>
+                <Link to="/main/discover" style={linkStyle}>
+                    <ListItem button key="discover">
                         <ListItemIcon>{<ExploreIcon />}</ListItemIcon>
                         <ListItemText primary={"Discover"} />
-                 </ListItem>
-                <ListItem button key="profile">
+                    </ListItem>
+                </Link>
+                <Link to="/main/profile" style={linkStyle}>
+                    <ListItem button key="profile">
                         <ListItemIcon>{<AccountCircleIcon />}</ListItemIcon>
                         <ListItemText primary={"Profile"} />
-                </ListItem>
-
+                    </ListItem>
+                </Link>
             </List>
         </div>
     );
@@ -108,9 +116,13 @@ export const MainRoute = (props) => {
                     >
                         <MenuIcon />
                     </IconButton>
-                    <div style={{display: "flex", flexDirection: "row", justifyContent:"center", width: "90%"}}>
-                        <TextField style={{ width: "550px", maxWidth: "90%", margin:"12px" }} variant="outlined" placeholder="Search..." />
-                        </div>
+                    <div style={{ display: "flex", flexDirection: "row", justifyContent: "center", width: "90%" }}>
+                        <TextField
+                            style={{ width: "550px", maxWidth: "90%", margin: "12px" }}
+                            variant="outlined"
+                            placeholder="Search..."
+                        />
+                    </div>
                 </Toolbar>
             </AppBar>
             <nav className={classes.drawer} aria-label="mailbox folders">
