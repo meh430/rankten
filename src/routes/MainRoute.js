@@ -71,6 +71,9 @@ export const MainRoute = (props) => {
         textDecoration: "none",
         color: currentTheme.palette.text.primary,
     };
+    const iconColor = {
+        color: currentTheme.palette.type === "dark" ? appThemeConstants.lavender : appThemeConstants.hanPurple,
+    };
     const handleDrawerToggle = () => setMobileOpen(!mobileOpen);
     const drawer = (
         <div>
@@ -79,19 +82,19 @@ export const MainRoute = (props) => {
             <List>
                 <Link to="/main" style={linkStyle}>
                     <ListItem button key="feed">
-                        <ListItemIcon>{<ListIcon />}</ListItemIcon>
+                        <ListItemIcon>{<ListIcon style={iconColor} />}</ListItemIcon>
                         <ListItemText primary={"Feed"} />
                     </ListItem>
                 </Link>
                 <Link to="/main/discover" style={linkStyle}>
                     <ListItem button key="discover">
-                        <ListItemIcon>{<ExploreIcon />}</ListItemIcon>
+                        <ListItemIcon>{<ExploreIcon style={iconColor} />}</ListItemIcon>
                         <ListItemText primary={"Discover"} />
                     </ListItem>
                 </Link>
                 <Link to="/main/profile" style={linkStyle}>
                     <ListItem button key="profile">
-                        <ListItemIcon>{<AccountCircleIcon />}</ListItemIcon>
+                        <ListItemIcon>{<AccountCircleIcon style={iconColor} />}</ListItemIcon>
                         <ListItemText primary={"Profile"} />
                     </ListItem>
                 </Link>
