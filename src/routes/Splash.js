@@ -33,7 +33,7 @@ export const Splash = () => {
         } else {
             setStartRoute("/auth");
         }
-    }, [setStartRoute, userDispatch]);
+    }, [setStartRoute, userDispatch, userToken]);
 
     if (startRoute) {
         return <Redirect to={startRoute} />;
