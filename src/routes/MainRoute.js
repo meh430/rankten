@@ -45,6 +45,7 @@ const useStyles = makeStyles((theme) => ({
         },
     },
     menuButton: {
+        color: theme.palette.text.primary,
         marginRight: theme.spacing(2),
         [theme.breakpoints.up("sm")]: {
             display: "none",
@@ -54,6 +55,7 @@ const useStyles = makeStyles((theme) => ({
     toolbar: theme.mixins.toolbar,
     drawerPaper: {
         width: drawerWidth,
+        backgroundColor: theme.palette.background.default,
     },
     content: {
         flexGrow: 1,
@@ -95,7 +97,11 @@ export const MainRoute = (props) => {
     return (
         <div className={classes.root}>
             <CssBaseline />
-            <AppBar position="fixed" className={classes.appBar}>
+            <AppBar
+                position="fixed"
+                className={classes.appBar}
+                style={{ backgroundColor: currentTheme.palette.background.default, boxShadow: currentTheme.shadows[0] }}
+            >
                 <Toolbar>
                     <IconButton
                         color="inherit"
@@ -106,13 +112,9 @@ export const MainRoute = (props) => {
                     >
                         <MenuIcon />
                     </IconButton>
-                    <div style={{ width: "fit-content", maxWidth: "90%", flexGrow: "1" }}>
-                        <TextField
-                            style={{ width: "550px", margin: "8px", maxWidth: "60%" }}
-                            variant="outlined"
-                            placeholder="Search..."
-                        />
-                    </div>
+                    <div style={{display: "flex", flexDirection: "row", justifyContent:"center", width: "90%"}}>
+                        <TextField style={{ width: "550px", maxWidth: "90%", margin:"12px" }} variant="outlined" placeholder="Search..." />
+                        </div>
                 </Toolbar>
             </AppBar>
             <nav className={classes.drawer} aria-label="mailbox folders">
