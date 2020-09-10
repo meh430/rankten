@@ -55,7 +55,7 @@ const App = () => {
         <div className="App">
             <ThemeContext.Provider value={themeValue}>
                 <UserContext.Provider value={userValue}>
-                    <ThemeProvider theme={theme !== "light" ? lightTheme : darkTheme}>
+                    <ThemeProvider theme={theme !== "light" ?  lightTheme : darkTheme}>
                         <Switch>
                             <Route path="/" component={Splash} exact />
                             <Route path="/auth" component={LoginSignUp} />
