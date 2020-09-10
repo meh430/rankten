@@ -76,21 +76,19 @@ export const MainRoute = (props) => {
             <div className={classes.toolbar} />
             <Divider />
             <List>
-                {["Inbox", "Starred", "Send email", "Drafts"].map((text, index) => (
-                    <ListItem button key={text}>
-                        <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                        <ListItemText primary={text} />
-                    </ListItem>
-                ))}
-            </List>
-            <Divider />
-            <List>
-                {["All mail", "Trash", "Spam"].map((text, index) => (
-                    <ListItem button key={text}>
-                        <ListItemIcon>{index % 2 === 0 ? <InboxIcon /> : <MailIcon />}</ListItemIcon>
-                        <ListItemText primary={text} />
-                    </ListItem>
-                ))}
+               <ListItem button key="feed">
+                        <ListItemIcon>{<MailIcon />}</ListItemIcon>
+                        <ListItemText primary={"Feed"} />
+                </ListItem>
+                <ListItem button key="discover">
+                        <ListItemIcon>{<MailIcon />}</ListItemIcon>
+                        <ListItemText primary={"Discover"} />
+                 </ListItem>
+                <ListItem button key="profile">
+                        <ListItemIcon>{<MailIcon />}</ListItemIcon>
+                        <ListItemText primary={"Profile"} />
+                </ListItem>
+
             </List>
         </div>
     );
