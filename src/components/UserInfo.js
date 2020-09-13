@@ -1,10 +1,16 @@
-import React, { useContext } from "react";
-import { Avatar, Card, CardContent, makeStyles, useTheme } from "@material-ui/core";
+import React, { useContext, useEffect, useState } from "react";
+import { Avatar, Card, CardContent, makeStyles, useTheme, Button } from "@material-ui/core";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 
-import { UserContext } from "../Contexts";
-import { getCardStyle, getTextTheme } from "../misc/AppTheme";
+import { resetUserContext, UserContext } from "../Contexts";
+import { getCardStyle, getTextTheme, appThemeConstants } from "../misc/AppTheme";
 import "../App.css";
+import { getUser } from "../api/UserRepo";
+import { UserReducerTypes } from "../reducers/UserReducer";
+import { loginUser } from "../api/Auth";
+import { getLogin } from "../misc/PrefStore";
+import ReactLoading from "react-loading";
+
 
 const useStyles = makeStyles((theme) => ({
     avatar: {
@@ -25,9 +31,16 @@ export const UserInfo = (props) => {
     const classes = useStyles();
     const currentTheme = useTheme();
     const textTheme = getTextTheme(currentTheme);
+        
     let userStats = [];
     let user = props.isMain ? mainUser.user : props.user;
-    let avatarSrc = user['prof_pic'];
+
+    if (!mainUser.user) {
+        resetUserContext(mainUser);
+        return <ReactLoading type="bubbles" color={appThemeConstants.hanPurple} />;
+    }
+
+    let avatarSrc = user["prof_pic"];
 
     userStats.push(
         {
@@ -69,20 +82,34 @@ export const UserInfo = (props) => {
                 maxWidth: "98%",
             }}
         >
-            <CardContent className="row" style={{ justifyContent: "space-around", alignItems: "center" }}>
-                <Avatar src={avatarSrc} className={classes.avatar}>
-                    <AccountCircleIcon className={classes.avIcon} />
-                </Avatar>
-                <div className="row" style={{ flexWrap: "wrap", justifyContent: "space-evenly" }}>
-                    {userStats.map((userStat) => (
-                        <UserStat
-                            stat={userStat.stat}
-                            label={userStat.label}
-                            key={userStat.label}
-                            textTheme={textTheme}
-                        />
-                    ))}
+            <CardContent className="col" style={{ alignItems: "center"}}>
+                <div className="row" style={{ justifyContent: "space-around", alignItems: "center", width: "100%" }}>
+                    <Avatar src={avatarSrc} className={classes.avatar}>
+                        <AccountCircleIcon className={classes.avIcon} />
+                    </Avatar>
+                    <div className="row" style={{ flexWrap: "wrap", justifyContent: "space-evenly" }}>
+                        {userStats.map((userStat) => (
+                            <UserStat
+                                stat={userStat.stat}
+                                label={userStat.label}
+                                key={userStat.label}
+                                textTheme={textTheme}
+                            />
+                        ))}
+                    </div>
                 </div>
+                <Button
+                    variant="contained"
+                    style={{
+                        width: "70%",
+                        marginTop: "15px",
+                        marginBottom: "15px",
+                        color: "#ffffff",
+                        backgroundColor: appThemeConstants.hanPurple,
+                    }}
+                >
+                    FOLLOW
+                </Button>
             </CardContent>
         </Card>
     );

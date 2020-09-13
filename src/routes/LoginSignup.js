@@ -6,6 +6,7 @@ import { Logo } from "../components/Logo";
 import { Login } from "../components/Login";
 import { SignUp } from "../components/SignUp";
 import { appThemeConstants } from "../misc/AppTheme";
+import { clearStorage } from "../misc/PrefStore";
 
 export const LoginSignUp = (props) => {
     const currentTheme = useTheme();

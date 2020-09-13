@@ -7,8 +7,10 @@ export function saveTheme(value) {
     localStorage.setItem(CURRENT_THEME, value);
 }
 
-export function saveToken(token) {
+export function saveToken(token, userName, password) {
     localStorage.setItem(JWT_TOKEN, token);
+    localStorage.setItem(USER_NAME_KEY, userName);
+    localStorage.setItem(PASSWORD_KEY, password);
 }
 
 export function getCurrentTheme() {
@@ -26,4 +28,10 @@ export function getLogin() {
     var password = localStorage.getItem(PASSWORD_KEY);
 
     return [userName, password];
+}
+
+export function clearStorage() {
+    localStorage.removeItem(USER_NAME_KEY);
+    localStorage.removeItem(PASSWORD_KEY);
+    localStorage.removeItem(JWT_TOKEN);
 }
