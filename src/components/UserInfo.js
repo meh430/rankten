@@ -8,7 +8,7 @@ import { getCardStyle, getTextTheme, appThemeConstants } from "../misc/AppTheme"
 import { followUser } from "../api/UserRepo";
 import { UserReducerTypes } from "../reducers/UserReducer";
 import "../App.css";
-import { containsId } from "../misc/Utils";
+import { containsId, tsToDate } from "../misc/Utils";
 
 const useStyles = makeStyles((theme) => ({
     avatar: {
@@ -76,6 +76,20 @@ const FollowButton = (props) => {
         </Button>
     );
 };
+
+//bio: string
+//date: object
+//textTheme: object
+const UserBio = (props) => {
+    return (
+        <div style={{alignSelf: "start", marginLeft: "30px"}}>
+            <h1 style={{ ...props.textTheme, textAlign: "start" }}>Bio</h1>
+            <h3 style={{ ...props.textTheme, textAlign: "start" }}>{props.bio === "" ? "This user does not have a bio" : props.bio}</h3>
+            <h1 style={{ ...props.textTheme, textAlign: "start" }}>Date Created</h1>
+            <h3 style={{ ...props.textTheme, textAlign: "start" }}>{tsToDate(props.date['$date'])}</h3>
+        </div>
+    );
+}
 
 //isMain: bool
 //user: object
@@ -153,7 +167,7 @@ export const UserInfo = (props) => {
                         ))}
                     </div>
                 </div>
-
+                <UserBio textTheme={textTheme} bio={user['bio']} date={user['date_created']}/>
                 {props.isMain ? (
                     <i style={{ display: "none" }} />
                 ) : (
