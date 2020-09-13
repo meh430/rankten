@@ -3,7 +3,7 @@ import { Avatar, Card, CardContent, makeStyles, useTheme } from "@material-ui/co
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 
 import { UserContext } from "../Contexts";
-import {getCardStyle} from '../misc/AppTheme'
+import {getCardStyle, getTextTheme} from '../misc/AppTheme'
 import "../App.css";
 
 const useStyles = makeStyles((theme) => ({
@@ -22,6 +22,7 @@ export const UserInfo = (props) => {
     //const { user } = useContext(UserContext);
     const classes = useStyles();
     const currentTheme = useTheme();
+    const textTheme = getTextTheme(currentTheme);
     return (
         <Card
             style={{
@@ -61,7 +62,7 @@ export const UserInfo = (props) => {
                                 stat: 12,
                                 label: "Liked Lists"
                             }
-                        ].map(userStat => <UserStat stat={userStat.stat} label={userStat.label} key={userStat.label}/>)
+                        ].map(userStat => <UserStat stat={userStat.stat} label={userStat.label} key={userStat.label} textTheme={textTheme}/>)
                     }
                 </div>
             </CardContent>
@@ -72,11 +73,12 @@ export const UserInfo = (props) => {
 //onClick: callback
 //label: string
 //stat: number
+//textTheme: object
 const UserStat = (props) => {
     return (
         <div className="col" style={{ alignItems: "center", justifyContent: "center", margin: "10px" }}>
-            <h2>{props.stat}</h2>
-            <h5>{props.label}</h5>
+            <h2 style={props.textTheme}>{props.stat}</h2>
+            <h5 style={props.textTheme}>{props.label}</h5>
         </div>
     );
 };

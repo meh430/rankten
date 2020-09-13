@@ -5,7 +5,7 @@ import { namePattern, passwordPattern, PasswordField, NameField, AltAuth, AuthSu
 import { signupUser } from "../api/Auth";
 import { UserContext } from "../Contexts";
 import {UserReducerTypes} from "../reducers/UserReducer"
-import { appThemeConstants, getCardStyle } from "../misc/AppTheme";
+import { appThemeConstants, getCardStyle, getTextTheme } from "../misc/AppTheme";
 import "../App.css";
 let userName = "";
 let password = "";
@@ -16,10 +16,7 @@ let bio = "";
 export const SignUp = (props) => {
     const currentTheme = useTheme();
 
-    const textTheme = {
-        fontFamily: appThemeConstants.fontFamily,
-        color: currentTheme.palette.secondary.dark,
-    };
+    const textTheme = getTextTheme(currentTheme);
 
     const [nameError, setNameError] = useState(false);
     const [passwordError, setPasswordError] = useState(false);

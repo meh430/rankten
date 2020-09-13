@@ -2,7 +2,7 @@ import { Button, Card, CardContent, useTheme, TextField } from "@material-ui/cor
 import React, { useState, useContext } from "react";
 import { Redirect } from "react-router-dom";
 import { UserContext } from "../Contexts";
-import { appThemeConstants, getCardStyle } from "../misc/AppTheme";
+import { appThemeConstants, getCardStyle, getTextTheme } from "../misc/AppTheme";
 import { loginUser } from "../api/Auth";
 import {UserReducerTypes} from "../reducers/UserReducer"
 import ReactLoading from "react-loading";
@@ -103,10 +103,7 @@ export const Login = (props) => {
     const [loading, setLoading] = useState(false);
     const { userDispatch, setUserToken } = useContext(UserContext);
 
-    const textTheme = {
-        fontFamily: appThemeConstants.fontFamily,
-        color: currentTheme.palette.secondary.dark,
-    };
+    const textTheme = getTextTheme(currentTheme);
 
     const submitLogin = async () => {
         setLoading(true);
