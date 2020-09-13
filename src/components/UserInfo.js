@@ -5,11 +5,10 @@ import ReactLoading from "react-loading";
 
 import { resetUserContext, UserContext } from "../Contexts";
 import { getCardStyle, getTextTheme, appThemeConstants } from "../misc/AppTheme";
-import { followUser, getUser } from "../api/UserRepo";
+import { followUser } from "../api/UserRepo";
 import { UserReducerTypes } from "../reducers/UserReducer";
-import { loginUser } from "../api/Auth";
-import { getLogin } from "../misc/PrefStore";
 import "../App.css";
+import { containsId } from "../misc/Utils";
 
 const useStyles = makeStyles((theme) => ({
     avatar: {
@@ -21,6 +20,62 @@ const useStyles = makeStyles((theme) => ({
         width: "100%",
     },
 }));
+
+//onClick: callback
+//label: string
+//stat: number
+//textTheme: object
+const UserStat = (props) => {
+    return (
+        <div className="col" style={{ alignItems: "center", justifyContent: "center", margin: "10px" }}>
+            <h2 style={props.textTheme}>{props.stat}</h2>
+            <h3 style={props.textTheme}>{props.label}</h3>
+        </div>
+    );
+};
+
+//isFollowing: bool
+//mainUser: UserContext
+//name: string
+//id: object
+const FollowButton = (props) => {
+    const [loading, setLoading] = useState(false);
+    const [following, setFollowing] = useState(props.isFollowing);
+    const mainUser = props.mainUser;
+    return loading ? (
+        <ReactLoading type="bubbles" color={appThemeConstants.hanPurple} />
+    ) : (
+        <Button
+            onClick={async () => {
+                setLoading(true);
+                const [e, res] = await followUser(props.name, mainUser.userToken);
+                console.log(res);
+                if (e) {
+                    setLoading(false);
+                    return;
+                } else {
+                    setFollowing(res === "FOLLOW");
+                    mainUser.userDispatch({
+                        type: UserReducerTypes.followUserAction,
+                        payload: { hasFollowed: res === "FOLLOW", targetId: props.id },
+                    });
+                    setLoading(false);
+                }
+            }}
+            variant="contained"
+            style={{
+                maxWidth: "75%",
+                width: "400px",
+                marginTop: "15px",
+                marginBottom: "15px",
+                color: "#ffffff",
+                backgroundColor: appThemeConstants.hanPurple,
+            }}
+        >
+            {following ? "Unfollow" : "Follow"}
+        </Button>
+    );
+};
 
 //isMain: bool
 //user: object
@@ -82,7 +137,7 @@ export const UserInfo = (props) => {
             }}
         >
             <CardContent className="col" style={{ alignItems: "center" }}>
-                <h1 style={textTheme}>{user['user_name']}</h1>
+                <h1 style={textTheme}>{user["user_name"]}</h1>
                 <div className="row" style={{ justifyContent: "space-around", alignItems: "center", width: "100%" }}>
                     <Avatar src={avatarSrc} className={classes.avatar}>
                         <AccountCircleIcon className={classes.avIcon} />
@@ -98,58 +153,18 @@ export const UserInfo = (props) => {
                         ))}
                     </div>
                 </div>
+
+                {props.isMain ? (
+                    <i style={{ display: "none" }} />
+                ) : (
+                    <FollowButton
+                        mainUser={mainUser}
+                        name={user["user_name"]}
+                        isFollowing={containsId(mainUser.user["following"], user["_id"])}
+                        id={user["_id"]}
+                    />
+                )}
             </CardContent>
         </Card>
-    );
-};
-
-//onClick: callback
-//label: string
-//stat: number
-//textTheme: object
-const UserStat = (props) => {
-    return (
-        <div className="col" style={{ alignItems: "center", justifyContent: "center", margin: "10px" }}>
-            <h2 style={props.textTheme}>{props.stat}</h2>
-            <h3 style={props.textTheme}>{props.label}</h3>
-        </div>
-    );
-};
-
-//isFollowing: bool
-//mainUser: UserContext
-//name: string
-const FollowButton = (props) => {
-    const [loading, setLoading] = useState(false);
-    const [following, setFollowing] = useState(props.isFollowing);
-    const mainUser = props.mainUser;
-    return loading ? (
-        <ReactLoading type="bubbles" color={appThemeConstants.hanPurple} />
-    ) : (
-        <Button
-            onClick={async () => {
-                setLoading(true);
-                const [e, res] = await followUser(props.name, mainUser.userToken);
-                if (e) {
-                    setLoading(false);
-                    return;
-                } else {
-                    mainUser.userDispatch({ type: UserReducerTypes.followUserAction, payload: res === "FOLLOW" });
-                    setFollowing(res === "FOLLOW");
-                    setLoading(false);
-                }
-            }}
-            variant="contained"
-            style={{
-                maxWidth: "75%",
-                width: "400px",
-                marginTop: "15px",
-                marginBottom: "15px",
-                color: "#ffffff",
-                backgroundColor: appThemeConstants.hanPurple,
-            }}
-        >
-            {following ? "Unfollow" : "Follow"}
-        </Button>
     );
 };

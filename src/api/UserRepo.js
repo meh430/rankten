@@ -21,9 +21,9 @@ export async function followUser(name, token) {
         return [hasError, response];
     } else {
         if (response.message.includes("unfollow")) {
-            return [true, "UNFOLLOW"];
+            return [false, "UNFOLLOW"];
         } else {
-            return [true, "FOLLOW"];
+            return [false, "FOLLOW"];
         }
     }
 }
@@ -34,9 +34,9 @@ export async function likeList(listId, token) {
         return [hasError, response];
     } else {
         if (response.message.includes("unliked")) {
-            return [true, "UNLIKED"];
+            return [false, "UNLIKED"];
         } else {
-            return [true, "LIKED"];
+            return [false, "LIKED"];
         }
     }
 }
@@ -47,9 +47,9 @@ export async function likeComment(commentId, token) {
         return [hasError, response];
     } else {
         if (response.message.includes("unliked")) {
-            return [true, "UNLIKED"];
+            return [false, "UNLIKED"];
         } else {
-            return [true, "LIKED"];
+            return [false, "LIKED"];
         }
     }
 }

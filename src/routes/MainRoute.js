@@ -250,7 +250,7 @@ export const MainRoute = (props) => {
                     <Route path="/main" component={() => <h1>Feed</h1>} exact />
                     <Route path="/main/discover" component={() => <h1>Discover</h1>} />
                     <Route path="/main/search" component={() => <h1>Search</h1>} />
-                    <Route path="/main/profile" render={() => <Profile isMain={true}/>} exact/>
+                    <Route path="/main/profile" render= {() => <Profile isMain={true}/>} exact/>
                     <Route path="/main/profile/:name" render={(routerProps) => renderOtherProfile(routerProps)}/>
                 </Switch>
             </main>
