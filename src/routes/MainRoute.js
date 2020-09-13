@@ -1,10 +1,11 @@
-import React, { useContext } from "react";
+import React, { useContext, useState } from "react";
 import { Switch, Route, Link } from "react-router-dom";
 import { UserContext } from "../Contexts";
 import ExploreIcon from "@material-ui/icons/Explore";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import ListIcon from "@material-ui/icons/List";
 import MenuIcon from "@material-ui/icons/Menu";
+import ExitToAppIcon from '@material-ui/icons/ExitToApp';
 import {
     TextField,
     Drawer,
@@ -24,6 +25,8 @@ import {
 } from "@material-ui/core";
 import "../App.css";
 import { appThemeConstants } from "../misc/AppTheme";
+import { Logo } from "../components/Logo";
+import '../App.css';
 
 const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
@@ -34,7 +37,7 @@ const useStyles = makeStyles((theme) => ({
         [theme.breakpoints.up("sm")]: {
             width: drawerWidth,
             flexShrink: 0,
-        },
+        }
     },
     appBar: {
         [theme.breakpoints.up("sm")]: {
@@ -65,8 +68,14 @@ export const MainRoute = (props) => {
     const currentTheme = useTheme();
     //const { user } = useContext(UserContext);
     const container = window !== undefined ? () => window().document.body : undefined;
-    const [mobileOpen, setMobileOpen] = React.useState(false);
+    const [mobileOpen, setMobileOpen] = useState(false);
+    const [tabIndex, setTabIndex] = useState(0);
+
+
     const classes = useStyles();
+
+    const selectedColor = currentTheme.palette.type === "light" ? appThemeConstants.palePurple : appThemeConstants.lavender;
+    const unselectedColor = currentTheme.palette.background.default;
     const linkStyle = {
         textDecoration: "none",
         color: currentTheme.palette.text.primary,
@@ -76,29 +85,37 @@ export const MainRoute = (props) => {
     };
     const handleDrawerToggle = () => setMobileOpen(!mobileOpen);
     const drawer = (
-        <div>
-            <div className={classes.toolbar} />
-            <Divider />
+        <div className="col" style={{ width: "100%"}}>
+            <Logo/>
             <List>
                 <Link to="/main" style={linkStyle}>
-                    <ListItem button key="feed">
+                    <ListItem button key="feed" onClick={() => setTabIndex(0)} style={{backgroundColor: tabIndex === 0 ? selectedColor : unselectedColor}}>
                         <ListItemIcon>{<ListIcon style={iconColor} />}</ListItemIcon>
                         <ListItemText primary={"Feed"} />
                     </ListItem>
                 </Link>
                 <Link to="/main/discover" style={linkStyle}>
-                    <ListItem button key="discover">
+                    <ListItem button key="discover" onClick={() => setTabIndex(1)} style={{backgroundColor: tabIndex === 1 ? selectedColor : unselectedColor}}>
                         <ListItemIcon>{<ExploreIcon style={iconColor} />}</ListItemIcon>
                         <ListItemText primary={"Discover"} />
                     </ListItem>
                 </Link>
                 <Link to="/main/profile" style={linkStyle}>
-                    <ListItem button key="profile">
+                    <ListItem button key="profile" onClick={() => setTabIndex(2)} style={{backgroundColor: tabIndex === 2 ? selectedColor : unselectedColor}}>
                         <ListItemIcon>{<AccountCircleIcon style={iconColor} />}</ListItemIcon>
                         <ListItemText primary={"Profile"} />
                     </ListItem>
                 </Link>
             </List>
+
+            <div className="col" style={{ position: "absolute", bottom: 0, width: "100%" }}>
+                <Link to="/auth" style={linkStyle}>
+                    <ListItem button key="logout">
+                        <ListItemIcon>{<ExitToAppIcon style={iconColor} />}</ListItemIcon>
+                        <ListItemText primary={"Log Out"} />
+                    </ListItem>
+                </Link>
+            </div>
         </div>
     );
     return (
