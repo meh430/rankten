@@ -11,7 +11,7 @@ export async function loginUser(userName, password) {
     if (hasError) {
         return [hasError, response];
     } else {
-        saveToken(response['jwt_token']);
+        saveToken(response["jwt_token"]);
         return [hasError, response];
     }
 }
@@ -21,7 +21,7 @@ export async function signupUser(userName, password, bio) {
     if (hasError) {
         return [hasError, response];
     } else {
-        saveToken(response['jwt_token']);
+        saveToken(response["jwt_token"]);
         return [hasError, response];
     }
 }

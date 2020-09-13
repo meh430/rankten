@@ -1,12 +1,5 @@
 import React, { useContext, useState } from "react";
 import { Switch, Route, Link } from "react-router-dom";
-import { UserContext, ThemeContext } from "../Contexts";
-import { clearStorage, getMainTab, saveTheme, setMainTab } from "../misc/PrefStore";
-import ExploreIcon from "@material-ui/icons/Explore";
-import AccountCircleIcon from "@material-ui/icons/AccountCircle";
-import ListIcon from "@material-ui/icons/List";
-import MenuIcon from "@material-ui/icons/Menu";
-import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 import {
     TextField,
     Drawer,
@@ -26,11 +19,18 @@ import {
     FormControlLabel,
     CssBaseline,
 } from "@material-ui/core";
-import "../App.css";
+import ExploreIcon from "@material-ui/icons/Explore";
+import AccountCircleIcon from "@material-ui/icons/AccountCircle";
+import ListIcon from "@material-ui/icons/List";
+import MenuIcon from "@material-ui/icons/Menu";
+import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+
+import { UserContext, ThemeContext } from "../Contexts";
+import { clearStorage, getMainTab, saveTheme, setMainTab } from "../misc/PrefStore";
 import { appThemeConstants } from "../misc/AppTheme";
 import { Logo } from "../components/Logo";
-import "../App.css";
 import { Profile } from "../components/Profile";
+import "../App.css";
 
 const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
@@ -250,65 +250,4 @@ export const MainRoute = (props) => {
             </main>
         </div>
     );
-    /*return (
-        <div style={{ height: "100vh", width: "100vw", backgroundColor: currentTheme.palette.background.default }}>
-            <AppBar
-                position="static"
-                style={{
-                    backgroundColor: currentTheme.palette.background.default,
-                    boxShadow: currentTheme.shadows[0],
-                    width: "100vw",
-                }}
-            >
-                <Toolbar>
-                    <IconButton
-                        color="inherit"
-                        aria-label="open drawer"
-                        edge="start"
-                        onClick={toggleDrawer}
-                        className={classes.menuButton}
-                    >
-                        <MenuIcon style={{ color: currentTheme.palette.text.primary }} />
-                    </IconButton>
-
-                    <div>
-                        <Hidden smUp implementation="css">
-                            <Drawer
-                                container={container}
-                                variant="temporary"
-                                anchor="left"
-                                open={mobileOpen}
-                                onClose={toggleDrawer}
-                                ModalProps={{
-                                    keepMounted: true, // Better open performance on mobile.
-                                }}
-                            >
-                                {drawer}
-                            </Drawer>
-                        </Hidden>
-                        <Hidden xsDown implementation="css">
-                            <Drawer variant="permanent" open>
-                                {drawer}
-                            </Drawer>
-                        </Hidden>
-                    </div>
-                    <div style={{ width: "fit-content", maxWidth: "90%", flexGrow: "1" }}>
-                        <TextField
-                            style={{ width: "550px", margin: "8px", maxWidth: "60%" }}
-                            variant="outlined"
-                            placeholder="Search..."
-                        />
-                    </div>
-                </Toolbar>
-            </AppBar>
-            <div>
-                <Switch>
-                    <Route path="/main" component={() => <h1>Feed</h1>} exact />
-                    <Route path="/main/discover" component={() => <h1>Discover</h1>} />
-                    <Route path="/main/search" component={() => <h1>Search</h1>} />
-                    <Route path="/main/profile" component={() => <h1>Profile</h1>} />
-                </Switch>
-            </div>
-        </div>
-    );*/
 };

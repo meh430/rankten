@@ -1,14 +1,16 @@
 import React, { useReducer, useMemo, useState } from "react";
-import { UserContext, ThemeContext } from "./Contexts";
+import { Switch, Route } from "react-router-dom";
 import { ThemeProvider, createMuiTheme } from "@material-ui/core/styles";
+
+import { UserContext, ThemeContext } from "./Contexts";
 import { userReducer } from "./reducers/UserReducer";
 import { getCurrentTheme, getToken } from "./misc/PrefStore";
 import { appThemeConstants } from "./misc/AppTheme";
-import "./App.css";
 import { Splash } from "./routes/Splash";
-import { Switch, Route } from "react-router-dom";
 import { LoginSignUp } from "./routes/LoginSignup";
 import { MainRoute } from "./routes/MainRoute";
+import "./App.css";
+
 const appThemeLight = {
     palette: {
         type: "light",
@@ -45,7 +47,12 @@ const App = () => {
     console.log("Stored Token: " + userToken);
     const [theme, setTheme] = useState(getCurrentTheme());
 
-    const userValue = useMemo(() => ({ user, userDispatch, userToken, setUserToken }), [user, userDispatch, userToken, setUserToken]);
+    const userValue = useMemo(() => ({ user, userDispatch, userToken, setUserToken }), [
+        user,
+        userDispatch,
+        userToken,
+        setUserToken,
+    ]);
     const themeValue = useMemo(() => ({ theme, setTheme }), [theme, setTheme]);
 
     const darkTheme = createMuiTheme(appThemeDark);
@@ -55,7 +62,7 @@ const App = () => {
         <div className="App">
             <ThemeContext.Provider value={themeValue}>
                 <UserContext.Provider value={userValue}>
-                    <ThemeProvider theme={theme === "light" ?  lightTheme : darkTheme}>
+                    <ThemeProvider theme={theme === "light" ? lightTheme : darkTheme}>
                         <Switch>
                             <Route path="/" component={Splash} exact />
                             <Route path="/auth" component={LoginSignUp} />

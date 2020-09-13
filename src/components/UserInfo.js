@@ -1,15 +1,15 @@
 import React, { useContext, useEffect, useState } from "react";
 import { Avatar, Card, CardContent, makeStyles, useTheme, Button } from "@material-ui/core";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
+import ReactLoading from "react-loading";
 
 import { resetUserContext, UserContext } from "../Contexts";
 import { getCardStyle, getTextTheme, appThemeConstants } from "../misc/AppTheme";
-import "../App.css";
 import { followUser, getUser } from "../api/UserRepo";
 import { UserReducerTypes } from "../reducers/UserReducer";
 import { loginUser } from "../api/Auth";
 import { getLogin } from "../misc/PrefStore";
-import ReactLoading from "react-loading";
+import "../App.css";
 
 const useStyles = makeStyles((theme) => ({
     avatar: {

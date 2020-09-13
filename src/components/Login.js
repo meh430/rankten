@@ -1,11 +1,12 @@
-import { Button, Card, CardContent, useTheme, TextField } from "@material-ui/core";
 import React, { useState, useContext } from "react";
 import { Redirect } from "react-router-dom";
+import { Button, Card, CardContent, useTheme, TextField } from "@material-ui/core";
+import ReactLoading from "react-loading";
+
 import { UserContext } from "../Contexts";
 import { appThemeConstants, getCardStyle, getTextTheme } from "../misc/AppTheme";
 import { loginUser } from "../api/Auth";
-import {UserReducerTypes} from "../reducers/UserReducer"
-import ReactLoading from "react-loading";
+import { UserReducerTypes } from "../reducers/UserReducer";
 import "../App.css";
 
 export const fieldTheme = {
@@ -135,7 +136,7 @@ export const Login = (props) => {
                 return;
             } else {
                 userDispatch({ type: UserReducerTypes.getUserAction, payload: { user: userInfo } });
-                setUserToken(userInfo['jwt_token']);
+                setUserToken(userInfo["jwt_token"]);
                 setSuccess(true);
                 setLoading(false);
             }
@@ -152,7 +153,7 @@ export const Login = (props) => {
     return (
         <Card
             style={{
-                ...getCardStyle(currentTheme),             
+                ...getCardStyle(currentTheme),
                 width: "500px",
                 maxWidth: "90%",
             }}

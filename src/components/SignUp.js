@@ -1,11 +1,13 @@
-import { Card, CardContent, useTheme, TextField } from "@material-ui/core";
 import React, { useState, useContext } from "react";
 import { Redirect } from "react-router-dom";
+import { Card, CardContent, useTheme, TextField } from "@material-ui/core";
+
 import { namePattern, passwordPattern, PasswordField, NameField, AltAuth, AuthSubmit, fieldTheme } from "./Login";
 import { signupUser } from "../api/Auth";
 import { UserContext } from "../Contexts";
-import {UserReducerTypes} from "../reducers/UserReducer"
-import { appThemeConstants, getCardStyle, getTextTheme } from "../misc/AppTheme";
+import { UserReducerTypes } from "../reducers/UserReducer";
+import { getCardStyle, getTextTheme } from "../misc/AppTheme";
+
 import "../App.css";
 let userName = "";
 let password = "";
@@ -65,7 +67,7 @@ export const SignUp = (props) => {
                 return;
             } else {
                 userDispatch({ type: UserReducerTypes.getUserAction, payload: { user: userInfo } });
-                setUserToken(userInfo['jwt_token']);
+                setUserToken(userInfo["jwt_token"]);
                 setSuccess(true);
                 setLoading(false);
             }

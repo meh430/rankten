@@ -1,14 +1,14 @@
-import ReactLoading from "react-loading";
 import React, { useState, useEffect, useContext } from "react";
-import { Logo } from "../components/Logo";
-import { appThemeConstants } from "../misc/AppTheme";
-import { useTheme } from "@material-ui/core";
 import { Redirect } from "react-router-dom";
+import { useTheme } from "@material-ui/core";
+import ReactLoading from "react-loading";
 
-import "../App.css";
+import { appThemeConstants } from "../misc/AppTheme";
+import { Logo } from "../components/Logo";
 import { UserReducerTypes } from "../reducers/UserReducer";
 import { UserContext } from "../Contexts";
 import { tokenValid } from "../api/Auth";
+import "../App.css";
 
 export const Splash = () => {
     const [startRoute, setStartRoute] = useState(null);

@@ -1,12 +1,12 @@
 import React, { useState } from "react";
 import { useTheme, Snackbar, IconButton } from "@material-ui/core";
 import CloseIcon from "@material-ui/icons/Close";
-import "../App.css";
+
 import { Logo } from "../components/Logo";
 import { Login } from "../components/Login";
 import { SignUp } from "../components/SignUp";
 import { appThemeConstants } from "../misc/AppTheme";
-import { clearStorage } from "../misc/PrefStore";
+import "../App.css";
 
 export const LoginSignUp = (props) => {
     const currentTheme = useTheme();
