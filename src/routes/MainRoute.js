@@ -30,11 +30,13 @@ import "../App.css";
 import { appThemeConstants } from "../misc/AppTheme";
 import { Logo } from "../components/Logo";
 import "../App.css";
+import { Profile } from "../components/Profile";
 
 const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
     root: {
         display: "flex",
+        width: "100%"
     },
     drawer: {
         [theme.breakpoints.up("sm")]: {
@@ -63,6 +65,9 @@ const useStyles = makeStyles((theme) => ({
         backgroundColor: theme.palette.background.default,
     },
     content: {
+        width: "100%",
+        justifyContent: "center",
+        alignItems: "center",
         flexGrow: 1,
         padding: theme.spacing(3),
     },
@@ -225,7 +230,7 @@ export const MainRoute = (props) => {
                     <Route path="/main" component={() => <h1>Feed</h1>} exact />
                     <Route path="/main/discover" component={() => <h1>Discover</h1>} />
                     <Route path="/main/search" component={() => <h1>Search</h1>} />
-                    <Route path="/main/profile" component={() => <h1>Profile</h1>} />
+                    <Route path="/main/profile" component={Profile} />
                 </Switch>
             </main>
         </div>
