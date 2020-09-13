@@ -82,6 +82,7 @@ export const UserInfo = (props) => {
             }}
         >
             <CardContent className="col" style={{ alignItems: "center" }}>
+                <h1 style={textTheme}>{user['user_name']}</h1>
                 <div className="row" style={{ justifyContent: "space-around", alignItems: "center", width: "100%" }}>
                     <Avatar src={avatarSrc} className={classes.avatar}>
                         <AccountCircleIcon className={classes.avIcon} />
