@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import { Switch, Route, Link } from "react-router-dom";
 import { UserContext, ThemeContext } from "../Contexts";
+import { saveTheme } from "../misc/PrefStore";
 import ExploreIcon from "@material-ui/icons/Explore";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import ListIcon from "@material-ui/icons/List";
@@ -86,6 +87,7 @@ export const MainRoute = (props) => {
         const newTheme = themeSwitch === "dark" ? "light" : "dark";
         setThemeSwitch(newTheme);
         setTheme(newTheme);
+        saveTheme(newTheme);
     };
 
     const classes = useStyles();
