@@ -37,7 +37,7 @@ export const UserInfo = (props) => {
 
     if (!mainUser.user) {
         resetUserContext(mainUser);
-        return <ReactLoading type="bubbles" color={appThemeConstants.hanPurple} />;
+        return <ReactLoading type="bars" color={appThemeConstants.hanPurple} />;
     }
 
     let avatarSrc = user["prof_pic"];

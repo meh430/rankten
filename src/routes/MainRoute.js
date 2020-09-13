@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { Switch, Route, Link } from "react-router-dom";
 import { UserContext, ThemeContext } from "../Contexts";
-import { saveTheme } from "../misc/PrefStore";
+import { getMainTab, saveTheme, setMainTab } from "../misc/PrefStore";
 import ExploreIcon from "@material-ui/icons/Explore";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import ListIcon from "@material-ui/icons/List";
@@ -36,7 +36,7 @@ const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
     root: {
         display: "flex",
-        width: "100%"
+        width: "100%",
     },
     drawer: {
         [theme.breakpoints.up("sm")]: {
@@ -60,7 +60,6 @@ const useStyles = makeStyles((theme) => ({
     // necessary for content to be below app bar
     toolbar: theme.mixins.toolbar,
     drawerPaper: {
-
         width: drawerWidth,
         backgroundColor: theme.palette.background.default,
     },
@@ -75,8 +74,8 @@ const useStyles = makeStyles((theme) => ({
         width: "95%",
         borderRadius: "15px",
         marginLeft: "8px",
-        marginTop: "4px"
-    }
+        marginTop: "4px",
+    },
 }));
 export const MainRoute = (props) => {
     const { window } = props;
@@ -85,7 +84,7 @@ export const MainRoute = (props) => {
     const { setTheme } = useContext(ThemeContext);
     const container = window !== undefined ? () => window().document.body : undefined;
     const [mobileOpen, setMobileOpen] = useState(false);
-    const [tabIndex, setTabIndex] = useState(0);
+    const [tabIndex, setTabIndex] = useState(getMainTab());
     const [themeSwitch, setThemeSwitch] = useState(currentTheme.palette.type);
 
     const onThemeChange = () => {
@@ -111,13 +110,16 @@ export const MainRoute = (props) => {
     const drawer = (
         <div className="col" style={{ width: "100%" }}>
             <Logo />
-            <List style={{marginTop: "10px"}}>
+            <List style={{ marginTop: "10px" }}>
                 <Link to="/main" style={linkStyle}>
                     <ListItem
                         className={classes.listItem}
                         button
                         key="feed"
-                        onClick={() => setTabIndex(0)}
+                        onClick={() => {
+                            setTabIndex(0);
+                            setMainTab(0);
+                        }}
                         style={{ backgroundColor: tabIndex === 0 ? selectedColor : unselectedColor }}
                     >
                         <ListItemIcon>{<ListIcon style={iconColor} />}</ListItemIcon>
@@ -129,7 +131,10 @@ export const MainRoute = (props) => {
                         className={classes.listItem}
                         button
                         key="discover"
-                        onClick={() => setTabIndex(1)}
+                        onClick={() => {
+                            setTabIndex(1);
+                            setMainTab(1);
+                        }}
                         style={{ backgroundColor: tabIndex === 1 ? selectedColor : unselectedColor }}
                     >
                         <ListItemIcon>{<ExploreIcon style={iconColor} />}</ListItemIcon>
@@ -141,7 +146,10 @@ export const MainRoute = (props) => {
                         className={classes.listItem}
                         button
                         key="profile"
-                        onClick={() => setTabIndex(2)}
+                        onClick={() => {
+                            setTabIndex(2);
+                            setMainTab(2);
+                        }}
                         style={{ backgroundColor: tabIndex === 2 ? selectedColor : unselectedColor }}
                     >
                         <ListItemIcon>{<AccountCircleIcon style={iconColor} />}</ListItemIcon>
@@ -153,7 +161,14 @@ export const MainRoute = (props) => {
             <div className="col" style={{ position: "absolute", bottom: 0, width: "100%" }}>
                 <ListItem button key="themechange">
                     <FormControlLabel
-                        control={<Sw checked={themeSwitch==="dark"} onChange={onThemeChange} name="themeSwitch" color="primary" />}
+                        control={
+                            <Sw
+                                checked={themeSwitch === "dark"}
+                                onChange={onThemeChange}
+                                name="themeSwitch"
+                                color="primary"
+                            />
+                        }
                         label="Dark Mode"
                     />
                 </ListItem>

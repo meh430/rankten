@@ -2,6 +2,7 @@ const CURRENT_THEME = "CURRENT_THEME";
 const JWT_TOKEN = "JWTTOKEN";
 const USER_NAME_KEY = "USERNAME";
 const PASSWORD_KEY = "PASSWORD";
+const MAIN_TAB = "MAINTAB";
 
 export function saveTheme(value) {
     localStorage.setItem(CURRENT_THEME, value);
@@ -28,6 +29,15 @@ export function getLogin() {
     var password = localStorage.getItem(PASSWORD_KEY);
 
     return [userName, password];
+}
+
+export function setMainTab(tab) {
+    localStorage.setItem(MAIN_TAB, tab);
+}
+
+export function getMainTab() {
+    var mainTab = localStorage.getItem(MAIN_TAB);
+    return mainTab ? mainTab : 0;
 }
 
 export function clearStorage() {
