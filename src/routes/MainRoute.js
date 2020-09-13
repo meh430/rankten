@@ -32,6 +32,11 @@ import { Logo } from "../components/Logo";
 import { Profile } from "../components/Profile";
 import "../App.css";
 
+const renderOtherProfile = (routerProps) => {
+    let userName = routerProps.match.params.name;
+    return <Profile userName={userName} isMain={false}/>
+};
+
 const drawerWidth = 240;
 const useStyles = makeStyles((theme) => ({
     root: {
@@ -245,7 +250,8 @@ export const MainRoute = (props) => {
                     <Route path="/main" component={() => <h1>Feed</h1>} exact />
                     <Route path="/main/discover" component={() => <h1>Discover</h1>} />
                     <Route path="/main/search" component={() => <h1>Search</h1>} />
-                    <Route path="/main/profile" component={Profile} />
+                    <Route path="/main/profile" render={() => <Profile isMain={true}/>} exact/>
+                    <Route path="/main/profile/:name" render={(routerProps) => renderOtherProfile(routerProps)}/>
                 </Switch>
             </main>
         </div>
