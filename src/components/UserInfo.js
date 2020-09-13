@@ -118,7 +118,7 @@ const UserStat = (props) => {
 //isFollowing: bool
 //mainUser: UserContext
 //name: string
-const followButton = (props) => {
+const FollowButton = (props) => {
     const [loading, setLoading] = useState(false);
     const [following, setFollowing] = useState(props.isFollowing);
     const mainUser = props.mainUser;
@@ -148,7 +148,7 @@ const followButton = (props) => {
                 backgroundColor: appThemeConstants.hanPurple,
             }}
         >
-            {isFollowing ? "Unfollow" : "Follow"}
+            {following ? "Unfollow" : "Follow"}
         </Button>
     );
 };

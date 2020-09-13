@@ -8,10 +8,8 @@ export function saveTheme(value) {
     localStorage.setItem(CURRENT_THEME, value);
 }
 
-export function saveToken(token, userName, password) {
+export function saveToken(token) {
     localStorage.setItem(JWT_TOKEN, token);
-    localStorage.setItem(USER_NAME_KEY, userName);
-    localStorage.setItem(PASSWORD_KEY, password);
 }
 
 export function getCurrentTheme() {
