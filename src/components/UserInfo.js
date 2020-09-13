@@ -3,6 +3,7 @@ import { Avatar, Card, CardContent, makeStyles, useTheme } from "@material-ui/co
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 
 import { UserContext } from "../Contexts";
+import {getCardStyle} from '../misc/AppTheme'
 import "../App.css";
 
 const useStyles = makeStyles((theme) => ({
@@ -24,12 +25,9 @@ export const UserInfo = (props) => {
     return (
         <Card
             style={{
-                margin: "10px",
-                alignSelf: "center",
-                boxShadow: currentTheme.shadows[4],
+                ...getCardStyle(currentTheme),
                 width: "800px",
                 maxWidth: "98%",
-                borderRadius: "10px",
             }}
         >
             <CardContent className="row" style={{justifyContent: "space-around", alignItems: "center"}}>

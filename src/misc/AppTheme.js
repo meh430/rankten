@@ -18,7 +18,7 @@ export const getCardStyle = (theme) => {
     return {
         margin: "10px",
         alignSelf: "center",
-        boxShadow: currentTheme.shadows[4],
+        boxShadow: theme.shadows[4],
         borderRadius: "10px",
     };
 };

@@ -2,7 +2,7 @@ import { Button, Card, CardContent, useTheme, TextField } from "@material-ui/cor
 import React, { useState, useContext } from "react";
 import { Redirect } from "react-router-dom";
 import { UserContext } from "../Contexts";
-import { appThemeConstants } from "../misc/AppTheme";
+import { appThemeConstants, getCardStyle } from "../misc/AppTheme";
 import { loginUser } from "../api/Auth";
 import {UserReducerTypes} from "../reducers/UserReducer"
 import ReactLoading from "react-loading";
@@ -155,12 +155,9 @@ export const Login = (props) => {
     return (
         <Card
             style={{
-                margin: "10px",
-                alignSelf: "center",
-                boxShadow: currentTheme.shadows[4],
+                ...getCardStyle(currentTheme),             
                 width: "500px",
                 maxWidth: "90%",
-                borderRadius: "10px",
             }}
         >
             <CardContent className="col" style={{ alignItems: "center", paddingBottom: "2px" }}>
