@@ -57,6 +57,7 @@ const useStyles = makeStyles((theme) => ({
     // necessary for content to be below app bar
     toolbar: theme.mixins.toolbar,
     drawerPaper: {
+
         width: drawerWidth,
         backgroundColor: theme.palette.background.default,
     },
@@ -64,6 +65,12 @@ const useStyles = makeStyles((theme) => ({
         flexGrow: 1,
         padding: theme.spacing(3),
     },
+    listItem: {
+        width: "95%",
+        borderRadius: "15px",
+        marginLeft: "8px",
+        marginTop: "4px"
+    }
 }));
 export const MainRoute = (props) => {
     const { window } = props;
@@ -84,7 +91,7 @@ export const MainRoute = (props) => {
     const classes = useStyles();
 
     const selectedColor =
-        currentTheme.palette.type === "light" ? appThemeConstants.palePurple : appThemeConstants.lavender;
+        currentTheme.palette.type === "light" ? appThemeConstants.palePurple : appThemeConstants.hanPurple;
     const unselectedColor = currentTheme.palette.background.default;
     const linkStyle = {
         textDecoration: "none",
@@ -97,9 +104,10 @@ export const MainRoute = (props) => {
     const drawer = (
         <div className="col" style={{ width: "100%" }}>
             <Logo />
-            <List>
+            <List style={{marginTop: "10px"}}>
                 <Link to="/main" style={linkStyle}>
                     <ListItem
+                        className={classes.listItem}
                         button
                         key="feed"
                         onClick={() => setTabIndex(0)}
@@ -111,6 +119,7 @@ export const MainRoute = (props) => {
                 </Link>
                 <Link to="/main/discover" style={linkStyle}>
                     <ListItem
+                        className={classes.listItem}
                         button
                         key="discover"
                         onClick={() => setTabIndex(1)}
@@ -122,6 +131,7 @@ export const MainRoute = (props) => {
                 </Link>
                 <Link to="/main/profile" style={linkStyle}>
                     <ListItem
+                        className={classes.listItem}
                         button
                         key="profile"
                         onClick={() => setTabIndex(2)}
