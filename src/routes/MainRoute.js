@@ -1,7 +1,7 @@
 import React, { useContext, useState } from "react";
 import { Switch, Route, Link } from "react-router-dom";
 import { UserContext, ThemeContext } from "../Contexts";
-import { getMainTab, saveTheme, setMainTab } from "../misc/PrefStore";
+import { clearStorage, getMainTab, saveTheme, setMainTab } from "../misc/PrefStore";
 import ExploreIcon from "@material-ui/icons/Explore";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import ListIcon from "@material-ui/icons/List";
@@ -172,7 +172,7 @@ export const MainRoute = (props) => {
                         label="Dark Mode"
                     />
                 </ListItem>
-                <Link to="/auth" style={linkStyle}>
+                <Link to="/auth" style={linkStyle} onClick={() => clearStorage()}>
                     <ListItem button key="logout">
                         <ListItemIcon>{<ExitToAppIcon style={iconColor} />}</ListItemIcon>
                         <ListItemText primary={"Log Out"} />
