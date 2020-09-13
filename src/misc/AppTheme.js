@@ -6,3 +6,10 @@ export const appThemeConstants = {
     paraPink: '#ef476f',
     fontFamily: "'Nunito', sans-serif"
 }
+
+export const getTextTheme = (theme) => {
+    return {
+        fontFamily: appThemeConstants.fontFamily,
+        color: theme.palette.secondary.dark
+    };
+};

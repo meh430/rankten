@@ -32,7 +32,7 @@ export const UserInfo = (props) => {
                 borderRadius: "10px",
             }}
         >
-            <CardContent className="row" style={{justifyContent: "space-evenly", alignItems: "center"}}>
+            <CardContent className="row" style={{justifyContent: "space-around", alignItems: "center"}}>
                 <Avatar src="" className={classes.avatar}>
                     <AccountCircleIcon className={classes.avIcon} />
                 </Avatar>
@@ -77,7 +77,7 @@ export const UserInfo = (props) => {
 const UserStat = (props) => {
     return (
         <div className="col" style={{ alignItems: "center", justifyContent: "center", margin: "10px" }}>
-            <h4>{props.stat}</h4>
+            <h2>{props.stat}</h2>
             <h5>{props.label}</h5>
         </div>
     );
