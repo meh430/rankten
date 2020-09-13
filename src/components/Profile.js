@@ -4,7 +4,7 @@ import '../App.css';
 export const Profile = (props) => {
     return (
         <div className="col" style={{justifyContent: "center"}}>
-            <UserInfo/>
+            <UserInfo isMain={true}/>
         </div>
     );
 }
