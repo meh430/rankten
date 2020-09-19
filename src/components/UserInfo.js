@@ -10,7 +10,6 @@ import { followUser } from "../api/UserRepo";
 import { UserReducerTypes } from "../reducers/UserReducer";
 import { containsId, tsToDate } from "../misc/Utils";
 import "../App.css";
-import { BackButton } from "./BackButton";
 
 const useStyles = makeStyles((theme) => ({
     avatar: {
