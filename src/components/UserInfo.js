@@ -95,7 +95,6 @@ const UserBio = (props) => {
 //isMain: bool
 //user: object
 export const UserInfo = (props) => {
-    let token = "";
     const mainUser = useContext(UserContext);
     const classes = useStyles();
     const currentTheme = useTheme();
