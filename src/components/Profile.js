@@ -32,7 +32,7 @@ export const Profile = (props) => {
         );
     } else {
         if (errorState) {
-            return <h2 style={getTextTheme(currentTheme)}></h2>
+            return <h2 style={getTextTheme(currentTheme)}>Error</h2>
         } else if (otherUser) {
             return (
                 <div className="col" style={{ alignItems: "center" }}>
