@@ -3,12 +3,13 @@ import { Avatar, Card, CardContent, makeStyles, useTheme, Button } from "@materi
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import ReactLoading from "react-loading";
 
+import { ProfPicChooser } from './ProfPicChooser';
 import { resetUserContext, UserContext } from "../Contexts";
 import { getCardStyle, getTextTheme, appThemeConstants } from "../misc/AppTheme";
 import { followUser } from "../api/UserRepo";
 import { UserReducerTypes } from "../reducers/UserReducer";
-import "../App.css";
 import { containsId, tsToDate } from "../misc/Utils";
+import "../App.css";
 
 const useStyles = makeStyles((theme) => ({
     avatar: {
@@ -100,6 +101,8 @@ export const UserInfo = (props) => {
     const currentTheme = useTheme();
     const textTheme = getTextTheme(currentTheme);
 
+    const [profPickerOpen, setProfPickerOpen] = useState(false);
+
     let userStats = [];
     let user = props.isMain ? mainUser.user : props.user;
 
@@ -177,7 +180,9 @@ export const UserInfo = (props) => {
                         isFollowing={containsId(mainUser.user["following"], user["_id"])}
                         id={user["_id"]}
                     />
-                )}
+                    )}
+                
+                <ProfPicChooser/>
             </CardContent>
         </Card>
     );
