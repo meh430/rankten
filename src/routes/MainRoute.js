@@ -5,7 +5,6 @@ import {
     Drawer,
     makeStyles,
     useTheme,
-    Typography,
     Toolbar,
     ListItemText,
     ListItemIcon,
@@ -14,7 +13,6 @@ import {
     Switch as Sw,
     Hidden,
     IconButton,
-    Divider,
     AppBar,
     FormControlLabel,
     CssBaseline,
@@ -25,7 +23,7 @@ import ListIcon from "@material-ui/icons/List";
 import MenuIcon from "@material-ui/icons/Menu";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
 
-import { UserContext, ThemeContext } from "../Contexts";
+import { ThemeContext } from "../Contexts";
 import { clearStorage, getMainTab, saveTheme, setMainTab } from "../misc/PrefStore";
 import { appThemeConstants } from "../misc/AppTheme";
 import { Logo } from "../components/Logo";
