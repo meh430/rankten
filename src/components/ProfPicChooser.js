@@ -24,6 +24,9 @@ export const ProfPicChooser = (props) => {
                 <BackButton color={currentTheme.palette.text.primary} onClick={props.onHide}/>
                 <h4 style={textTheme}>Choose a Profile Pic</h4>
             </Modal.Header>
+            <Modal.Body>
+                <h3>Body</h3>
+            </Modal.Body>
         </Modal>
     );
 };

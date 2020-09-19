@@ -10,6 +10,7 @@ import { followUser } from "../api/UserRepo";
 import { UserReducerTypes } from "../reducers/UserReducer";
 import { containsId, tsToDate } from "../misc/Utils";
 import "../App.css";
+import { BackButton } from "./BackButton";
 
 const useStyles = makeStyles((theme) => ({
     avatar: {
@@ -156,7 +157,7 @@ export const UserInfo = (props) => {
             <CardContent className="col" style={{ alignItems: "center" }}>
                 <h1 style={textTheme}>{user["user_name"]}</h1>
                 <div className="row" style={{ justifyContent: "space-around", alignItems: "center", width: "100%" }}>
-                    <Avatar src={avatarSrc} className={classes.avatar}>
+                    <Avatar src={avatarSrc} className={classes.avatar} onClick={() => setProfPickerOpen(true)}>
                         <AccountCircleIcon className={classes.avIcon} />
                     </Avatar>
                     <div className="row" style={{ flexWrap: "wrap", justifyContent: "space-evenly" }}>
@@ -174,15 +175,15 @@ export const UserInfo = (props) => {
                 {props.isMain ? (
                     <i style={{ display: "none" }} />
                 ) : (
-                    <FollowButton
-                        mainUser={mainUser}
-                        name={user["user_name"]}
-                        isFollowing={containsId(mainUser.user["following"], user["_id"])}
-                        id={user["_id"]}
-                    />
+                        <FollowButton
+                            mainUser={mainUser}
+                            name={user["user_name"]}
+                            isFollowing={containsId(mainUser.user["following"], user["_id"])}
+                            id={user["_id"]}
+                        />
                     )}
-                
-                <ProfPicChooser/>
+                    
+            <ProfPicChooser show={profPickerOpen} onHide={() => setProfPickerOpen(false)}/>
             </CardContent>
         </Card>
     );
