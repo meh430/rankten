@@ -11,6 +11,7 @@ import { followUser } from "../api/UserRepo";
 import { UserReducerTypes } from "../reducers/UserReducer";
 import { containsId, tsToDate } from "../misc/Utils";
 import "../App.css";
+import { UserListDialog } from "./UserListDialog";
 
 const useStyles = makeStyles((theme) => ({
     avatar: {
@@ -29,8 +30,18 @@ const useStyles = makeStyles((theme) => ({
 //stat: number
 //textTheme: object
 const UserStat = (props) => {
+    const { onClick } = props;
     return (
-        <div className="col" style={{ alignItems: "center", justifyContent: "center", margin: "10px" }}>
+        <div
+            className="col"
+            style={{
+                alignItems: "center",
+                justifyContent: "center",
+                margin: "10px",
+                cursor: onClick ? "pointer" : "auto",
+            }}
+            onClick={onClick}
+        >
             <h2 style={props.textTheme}>{props.stat}</h2>
             <h3 style={props.textTheme}>{props.label}</h3>
         </div>
@@ -96,6 +107,8 @@ export const UserInfo = (props) => {
     const textTheme = getTextTheme(currentTheme);
 
     const [profPickerOpen, setProfPickerOpen] = useState(false);
+    const [followersOpen, setFollowersOpen] = useState(false);
+    const [followingOpen, setFollowingOpen] = useState(false);
 
     let userStats = [];
     let user = props.isMain ? mainUser.user : props.user;
@@ -109,18 +122,22 @@ export const UserInfo = (props) => {
 
     userStats.push(
         {
+            onClick: null,
             label: "Rank Points",
             stat: user["rank_points"],
         },
         {
+            onClick: null,
             label: "Rank Lists",
             stat: user["list_num"],
         },
         {
+            onClick: () => setFollowersOpen(true),
             label: "Followers",
             stat: user["num_followers"],
         },
         {
+            onClick: () => setFollowersOpen(true),
             label: "Following",
             stat: user["num_following"],
         }
@@ -129,22 +146,17 @@ export const UserInfo = (props) => {
     if (props.isMain) {
         userStats.push(
             {
+                onClick: null,
                 label: "Comments",
                 stat: user["num_comments"],
             },
             {
+                onClick: null,
                 label: "Liked Lists",
                 stat: user["num_liked"],
             }
         );
     }
-
-    const handleClickOpen = () => {
-        setProfPickerOpen(true);
-    };
-    const handleClose = () => {
-        setProfPickerOpen(false);
-    };
 
     return (
         <Card
@@ -163,6 +175,7 @@ export const UserInfo = (props) => {
                     <div className="row" style={{ flexWrap: "wrap", justifyContent: "space-evenly" }}>
                         {userStats.map((userStat) => (
                             <UserStat
+                                onClick={userState.onClick}
                                 stat={userStat.stat}
                                 label={userStat.label}
                                 key={userStat.label}
@@ -183,7 +196,7 @@ export const UserInfo = (props) => {
                     />
                 )}
 
-                <ProfilePicChooser open={profPickerOpen} handleClose={handleClose} handleClickOpen={handleClickOpen} />
+                <ProfilePicChooser open={profPickerOpen} handleClose={() => setProfPickerOpen(false)} />
             </CardContent>
         </Card>
     );

@@ -8,9 +8,9 @@ import { ActionButton } from "./ActionButton";
 import { UserContext } from "../Contexts";
 import { appThemeConstants, getTextTheme } from "../misc/AppTheme";
 import { fieldTheme } from "./Login";
-import "../App.css";
 import { updateProfilePic } from "../api/UserRepo";
 import { UserReducerTypes } from "../reducers/UserReducer";
+import "../App.css";
 
 const useStyles = makeStyles((theme) => ({
     avatar: {
@@ -24,6 +24,8 @@ const useStyles = makeStyles((theme) => ({
     },
 }));
 
+//handleClose: callback
+//open: bool
 export const ProfilePicChooser = (props) => {
     const { user, userDispatch, userToken } = useContext(UserContext);
     const currentTheme = useTheme();
