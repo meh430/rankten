@@ -3,7 +3,7 @@ import { Avatar, Card, CardContent, makeStyles, useTheme, Button } from "@materi
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import ReactLoading from "react-loading";
 
-import { CustomizedDialogs } from "./ProfPicChooser";
+import { ProfilePicChooser } from "./ProfPicChooser";
 import { resetUserContext, UserContext } from "../Contexts";
 import { getCardStyle, getTextTheme, appThemeConstants } from "../misc/AppTheme";
 import { followUser } from "../api/UserRepo";
@@ -190,7 +190,7 @@ export const UserInfo = (props) => {
                     />
                 )}
 
-                <CustomizedDialogs open={profPickerOpen} handleClose={handleClose} handleClickOpen={handleClickOpen}/>
+                <ProfilePicChooser open={profPickerOpen} handleClose={handleClose} handleClickOpen={handleClickOpen}/>
             </CardContent>
         </Card>
     );
