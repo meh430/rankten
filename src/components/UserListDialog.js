@@ -30,7 +30,9 @@ export const UserListDialog = (props) => {
                 </div>
                 <div class="col" style={{ alignItems: "center" }}>
                     <UserPreviewCard userName="John Doe" profPic="https://cdn.ebaumsworld.com/2020/07/24/041135/86328344/dank-memes-reddit26.jpg" bio="Blah blah blah blah blah blah blah blah blah blah blahblahblah blah blah blahblah"/>
-                    <UserPreviewCard userName="John Doe" profPic="https://cdn.ebaumsworld.com/2020/07/24/041135/86328344/dank-memes-reddit26.jpg" bio="Blah blah blah blah blah blah blah blah blah blah blahblahblah blah blah blahblah"/>
+                    <UserPreviewCard userName="John Doe" profPic="https://cdn.ebaumsworld.com/2020/07/24/041135/86328344/dank-memes-reddit26.jpg" bio="Blah blah blah blah blah blah blah blah blah blah blahblahblah blah blah blahblah" />
+                    
+                    {loading ? <i syle={{display: "none"}}/>: <ActionButton label="Load More" width="200px" maxWidth="90%" onClick={() => console.log("loading more")} />}
                 </div>
             </div>
         </Dialog>

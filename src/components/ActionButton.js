@@ -7,13 +7,14 @@ import { appThemeConstants } from '../misc/AppTheme'
 //width: string
 //onClick: callback
 export const ActionButton = (props) => {
+    const { maxWidth } = props;
     return (
         <Button
             onClick={props.onClick}
             variant="contained"
             disabled={props.disabled}
             style={{
-                maxWidth: "75%",
+                maxWidth: maxWidth ? maxWidth : "75%",
                 width: props.width,
                 marginTop: "15px",
                 marginBottom: "15px",
