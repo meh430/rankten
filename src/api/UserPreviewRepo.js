@@ -1,6 +1,7 @@
 import * as api from './RankApi';
 /* 
     params: {
+        id: string,
         name: string,
         page: int,
         sort: int,
@@ -20,7 +21,8 @@ export async function getFollowers(params) {
 }
 
 export async function getLikers(params) {
-
+    var response = await api.get("/like" + params.id);
+    return response;
 }
 
 export async function searchUsers(params) {
