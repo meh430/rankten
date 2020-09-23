@@ -11,7 +11,10 @@ import "../App.css";
 //handleClose: callback
 //open: bool
 //title: string
+//type: string
 export const UserListDialog = props => {
+    const currentTheme = useTheme();
+    const textTheme = getTextTheme(currentTheme);
     return (
         <Dialog onClose={props.handleClose} aria-labelledby="customized-dialog-title" open={props.open}>
             <div class="row" style={{ alignItems: "center", width: "500px", maxWidth: "95%" }}>

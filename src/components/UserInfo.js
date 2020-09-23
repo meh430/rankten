@@ -12,6 +12,7 @@ import { UserReducerTypes } from "../reducers/UserReducer";
 import { containsId, tsToDate } from "../misc/Utils";
 import "../App.css";
 import { UserListDialog } from "./UserListDialog";
+import { UserPreviewTypes } from "../api/UserPreviewRepo";
 
 const useStyles = makeStyles((theme) => ({
     avatar: {
@@ -175,7 +176,7 @@ export const UserInfo = (props) => {
                     <div className="row" style={{ flexWrap: "wrap", justifyContent: "space-evenly" }}>
                         {userStats.map((userStat) => (
                             <UserStat
-                                onClick={userState.onClick}
+                                onClick={userStat.onClick}
                                 stat={userStat.stat}
                                 label={userStat.label}
                                 key={userStat.label}
@@ -196,6 +197,8 @@ export const UserInfo = (props) => {
                     />
                 )}
 
+                <UserListDialog open={followersOpen} handleClose={() => setFollowersOpen(false)} title={user["user_name"] + "'s Followers"} type={UserPreviewTypes.followersList}/>
+                <UserListDialog open={followingOpen} handleClose={() => setFollowingOpen(false)} title={user["user_name"] + "'s Following"} type={UserPreviewTypes.followingList}/>
                 <ProfilePicChooser open={profPickerOpen} handleClose={() => setProfPickerOpen(false)} />
             </CardContent>
         </Card>

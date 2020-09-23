@@ -1,4 +1,12 @@
 import * as api from './RankApi';
+
+export const UserPreviewTypes = {
+    followingList: "FOLLOWING_LIST",
+    followersList: "FOLLOWERS_LIST",
+    likersList: "LIKERS_LIST",
+    searchUsersList: "SEARCH_USERS_LIST"
+};
+
 /* 
     params: {
         id: string,
