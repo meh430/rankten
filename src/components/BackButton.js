@@ -5,7 +5,7 @@ import React from "react";
 export const BackButton = (props) => {
     return (
         <i
-            class="fas fa-arrow-left"
+            className="fas fa-arrow-left"
             onClick={props.onClick}
             style={{
                 fontSize: "24px",

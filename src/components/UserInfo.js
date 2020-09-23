@@ -17,8 +17,8 @@ import { UserPreviewTypes } from "../api/UserPreviewRepo";
 const useStyles = makeStyles((theme) => ({
     avatar: {
         cursor: "pointer",
-        height: "100px",
-        width: "100px",
+        height: "200px",
+        width: "200px",
     },
     avIcon: {
         height: "100%",
@@ -163,7 +163,7 @@ export const UserInfo = (props) => {
         <Card
             style={{
                 ...getCardStyle(currentTheme),
-                width: "800px",
+                width: "850px",
                 maxWidth: "98%",
             }}
         >
