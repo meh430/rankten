@@ -10,8 +10,8 @@ import { fieldTheme } from "./Login";
 
 const useStyles = makeStyles((theme) => ({
     avatar: {
-        height: "100px",
-        width: "100px",
+        height: "200px",
+        width: "200px",
     },
     avIcon: {
         height: "100%",
@@ -26,9 +26,8 @@ export const ProfilePicChooser = (props) => {
     const classes = useStyles();
 
     const [error, setError] = useState(false);
-    const [loading, setLoading] = useState(false)
+    const [profPic, setProfPic] = useState(user['prof_pic']);
 
-    const avatarSrc = user["prof_pic"];
     return (
         <Dialog onClose={props.handleClose} aria-labelledby="customized-dialog-title" open={props.open}>
             <div class="row" style={{ alignItems: "center", width: "500px", maxWidth: "95%" }}>
@@ -36,7 +35,8 @@ export const ProfilePicChooser = (props) => {
                 <h1 style={{ ...textTheme, marginLeft: "22px" }}>Choose Profile Pic</h1>
             </div>
             <div class="col" style={{ alignItems: "center" }}>
-                <Avatar src={avatarSrc} className={classes.avatar}>
+                <img style={{ display: "none" }} src={profPic} onError={() => setError(true)} onLoad={() => setError(false)}/>
+                <Avatar src={profPic} className={classes.avatar}>
                     <AccountCircleIcon className={classes.avIcon} />
                 </Avatar>
                 <TextField
@@ -46,8 +46,10 @@ export const ProfilePicChooser = (props) => {
                     id="url-field"
                     label="Image Url"
                     variant="outlined"
+                    onChange={(event) => setProfPic(event.target.value)}
                 />
             </div>
         </Dialog>
     );
 };
+//<ReactLoading type="bubbles" color={appThemeConstants.hanPurple} />

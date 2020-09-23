@@ -4,8 +4,10 @@ export async function validateImage(imageUrl) {
     var isValid = false;
     try {
         var response = await fetch(imageUrl);
+        console.log(response.headers);
         isValid = response.ok && response.headers["Content-Type"].includes("image");
     } catch (e) {
+        console.log(e);
         return false;
     }
 
