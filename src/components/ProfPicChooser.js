@@ -1,12 +1,13 @@
 import React, { useContext, useState } from "react";
-import { useTheme, Dialog, makeStyles, Avatar, TextField } from "@material-ui/core";
+import { useTheme, Dialog, makeStyles, Avatar, TextField, Button } from "@material-ui/core";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 
 import { BackButton } from "./BackButton";
 import { UserContext } from "../Contexts";
 import { getTextTheme } from "../misc/AppTheme";
-import "../App.css";
 import { fieldTheme } from "./Login";
+import { appThemeConstants } from '../misc/AppTheme';
+import "../App.css";
 
 const useStyles = makeStyles((theme) => ({
     avatar: {
@@ -26,7 +27,7 @@ export const ProfilePicChooser = (props) => {
     const classes = useStyles();
 
     const [error, setError] = useState(false);
-    const [profPic, setProfPic] = useState(user['prof_pic']);
+    const [profPic, setProfPic] = useState(user["prof_pic"]);
 
     return (
         <Dialog onClose={props.handleClose} aria-labelledby="customized-dialog-title" open={props.open}>
@@ -35,7 +36,12 @@ export const ProfilePicChooser = (props) => {
                 <h1 style={{ ...textTheme, marginLeft: "22px" }}>Choose Profile Pic</h1>
             </div>
             <div class="col" style={{ alignItems: "center" }}>
-                <img style={{ display: "none" }} src={profPic} onError={() => setError(true)} onLoad={() => setError(false)}/>
+                <img
+                    style={{ display: "none" }}
+                    src={profPic}
+                    onError={() => setError(true)}
+                    onLoad={() => setError(false)}
+                />
                 <Avatar src={profPic} className={classes.avatar}>
                     <AccountCircleIcon className={classes.avIcon} />
                 </Avatar>
@@ -48,6 +54,20 @@ export const ProfilePicChooser = (props) => {
                     variant="outlined"
                     onChange={(event) => setProfPic(event.target.value)}
                 />
+                <Button
+                    variant="contained"
+                    disabled={error}
+                    style={{
+                        maxWidth: "75%",
+                        width: "225px",
+                        marginTop: "15px",
+                        marginBottom: "15px",
+                        color: "#ffffff",
+                        backgroundColor: appThemeConstants.hanPurple,
+                    }}
+                >
+                    Set As Profile Pic
+                </Button>
             </div>
         </Dialog>
     );
