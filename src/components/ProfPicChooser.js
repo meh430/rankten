@@ -1,13 +1,16 @@
 import React, { useContext, useState } from "react";
-import { useTheme, Dialog, makeStyles, Avatar, TextField, Button } from "@material-ui/core";
+import { useTheme, Dialog, makeStyles, Avatar, TextField } from "@material-ui/core";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
+import ReactLoading from 'react-loading';
 
 import { BackButton } from "./BackButton";
 import { ActionButton } from "./ActionButton";
 import { UserContext } from "../Contexts";
-import { getTextTheme } from "../misc/AppTheme";
+import { appThemeConstants, getTextTheme } from "../misc/AppTheme";
 import { fieldTheme } from "./Login";
 import "../App.css";
+import { updateProfilePic } from "../api/UserRepo";
+import { UserReducerTypes } from "../reducers/UserReducer";
 
 const useStyles = makeStyles((theme) => ({
     avatar: {
@@ -27,6 +30,7 @@ export const ProfilePicChooser = (props) => {
     const textTheme = getTextTheme(currentTheme);
     const classes = useStyles();
 
+    const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
     const [profPic, setProfPic] = useState(user["prof_pic"]);
 
@@ -55,7 +59,18 @@ export const ProfilePicChooser = (props) => {
                     variant="outlined"
                     onChange={(event) => setProfPic(event.target.value)}
                 />
-                <ActionButton disabled={error} width="225px" onClick={() => console.log("click")} label="Set As Profile Pic"/>
+                {loading ? <ReactLoading type="bars" color={appThemeConstants.hanPurple} /> : <ActionButton disabled={error} width="225px" onClick={async () => {
+                    setLoading(true);
+                    const [e, res] = await updateProfilePic(profPic, userToken);
+                    if (e) {
+                        setError(true);
+                    } else {
+                        setError(false)
+                        userDispatch({ type: UserReducerTypes.updateProfilePicAction, payload: { profPic: profPic } });
+                        props.handleClose();
+                    }
+
+                }} label="Set As Profile Pic" />}
             </div>
         </Dialog>
     );
