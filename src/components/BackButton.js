@@ -8,7 +8,7 @@ export const BackButton = (props) => {
             class="fas fa-arrow-left"
             onClick={props.onClick}
             style={{
-                fontSize: "26px",
+                fontSize: "24px",
                 marginLeft: "20px",
                 color: props.color,
                 cursor: "pointer",

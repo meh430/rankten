@@ -3,7 +3,7 @@ import { Avatar, Card, CardContent, makeStyles, useTheme, Button } from "@materi
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import ReactLoading from "react-loading";
 
-import { ProfPicChooser } from './ProfPicChooser';
+import { CustomizedDialogs } from "./ProfPicChooser";
 import { resetUserContext, UserContext } from "../Contexts";
 import { getCardStyle, getTextTheme, appThemeConstants } from "../misc/AppTheme";
 import { followUser } from "../api/UserRepo";
@@ -83,14 +83,16 @@ const FollowButton = (props) => {
 //textTheme: object
 const UserBio = (props) => {
     return (
-        <div style={{alignSelf: "start", marginLeft: "30px"}}>
+        <div style={{ alignSelf: "start", marginLeft: "30px" }}>
             <h1 style={{ ...props.textTheme, textAlign: "start" }}>Bio</h1>
-            <h3 style={{ ...props.textTheme, textAlign: "start" }}>{props.bio === "" ? "This user does not have a bio" : props.bio}</h3>
+            <h3 style={{ ...props.textTheme, textAlign: "start" }}>
+                {props.bio === "" ? "This user does not have a bio" : props.bio}
+            </h3>
             <h1 style={{ ...props.textTheme, textAlign: "start" }}>Date Created</h1>
-            <h3 style={{ ...props.textTheme, textAlign: "start" }}>{tsToDate(props.date['$date'])}</h3>
+            <h3 style={{ ...props.textTheme, textAlign: "start" }}>{tsToDate(props.date["$date"])}</h3>
         </div>
     );
-}
+};
 
 //isMain: bool
 //user: object
@@ -144,6 +146,13 @@ export const UserInfo = (props) => {
         );
     }
 
+    const handleClickOpen = () => {
+        setProfPickerOpen(true);
+    };
+    const handleClose = () => {
+        setProfPickerOpen(false);
+    };
+
     return (
         <Card
             style={{
@@ -169,19 +178,19 @@ export const UserInfo = (props) => {
                         ))}
                     </div>
                 </div>
-                <UserBio textTheme={textTheme} bio={user['bio']} date={user['date_created']}/>
+                <UserBio textTheme={textTheme} bio={user["bio"]} date={user["date_created"]} />
                 {props.isMain ? (
                     <i style={{ display: "none" }} />
                 ) : (
-                        <FollowButton
-                            mainUser={mainUser}
-                            name={user["user_name"]}
-                            isFollowing={containsId(mainUser.user["following"], user["_id"])}
-                            id={user["_id"]}
-                        />
-                    )}
-                    
-            <ProfPicChooser show={profPickerOpen} onHide={() => setProfPickerOpen(false)}/>
+                    <FollowButton
+                        mainUser={mainUser}
+                        name={user["user_name"]}
+                        isFollowing={containsId(mainUser.user["following"], user["_id"])}
+                        id={user["_id"]}
+                    />
+                )}
+
+                <CustomizedDialogs open={profPickerOpen} handleClose={handleClose} handleClickOpen={handleClickOpen}/>
             </CardContent>
         </Card>
     );
