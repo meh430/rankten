@@ -51,6 +51,7 @@ export const ProfilePicChooser = (props) => {
                     <AccountCircleIcon className={classes.avIcon} />
                 </Avatar>
                 <TextField
+                    defaultValue={profPic}
                     error={error}
                     helperText={error ? "Image not valid" : ""}
                     style={fieldTheme}
@@ -69,6 +70,7 @@ export const ProfilePicChooser = (props) => {
                         userDispatch({ type: UserReducerTypes.updateProfilePicAction, payload: { profPic: profPic } });
                         props.handleClose();
                     }
+                    setLoading(false);
 
                 }} label="Set As Profile Pic" />}
             </div>
