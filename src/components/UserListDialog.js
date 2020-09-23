@@ -16,6 +16,12 @@ import { UserPreviewCard } from "./UserPreviewCard";
 export const UserListDialog = (props) => {
     const currentTheme = useTheme();
     const textTheme = getTextTheme(currentTheme);
+
+    const [usersList, setUsersList] = useState([]);
+    const [hitMax, setHitMax] = useState(false);
+    const [loading, setLoading] = useState(false);
+    const [pageNum, setPageNum] = useState(1);
+
     return (
         <Dialog onClose={props.handleClose} aria-labelledby="customized-dialog-title" open={props.open}>
             <div style={{ backgroundColor: currentTheme.palette.background.default }}>
