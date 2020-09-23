@@ -1,13 +1,12 @@
-import React from "react";
+import React, { useState } from "react";
 import { useTheme, Dialog } from "@material-ui/core";
 import ReactLoading from "react-loading";
 
 import { BackButton } from "./BackButton";
 import { ActionButton } from "./ActionButton";
-import { UserContext } from "../Contexts";
 import { appThemeConstants, getTextTheme } from "../misc/AppTheme";
-import "../App.css";
 import { UserPreviewCard } from "./UserPreviewCard";
+import "../App.css";
 
 //handleClose: callback
 //open: bool
