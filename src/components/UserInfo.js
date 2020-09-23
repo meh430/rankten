@@ -4,6 +4,7 @@ import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import ReactLoading from "react-loading";
 
 import { ProfilePicChooser } from "./ProfPicChooser";
+import { ActionButton } from "./ActionButton";
 import { resetUserContext, UserContext } from "../Contexts";
 import { getCardStyle, getTextTheme, appThemeConstants } from "../misc/AppTheme";
 import { followUser } from "../api/UserRepo";
@@ -46,7 +47,7 @@ const FollowButton = (props) => {
     return loading ? (
         <ReactLoading type="bubbles" color={appThemeConstants.hanPurple} />
     ) : (
-        <Button
+        <ActionButton
             onClick={async () => {
                 setLoading(true);
                 const [e, res] = await followUser(props.name, mainUser.userToken);
@@ -63,18 +64,9 @@ const FollowButton = (props) => {
                     setLoading(false);
                 }
             }}
-            variant="contained"
-            style={{
-                maxWidth: "75%",
-                width: "400px",
-                marginTop: "15px",
-                marginBottom: "15px",
-                color: "#ffffff",
-                backgroundColor: appThemeConstants.hanPurple,
-            }}
-        >
-            {following ? "Unfollow" : "Follow"}
-        </Button>
+            width="400px"
+            label={following ? "Unfollow" : "Follow"}
+        />
     );
 };
 
@@ -190,7 +182,7 @@ export const UserInfo = (props) => {
                     />
                 )}
 
-                <ProfilePicChooser open={profPickerOpen} handleClose={handleClose} handleClickOpen={handleClickOpen}/>
+                <ProfilePicChooser open={profPickerOpen} handleClose={handleClose} handleClickOpen={handleClickOpen} />
             </CardContent>
         </Card>
     );

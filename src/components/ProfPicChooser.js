@@ -3,16 +3,17 @@ import { useTheme, Dialog, makeStyles, Avatar, TextField, Button } from "@materi
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 
 import { BackButton } from "./BackButton";
+import { ActionButton } from "./ActionButton";
 import { UserContext } from "../Contexts";
 import { getTextTheme } from "../misc/AppTheme";
 import { fieldTheme } from "./Login";
-import { appThemeConstants } from '../misc/AppTheme';
 import "../App.css";
 
 const useStyles = makeStyles((theme) => ({
     avatar: {
         height: "200px",
         width: "200px",
+        marginBottom:"12px"
     },
     avIcon: {
         height: "100%",
@@ -54,20 +55,7 @@ export const ProfilePicChooser = (props) => {
                     variant="outlined"
                     onChange={(event) => setProfPic(event.target.value)}
                 />
-                <Button
-                    variant="contained"
-                    disabled={error}
-                    style={{
-                        maxWidth: "75%",
-                        width: "225px",
-                        marginTop: "15px",
-                        marginBottom: "15px",
-                        color: "#ffffff",
-                        backgroundColor: appThemeConstants.hanPurple,
-                    }}
-                >
-                    Set As Profile Pic
-                </Button>
+                <ActionButton disabled={error} width="225px" onClick={() => console.log("click")} label="Set As Profile Pic"/>
             </div>
         </Dialog>
     );
