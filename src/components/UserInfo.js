@@ -14,6 +14,7 @@ import "../App.css";
 
 const useStyles = makeStyles((theme) => ({
     avatar: {
+        cursor: "pointer",
         height: "100px",
         width: "100px",
     },
