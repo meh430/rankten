@@ -9,7 +9,6 @@ export const UserPreviewTypes = {
 
 /* 
     params: {
-        id: string,
         name: string,
         page: int,
         sort: int,
@@ -18,18 +17,18 @@ export const UserPreviewTypes = {
     } 
 */
 
-export async function getFollowing(params) {
-    var response = await api.get("/following/" + params.name);
+export async function getFollowing(name) {
+    var response = await api.get("/following/" + name);
     return response;
 }
 
-export async function getFollowers(params) {
-    var response = await api.get("/followers/" + params.name);
+export async function getFollowers(name) {
+    var response = await api.get("/followers/" + name);
     return response;
 }
 
-export async function getLikers(params) {
-    var response = await api.get("/like" + params.id);
+export async function getLikers(id) {
+    var response = await api.get("/like" + id);
     return response;
 }
 

@@ -28,7 +28,7 @@ export const UserPreviewCard = props => {
     const classes = useStyles();
 
     return (
-        <Card style={{...cardTheme}}>
+        <Card style={{...cardTheme, maxWidth: "100%", width: "400px", margin: "4px"}}>
             <div  className="col"  style={{paddingLeft: "12px", paddingRight: "12px", paddingTop: "14px"}}>
                 <div className="row" style={{alignItems: "center"}}>
                     <Avatar src={props.profPic} className={classes.avatar}>
