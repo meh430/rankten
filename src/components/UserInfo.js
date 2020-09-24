@@ -197,8 +197,20 @@ export const UserInfo = (props) => {
                     />
                 )}
 
-                <UserListDialog open={followersOpen} handleClose={() => setFollowersOpen(false)} title={user["user_name"] + "'s Followers"} type={UserPreviewTypes.followersList} name={user["user_name"]}/>
-                <UserListDialog open={followingOpen} handleClose={() => setFollowingOpen(false)} title={user["user_name"] + "'s Following"} type={UserPreviewTypes.followingList} name={user["user_name"]}/>
+                <UserListDialog
+                    open={followersOpen}
+                    handleClose={() => setFollowersOpen(false)}
+                    title={user["user_name"] + "'s Followers"}
+                    type={UserPreviewTypes.followersList}
+                    name={user["user_name"]}
+                />
+                <UserListDialog
+                    open={followingOpen}
+                    handleClose={() => setFollowingOpen(false)}
+                    title={user["user_name"] + "'s Following"}
+                    type={UserPreviewTypes.followingList}
+                    name={user["user_name"]}
+                />
                 <ProfilePicChooser open={profPickerOpen} handleClose={() => setProfPickerOpen(false)} />
             </CardContent>
         </Card>
