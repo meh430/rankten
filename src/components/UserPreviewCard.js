@@ -36,7 +36,7 @@ export const UserPreviewCard = props => {
                     </Avatar>
                     <h2 style={{...textTheme, paddingLeft: "20px"}}>{props.userName}</h2>
                 </div>
-                <h4 style={{ ...textTheme, paddingLeft: "6px", paddingRight: "6px" }}>{props.bio}</h4>
+                {props.bio ? <h4 style={{ ...textTheme, paddingLeft: "6px", paddingRight: "6px" }}>{props.bio}</h4> : <i style={{display: "none"}}/>}
             </div>
         </Card>
     );
