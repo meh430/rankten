@@ -21,6 +21,12 @@ export const fieldTheme = {
 export const NameField = (props) => {
     return (
         <TextField
+            onKeyPress={(event) => {
+                if (event.key === 'Enter') {
+                    props.onEnter();
+                    event.preventDefault();
+                }
+            }}
             error={props.error}
             helperText={props.error ? "Name can only have 3-15 characters" : ""}
             style={fieldTheme}
@@ -38,6 +44,12 @@ export const PasswordField = (props) => {
     return (
         <TextField
             error={props.error}
+            onKeyPress={(event) => {
+                if (event.key === 'Enter') {
+                    props.onEnter();
+                    event.preventDefault();
+                }
+            }}
             helperText={props.error ? "Password needs a number, an uppercase letter, and a special character" : ""}
             style={fieldTheme}
             id="password-field"
@@ -160,8 +172,8 @@ export const Login = (props) => {
         >
             <CardContent className="col" style={{ alignItems: "center", paddingBottom: "2px" }}>
                 <h1 style={textTheme}>Log In</h1>
-                <NameField error={nameError} onChange={(event) => (userName = event.target.value)} />
-                <PasswordField error={passwordError} onChange={(event) => (password = event.target.value)} />
+                <NameField error={nameError} onChange={(event) => (userName = event.target.value)} onEnter={submitLogin}/>
+                <PasswordField error={passwordError} onChange={(event) => (password = event.target.value)} onEnter={submitLogin}/>
                 <AuthSubmit loading={loading} isLogin={true} onClick={() => submitLogin()} />
                 <AltAuth textTheme={textTheme} isLogin={true} onClick={() => props.setLogin(false)} />
             </CardContent>

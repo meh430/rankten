@@ -7,8 +7,8 @@ import { signupUser } from "../api/Auth";
 import { UserContext } from "../Contexts";
 import { UserReducerTypes } from "../reducers/UserReducer";
 import { getCardStyle, getTextTheme } from "../misc/AppTheme";
-
 import "../App.css";
+
 let userName = "";
 let password = "";
 let bio = "";
@@ -90,9 +90,15 @@ export const SignUp = (props) => {
         >
             <CardContent className="col" style={{ alignItems: "center", paddingBottom: "2px" }}>
                 <h1 style={textTheme}>Sign Up</h1>
-                <NameField error={nameError} onChange={(event) => (userName = event.target.value)} />
-                <PasswordField error={passwordError} onChange={(event) => (password = event.target.value)} />
+                <NameField error={nameError} onChange={(event) => (userName = event.target.value)} onEnter={submitSignup}/>
+                <PasswordField error={passwordError} onChange={(event) => (password = event.target.value)} onEnter={submitSignup}/>
                 <TextField
+                    onKeyPress={(event) => {
+                        if (event.key === 'Enter') {
+                            submitSignup();
+                            event.preventDefault();
+                        }
+                    }}
                     style={fieldTheme}
                     label="Bio"
                     multiline
