@@ -208,7 +208,7 @@ export const MainRoute = (props) => {
                     >
                         <MenuIcon />
                     </IconButton>
-                    <div style={{ display: "flex", flexDirection: "row", justifyContent: "center", width: "90%" }}>
+                    <div style={{ display: "flex", flexDirection: "row", justifyContent: "center", width: "90%", alignSelf: "center", justifySelf: "center" }}>
                         <TextField
                             style={{ width: "550px", maxWidth: "90%", margin: "12px" }}
                             variant="outlined"
@@ -225,7 +225,6 @@ export const MainRoute = (props) => {
                 </Toolbar>
             </AppBar>
             <nav className={classes.drawer} aria-label="mailbox folders">
-                {/* The implementation can be swapped with js to avoid SEO duplication of links. */}
                 <Hidden smUp implementation="css">
                     <Drawer
                         container={container}
@@ -237,7 +236,7 @@ export const MainRoute = (props) => {
                             paper: classes.drawerPaper,
                         }}
                         ModalProps={{
-                            keepMounted: true, // Better open performance on mobile.
+                            keepMounted: true,
                         }}
                     >
                         {drawer}
