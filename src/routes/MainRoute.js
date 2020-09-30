@@ -1,5 +1,5 @@
 import React, { useContext, useState } from "react";
-import { Switch, Route, Link } from "react-router-dom";
+import { Switch, Route, Link, useHistory } from "react-router-dom";
 import {
     TextField,
     Drawer,
@@ -29,10 +29,11 @@ import { appThemeConstants } from "../misc/AppTheme";
 import { Logo } from "../components/Logo";
 import { Profile } from "../components/Profile";
 import "../App.css";
+import { SearchUsers } from "../components/SearchUsers";
 
 const renderOtherProfile = (routerProps) => {
     let userName = routerProps.match.params.name;
-    return <Profile userName={userName} isMain={false}/>
+    return <Profile userName={userName} isMain={false} />;
 };
 
 const drawerWidth = 240;
@@ -80,6 +81,9 @@ const useStyles = makeStyles((theme) => ({
         marginTop: "4px",
     },
 }));
+
+let searchQuery = "";
+
 export const MainRoute = (props) => {
     const { window } = props;
     const currentTheme = useTheme();
@@ -89,6 +93,8 @@ export const MainRoute = (props) => {
     const [mobileOpen, setMobileOpen] = useState(false);
     const [tabIndex, setTabIndex] = useState(getMainTab());
     const [themeSwitch, setThemeSwitch] = useState(currentTheme.palette.type);
+
+    const history = useHistory();
 
     const onThemeChange = () => {
         const newTheme = themeSwitch === "dark" ? "light" : "dark";
@@ -207,6 +213,14 @@ export const MainRoute = (props) => {
                             style={{ width: "550px", maxWidth: "90%", margin: "12px" }}
                             variant="outlined"
                             placeholder="Search..."
+                            onKeyPress={(event) => {
+                                
+                                if (event.key === "Enter") {
+                                    history.push('/main/search_users/' + searchQuery);
+                                    event.preventDefault();
+                                }
+                            }}
+                            onChange={(event) => searchQuery = event.target.value}
                         />
                     </div>
                 </Toolbar>
@@ -247,9 +261,12 @@ export const MainRoute = (props) => {
                 <Switch>
                     <Route path="/main" component={() => <h1>Feed</h1>} exact />
                     <Route path="/main/discover" component={() => <h1>Discover</h1>} />
-                    <Route path="/main/search" component={() => <h1>Search</h1>} />
-                    <Route path="/main/profile" render= {() => <Profile isMain={true}/>} exact/>
-                    <Route path="/main/profile/:name" render={(routerProps) => renderOtherProfile(routerProps)}/>
+                    <Route path="/main/search_users/:query" render={(routerProps) => {
+                        return <SearchUsers query={routerProps.match.params.query}/>;
+                    }}/>
+                    <Route path="/main/search_lists/:query" component={() => <h1>Search</h1>} />
+                    <Route path="/main/profile" render={() => <Profile isMain={true} />} exact />
+                    <Route path="/main/profile/:name" render={(routerProps) => renderOtherProfile(routerProps)} />
                 </Switch>
             </main>
         </div>

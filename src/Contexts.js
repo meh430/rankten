@@ -12,7 +12,6 @@ export const resetUserContext = async (userContext) => {
     if (e) {
         await resetUserContext(userContext);
     } else {
-        console.log(loggedIn);
         userContext.setUserToken(getToken());
         userContext.userDispatch({ type: UserReducerTypes.getUserAction, payload: { user: loggedIn } });
     }

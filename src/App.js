@@ -44,7 +44,6 @@ const appThemeDark = {
 const App = () => {
     const [user, userDispatch] = useReducer(userReducer, null);
     const [userToken, setUserToken] = useState(getToken());
-    console.log("Stored Token: " + userToken);
     const [theme, setTheme] = useState(getCurrentTheme());
 
     const userValue = useMemo(() => ({ user, userDispatch, userToken, setUserToken }), [
