@@ -41,10 +41,10 @@ export const UserListDialog = (props) => {
                 }}
             >
                 <div
-                    class="row"
+                    className="row"
                     style={{
                         alignItems: "center",
-                        width: "420px",
+                        width: "320px",
                         maxWidth: "100%",
                         position: "sticky",
                         top: "0",
@@ -61,7 +61,7 @@ export const UserListDialog = (props) => {
                         alignItems: "center",
                         overscrollBehaviorY: "scroll",
                         maxHeight: "90%",
-                        width: "420px",
+                        width: "320px",
                         maxWidth: "100%",
                         marginBottom: "6px",
                     }}
@@ -76,7 +76,6 @@ export const UserListDialog = (props) => {
                                 key={`user_${user['user_name']}`}
                                 userName={user["user_name"]}
                                 profPic={user["prof_pic"]}
-                                bio={user["bio"]}
                             />
                         ))
                     )}

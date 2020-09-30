@@ -19,7 +19,6 @@ const useStyles = makeStyles((theme) => ({
 
 //profPic: string
 //userName: string
-//bio: string
 export const UserPreviewCard = (props) => {
     const history = useHistory();
     const currentTheme = useTheme();
