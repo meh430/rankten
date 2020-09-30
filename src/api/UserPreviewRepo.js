@@ -33,7 +33,7 @@ export async function getLikers(id) {
 }
 
 export async function searchUsers(params) {
-    var [e, res] = await api.get("/search_users/" + params.page + "/" + params.sort + "?=" + params.query);
+    var [e, res] = await api.get("/search_users/" + params.page + "/" + params.sort + "?q=" + params.query);
     if (e) {
         return res.includes("page") ? [false, true, []] : [e, false, []]
     } else {
