@@ -38,36 +38,20 @@ export const SearchUsers = (props) => {
         })();
     }, [props.query]);
 
-    useEffect(() => {
-        (async () => {
-            setLoading(true);
-            const [e, lastPage, res] = await searchUsers({ page: page, sort: sort, query: props.query });
-            setHitMax(lastPage);
-            if (!e) {
-                setUserList([...userList, ...res]);
-            }
-            setLoading(false);
-        })();
-    }, [page]);
-
-    useEffect(() => {
+    const handleClose = (sortOption) => {
         (async () => {
             setPage(1);
             setLoading(true);
-            const [e, lastPage, res] = await searchUsers({ page: 1, sort: sort, query: props.query });
+            const [e, lastPage, res] = await searchUsers({ page: 1, sort: sortOption, query: props.query });
             setHitMax(lastPage);
             if (!e) {
                 setUserList([...res]);
             }
             setLoading(false);
+            setSort(sortOption);
+            setAnchor(null);
         })();
-    }, [sort]);
-
-
-    const handleClose = (sortOption) => {
-        setSort(sortOption);
-        setAnchor(null);
-    }
+    };
 
     return (
         <div className="col" style={{ alignItems: "center", width: "100%" }}>
@@ -76,7 +60,10 @@ export const SearchUsers = (props) => {
                 style={{ alignItems: "center", justifyContent: "start", width: "800px", maxWidth: "100%" }}
             >
                 <h2 style={textTheme}>Searching for users "{props.query}"</h2>
-                <SortIcon style={{ marginLeft: "10px", cursor: "pointer" }} onClick={(event) => setAnchor(event.currentTarget)}/>
+                <SortIcon
+                    style={{ marginLeft: "10px", cursor: "pointer" }}
+                    onClick={(event) => setAnchor(event.currentTarget)}
+                />
                 <Menu id="simple-menu" anchorEl={anchor} keepMounted open={Boolean(anchor)} onClose={handleClose}>
                     <MenuItem onClick={() => handleClose(SortOptions.likesDesc)}>Likes</MenuItem>
                     <MenuItem onClick={() => handleClose(SortOptions.dateAsc)}>Oldest to Newest</MenuItem>
@@ -105,7 +92,18 @@ export const SearchUsers = (props) => {
                 <ActionButton
                     label="Load more"
                     width="120px"
-                    onClick={() => {
+                    onClick={async () => {
+                        setLoading(true);
+                        const [e, lastPage, res] = await searchUsers({
+                            page: page + 1,
+                            sort: sort,
+                            query: props.query,
+                        });
+                        setHitMax(lastPage);
+                        if (!e) {
+                            setUserList([...userList, ...res]);
+                        }
+                        setLoading(false);
                         setPage(page + 1);
                     }}
                 />
