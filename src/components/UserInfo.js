@@ -1,8 +1,10 @@
 import React, { useContext, useState } from "react";
-import { Avatar, Card, CardContent, makeStyles, useTheme, Button } from "@material-ui/core";
+import { Avatar, Card, CardContent, makeStyles, useTheme } from "@material-ui/core";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import ReactLoading from "react-loading";
 
+import { UserListDialog } from "./UserListDialog";
+import { UserPreviewTypes } from "../api/UserPreviewRepo";
 import { ProfilePicChooser } from "./ProfPicChooser";
 import { ActionButton } from "./ActionButton";
 import { resetUserContext, UserContext } from "../Contexts";
@@ -11,8 +13,6 @@ import { followUser } from "../api/UserRepo";
 import { UserReducerTypes } from "../reducers/UserReducer";
 import { containsId, tsToDate } from "../misc/Utils";
 import "../App.css";
-import { UserListDialog } from "./UserListDialog";
-import { UserPreviewTypes } from "../api/UserPreviewRepo";
 
 const useStyles = makeStyles((theme) => ({
     avatar: {
