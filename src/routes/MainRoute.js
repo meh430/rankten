@@ -213,8 +213,7 @@ export const MainRoute = (props) => {
                             style={{ width: "550px", maxWidth: "90%", margin: "12px" }}
                             variant="outlined"
                             placeholder="Search..."
-                            onKeyPress={(event) => {
-                                
+                            onKeyPress={(event) => {                                
                                 if (event.key === "Enter") {
                                     history.push('/main/search_users/' + searchQuery);
                                     event.preventDefault();
