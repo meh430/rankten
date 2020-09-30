@@ -170,7 +170,11 @@ export const UserInfo = (props) => {
             <CardContent className="col" style={{ alignItems: "center" }}>
                 <h1 style={textTheme}>{user["user_name"]}</h1>
                 <div className="row" style={{ justifyContent: "space-around", alignItems: "center", width: "100%" }}>
-                    <Avatar src={avatarSrc} className={classes.avatar} onClick={() => setProfPickerOpen(true)}>
+                    <Avatar src={avatarSrc} className={classes.avatar} onClick={() => {
+                        if (props.isMain) {
+                            setProfPickerOpen(true)
+                        }
+                    }}>
                         <AccountCircleIcon className={classes.avIcon} />
                     </Avatar>
                     <div className="row" style={{ flexWrap: "wrap", justifyContent: "space-evenly" }}>
