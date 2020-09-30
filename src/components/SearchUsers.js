@@ -23,20 +23,48 @@ export const SearchUsers = (props) => {
 
     useEffect(() => {
         (async () => {
+            setUserList([]);
+            setPage(1);
+            setSort(SortOptions.likesDesc);
             setLoading(true);
-            const [e, lastPage, res] = await searchUsers({ page: page, sort: sort, query: props.query });
+            const [e, lastPage, res] = await searchUsers({ page: 1, sort: SortOptions.likesDesc, query: props.query });
             setHitMax(lastPage);
             if (!e) {
                 setUserList([...res]);
             }
             setLoading(false);
         })();
-    }, [page, sort, props.query]);
+    }, [props.query]);
+
+    useEffect(() => {
+        (async () => {
+            setLoading(true);
+            const [e, lastPage, res] = await searchUsers({ page: page, sort: sort, query: props.query });
+            setHitMax(lastPage);
+            if (!e) {
+                setUserList([...userList, ...res]);
+            }
+            setLoading(false);
+        })();
+    }, [page]);
+
+    useEffect(() => {
+        (async () => {
+            setPage(1);
+            setLoading(true);
+            const [e, lastPage, res] = await searchUsers({ page: 1, sort: sort, query: props.query });
+            setHitMax(lastPage);
+            if (!e) {
+                setUserList([...res]);
+            }
+            setLoading(false);
+        })();
+    }, [sort]);
 
     return (
         <div className="col" style={{ alignItems: "center", width: "100%" }}>
             <h2 style={textTheme}>Searching for users "{props.query}"</h2>
-            <div className="row" style={{ justifyContent: "center", flexWrap: "wrap", width: "100%"}}>
+            <div className="row" style={{ justifyContent: "center", flexWrap: "wrap", width: "80%" }}>
                 {userList.length ? (
                     userList.map((user) => (
                         <UserPreviewCard
@@ -55,7 +83,13 @@ export const SearchUsers = (props) => {
             ) : hitMax ? (
                 <i style={{ display: "none" }} />
             ) : (
-                <ActionButton label="Load more" width="120px" onClick={() => console.log("load more")} />
+                <ActionButton
+                    label="Load more"
+                    width="120px"
+                    onClick={() => {
+                        setPage(page + 1);
+                    }}
+                />
             )}
         </div>
     );
