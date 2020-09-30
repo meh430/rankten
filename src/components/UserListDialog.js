@@ -1,9 +1,8 @@
 import React, { useEffect, useState } from "react";
-import { useTheme, Dialog, DialogTitle } from "@material-ui/core";
+import { useTheme, Dialog } from "@material-ui/core";
 import ReactLoading from "react-loading";
 
 import { BackButton } from "./BackButton";
-import { ActionButton } from "./ActionButton";
 import { appThemeConstants, getTextTheme } from "../misc/AppTheme";
 import { UserPreviewCard } from "./UserPreviewCard";
 import { UserPreviewTypes, getFollowers, getFollowing, getLikers } from "../api/UserPreviewRepo";
@@ -29,7 +28,7 @@ export const UserListDialog = (props) => {
             }
             setLoading(false);
         })();
-    }, [props.type]);
+    }, [props.type, props.name]);
 
     return (
         <Dialog onClose={props.handleClose} aria-labelledby="customized-dialog-title" open={props.open}>
@@ -69,7 +68,7 @@ export const UserListDialog = (props) => {
                 >
                     {loading ? (
                         <ReactLoading type="bars" color={appThemeConstants.hanPurple} />
-                    ) : usersList.length == 0 ? (
+                    ) : !usersList.length ? (
                         <h3 style={textTheme}>No users found</h3>
                     ) : (
                         usersList.map((user) => (
@@ -91,12 +90,11 @@ function getUsers(type) {
     switch (type) {
         case UserPreviewTypes.followersList:
             return getFollowers;
-            break;
         case UserPreviewTypes.followingList:
             return getFollowing;
-            break;
         case UserPreviewTypes.likersList:
             return getLikers;
-            break;
+        default:
+            throw new Error("Bro what are you doing?");
     }
 }
