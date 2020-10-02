@@ -21,3 +21,33 @@ export function tsToDate(timeStamp) {
     const date = new Date(timeStamp);
     return `${months[date.getMonth()]} ${date.getDate()}, ${date.getFullYear()}`
 }
+
+export function tsToDelta(timeStamp) {
+    const mins = 1000 * 60;
+    const date = new Date(timeStamp);
+    const currentDate = new Date.now();
+    const diffInMs = currentDate.getTime() - date.getTime();
+
+    const diffInDays = diffInMs / (mins * 60 * 24);
+    const diffInHours = diffInMs / (mins * 60);
+    const diffInMinutes = diffInMs / mins;
+    const diffInSec = diffInMs / 1000;
+
+    if (diffInSec <= 0 || (diffInSec >= 0 && diffInSec < 60)) {
+        return 'Just Now';
+    } else if (diffInMinutes >= 1 && diffInMinutes < 60) {
+        return Math.round(diffInMinutes) + 'm ago';
+    } else if (diffInHours >= 1 && diffInHours < 24) {
+        return Math.round(diffInHours) + 'h ago';
+    } else if (diffInDays >= 1 && diffInDays < 30) {
+        if (diffInDays >= 1 && diffInDays < 7) {
+            return Math.round(diffInDays) + 'd ago'
+        } else {
+            return Math.round(diffInDays / 7) + 'w ago';
+        }
+    } else if (diffInDays >= 30 && diffInDays < 365) {
+        return Math.round(diffInDays / 30) + 'mo ago';
+    } else {
+        return Math.round(diffInDays / 365) + 'y ago';
+    }
+}
