@@ -28,11 +28,12 @@ export const RankedListCard = props => {
     const cardStyle = getCardStyle(currentTheme);
     const textTheme = getTextTheme(currentTheme);
     return (
-        <Card style={{...cardStyle, width: "400px", padding: "10px"}}>
+        <Card style={{...cardStyle, width: "400px", maxWidth: "98%", padding: "10px"}}>
             <div className="col">
                 <CardHeader textTheme={{ color: currentTheme.palette.type === "dark" ? "white" : "#666666", fontFamily: appThemeConstants.fontFamily }} />
-                <h2 style={textTheme}>Kid's Shows</h2>
-                
+                <h2 style={{ ...textTheme, marginTop: "0px" }}>Kid's Shows</h2>
+                <img style={{borderRadius: "15px", width: "375px", maxWidth: "98%", alignSelf: "center"}}
+                    src="https://image.winudf.com/v2/image/Y29tLmJsYWNra29waS5iYWt1Z2FuYmF0dGxlYnJ3YWxlcnNfc2NyZWVuXzRfMTUzMTIxNzAyNl8wNDE/screen-4.jpg?fakeurl=1&type=.jpg" />
             </div>
         </Card>
     )
