@@ -3,7 +3,7 @@ import { Avatar, Card, useTheme } from '@material-ui/core';
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 
 import '../App.css';
-import { appThemeConstants, getCardStyle } from '../misc/AppTheme';
+import { appThemeConstants, getCardStyle, getTextTheme } from '../misc/AppTheme';
 
 // name: string
 // profPic: string
@@ -26,10 +26,13 @@ export const CardHeader = props => {
 export const RankedListCard = props => {
     const currentTheme = useTheme();
     const cardStyle = getCardStyle(currentTheme);
+    const textTheme = getTextTheme(currentTheme);
     return (
         <Card style={{...cardStyle, width: "400px", padding: "10px"}}>
             <div className="col">
-                <CardHeader textTheme={{color: currentTheme.palette.type === "dark" ? "white" : "#666666", fontFamily: appThemeConstants.fontFamily}}/>
+                <CardHeader textTheme={{ color: currentTheme.palette.type === "dark" ? "white" : "#666666", fontFamily: appThemeConstants.fontFamily }} />
+                <h2 style={textTheme}>Kid's Shows</h2>
+                
             </div>
         </Card>
     )
