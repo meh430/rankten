@@ -11,7 +11,7 @@ import { resetUserContext, UserContext } from "../Contexts";
 import { getCardStyle, getTextTheme, appThemeConstants } from "../misc/AppTheme";
 import { followUser } from "../api/UserRepo";
 import { UserReducerTypes } from "../reducers/UserReducer";
-import { containsId, tsToDate } from "../misc/Utils";
+import { containsId, tsToDate, tsToDelta } from "../misc/Utils";
 import "../App.css";
 
 const useStyles = makeStyles((theme) => ({
@@ -87,6 +87,7 @@ const FollowButton = (props) => {
 //date: object
 //textTheme: object
 const UserBio = (props) => {
+    console.log(tsToDelta(props.date['$date']));
     return (
         <div style={{ alignSelf: "start", marginLeft: "30px" }}>
             <h1 style={{ ...props.textTheme, textAlign: "start" }}>Bio</h1>
