@@ -87,7 +87,6 @@ const FollowButton = (props) => {
 //date: object
 //textTheme: object
 const UserBio = (props) => {
-    console.log(tsToDelta(props.date['$date']));
     return (
         <div style={{ alignSelf: "start", marginLeft: "30px" }}>
             <h1 style={{ ...props.textTheme, textAlign: "start" }}>Bio</h1>

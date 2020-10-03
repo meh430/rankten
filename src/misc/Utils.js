@@ -26,7 +26,6 @@ export function tsToDelta(timeStamp) {
     const mins = 1000 * 60;
     const date = new Date(timeStamp);
     const currentDate = Date.now();
-    console.log(currentDate);
     const diffInMs = currentDate - date.getTime();
 
     const diffInDays = diffInMs / (mins * 60 * 24);

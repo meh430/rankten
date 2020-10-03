@@ -6,6 +6,7 @@ import { UserInfo } from "./UserInfo";
 import { getUser } from "../api/UserRepo";
 import "../App.css";
 import { appThemeConstants, getTextTheme } from "../misc/AppTheme";
+import { RankedListCard } from "./RankedListCard";
 
 //isMain: bool
 //userName: string
@@ -15,6 +16,10 @@ export const Profile = (props) => {
     const currentTheme = useTheme();
     useEffect(() => {
         (async () => {
+            if (props.isMain) {
+                return;    
+            }
+
             const [e, userInfo] = await getUser(props.userName);
             if (e) {
                 setErrorState(e);
@@ -28,6 +33,7 @@ export const Profile = (props) => {
         return (
             <div className="col" style={{ alignItems: "center" }}>
                 <UserInfo isMain={true} />
+                <RankedListCard/>
             </div>
         );
     } else {
