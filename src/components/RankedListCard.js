@@ -14,18 +14,21 @@ export const RankItemPreview = (props) => {
             <Avatar
                 style={{ height: "65px", width: "65px", backgroundColor: appThemeConstants.lavender, margin: "12px" }}
             >
-                <h3 style={{ fontFamily: appThemeConstants.fontFamily, color: "white", fontSize: "32px" }}>1</h3>
+                <h3 style={{ fontFamily: appThemeConstants.fontFamily, color: "white", fontSize: "32px" }}>
+                    {props.rank}
+                </h3>
             </Avatar>
             <h3
                 style={{
                     ...props.textTheme,
+                    margin: "0px",
                     fontSize: "30px",
                     whiteSpace: "nowrap",
                     overflow: "hidden",
                     textOverflow: "ellipsis",
                 }}
             >
-                Bakugan Lol
+                {props.itemName}
             </h3>
         </div>
     );
@@ -67,7 +70,27 @@ export const RankedListCard = (props) => {
                     style={{ borderRadius: "15px", width: "375px", maxWidth: "98%", alignSelf: "center" }}
                     src="https://image.winudf.com/v2/image/Y29tLmJsYWNra29waS5iYWt1Z2FuYmF0dGxlYnJ3YWxlcnNfc2NyZWVuXzRfMTUzMTIxNzAyNl8wNDE/screen-4.jpg?fakeurl=1&type=.jpg"
                 />
-                <RankItemPreview textTheme={textTheme} />
+                {[
+                    {
+                        rank: "1",
+                        item_name: "Bakugan",
+                    },
+                    {
+                        rank: "2",
+                        item_name: "Pokemon",
+                    },
+                    {
+                        rank: "3",
+                        item_name: "Some other show",
+                    },
+                ].map((rItem) => (
+                    <RankItemPreview
+                        textTheme={textTheme}
+                        rank={rItem.rank}
+                        itemName={rItem["item_name"]}
+                        key={`rank_${rItem.rank}`}
+                    />
+                ))}
             </div>
         </Card>
     );
