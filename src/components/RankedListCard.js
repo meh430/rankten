@@ -89,7 +89,16 @@ export const RankedListCard = (props) => {
     const cardStyle = getCardStyle(currentTheme);
     const textTheme = getTextTheme(currentTheme);
     return (
-        <Card style={{ ...cardStyle, width: "400px", maxWidth: "98%", padding: "10px" }}>
+        <Card
+            style={{
+                ...cardStyle,
+                width: "400px",
+                maxWidth: "98%",
+                paddingLeft: "10px",
+                paddingRight: "10px",
+                paddingTop: "10px",
+            }}
+        >
             <div className="col" style={{ width: "100%" }}>
                 <CardHeader
                     textTheme={{
