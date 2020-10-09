@@ -1,9 +1,29 @@
-import React from "react";
+import React, { useState } from "react";
 import { Avatar, Card, useTheme } from "@material-ui/core";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
+import FavoriteIcon from '@material-ui/icons/Favorite';
+import FavoriteBorderIcon from '@material-ui/icons/FavoriteBorder';
 
 import { appThemeConstants, getCardStyle, getTextTheme } from "../misc/AppTheme";
+
 import "../App.css";
+
+
+// textTheme: object
+export const LikeBar = props => {
+    const [liked, setLiked] = useState(false);//get from props?
+
+    const onLike = () => setLiked(!liked)
+
+    const likeStyle = {color: "red", height: "40px", width: "40px"}
+
+    return (
+        <div className="row" style={{ justifyContent: "space-between", alignItems: "center", paddingLeft: "12px", paddingRight: "12px" , cursor: "pointer"}}>
+            {liked ? <FavoriteIcon onClick={onLike} style={likeStyle}/> : <FavoriteBorderIcon onClick={onLike} style={likeStyle}/>}
+            <h3 style={props.textTheme}>{5} likes</h3>
+        </div>
+    );
+}
 
 // rank: number
 // itemName: string
@@ -91,6 +111,7 @@ export const RankedListCard = (props) => {
                         key={`rank_${rItem.rank}`}
                     />
                 ))}
+                <LikeBar textTheme={textTheme}/>
             </div>
         </Card>
     );
