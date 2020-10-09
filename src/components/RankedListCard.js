@@ -8,13 +8,25 @@ import { appThemeConstants, getCardStyle, getTextTheme } from "../misc/AppTheme"
 
 import "../App.css";
 
+//cardTheme: object
+//theme: object
+export const CommentPreview = (props) => {
+    return (
+        <Card style={props.cardStyle}>
+            <div className="col">
+                <CardHeader isDark={props.isDark} />
+            </div>
+        </Card>
+    );
+};
+
 // textTheme: object
 export const LikeBar = (props) => {
     const [liked, setLiked] = useState(false); //get from props?
 
     const onLike = () => setLiked(!liked);
 
-    const likeStyle = { color: "red", height: "40px", width: "40px" };
+    const likeStyle = { color: "red", height: "45px", width: "45px" };
 
     return (
         <div
@@ -32,7 +44,7 @@ export const LikeBar = (props) => {
             ) : (
                 <FavoriteBorderIcon onClick={onLike} style={likeStyle} />
             )}
-            <h3 style={props.textTheme}>{5} likes</h3>
+            <h3 style={{ ...props.textTheme, fontSize: "20px" }}>{5} likes</h3>
         </div>
     );
 };
@@ -69,17 +81,21 @@ export const RankItemPreview = (props) => {
 // name: string
 // profPic: string
 // timeStamp: number
-// textTheme: object
+// isDark: bool
 export const CardHeader = (props) => {
+    const secondTextTheme = {
+        color: props.isDark ? "white" : "#666666",
+        fontFamily: appThemeConstants.fontFamily,
+    };
     return (
         <div className="row" style={{ justifyContent: "space-between" }}>
             <div className="row">
                 <Avatar style={{ height: "50px", width: "50px", marginRight: "12px" }}>
                     <AccountCircleIcon style={{ height: "100%", width: "100%" }} />
                 </Avatar>
-                <h3 style={props.textTheme}>meh4life</h3>
+                <h3 style={secondTextTheme}>meh4life</h3>
             </div>
-            <h3 style={{ ...props.textTheme, marginRight: "4px" }}>2h ago</h3>
+            <h3 style={{ ...secondTextTheme, marginRight: "4px" }}>2h ago</h3>
         </div>
     );
 };
@@ -100,12 +116,7 @@ export const RankedListCard = (props) => {
             }}
         >
             <div className="col" style={{ width: "100%" }}>
-                <CardHeader
-                    textTheme={{
-                        color: currentTheme.palette.type === "dark" ? "white" : "#666666",
-                        fontFamily: appThemeConstants.fontFamily,
-                    }}
-                />
+                <CardHeader isDark={currentTheme.palette.type === "dark"} />
                 <h2 style={{ ...textTheme, marginTop: "0px" }}>Kid's Shows</h2>
                 <img
                     style={{ borderRadius: "15px", width: "375px", maxWidth: "98%", alignSelf: "center" }}
@@ -133,6 +144,20 @@ export const RankedListCard = (props) => {
                     />
                 ))}
                 <LikeBar textTheme={textTheme} />
+                <CommentPreview
+                    isDark={currentTheme.palette.type === "dark"}
+                    cardStyle={{
+                        ...cardStyle,
+                        margin: "0px",
+                        marginBottom: "10px",
+                        width: "100%",
+                        padding: "4px",
+                        backgroundColor:
+                            currentTheme.palette.type === "dark"
+                                ? appThemeConstants.hanPurple
+                                : appThemeConstants.palePurple,
+                    }}
+                />
             </div>
         </Card>
     );
