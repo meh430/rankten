@@ -23,6 +23,7 @@ export const GenericList = (props) => {
             const [e, lastPage, res] = await getRankedListPreview(
                 getParams(page, props.sort, props.name, props.token, props.query, false, props.listType)
             );
+            setHitMax(lastPage);
             if (!e) {
                 setRankedLists([...res]);
             }
