@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from 'react';
 
+let page = 1;
+
 //sort: int
 //name: string
 //token: string

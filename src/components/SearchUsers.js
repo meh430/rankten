@@ -33,22 +33,22 @@ export const SortMenu = (props) => {
     );
 };
 
+let page = 1;
+let sort = SortOptions.likesDesc;
 //query: string
 export const SearchUsers = (props) => {
     const currentTheme = useTheme();
     const textTheme = getTextTheme(currentTheme);
 
     const [userList, setUserList] = useState([]);
-    const [page, setPage] = useState(1);
-    const [sort, setSort] = useState(SortOptions.likesDesc);
     const [hitMax, setHitMax] = useState(false);
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
         (async () => {
             setUserList([]);
-            setPage(1);
-            setSort(SortOptions.likesDesc);
+            page = 1;
+            sort = SortOptions.likesDesc;
             setLoading(true);
             const [e, lastPage, res] = await searchUsers({ page: 1, sort: SortOptions.likesDesc, query: props.query });
             setHitMax(lastPage);
@@ -61,7 +61,7 @@ export const SearchUsers = (props) => {
 
     const onSort = (sortOption) => {
         (async () => {
-            setPage(1);
+            page = 1;
             setLoading(true);
             const [e, lastPage, res] = await searchUsers({ page: 1, sort: sortOption, query: props.query });
             setHitMax(lastPage);
@@ -69,7 +69,7 @@ export const SearchUsers = (props) => {
                 setUserList([...res]);
             }
             setLoading(false);
-            setSort(sortOption);
+            sort = sortOption;
         })();
     };
 
@@ -115,7 +115,7 @@ export const SearchUsers = (props) => {
                             setUserList([...userList, ...res]);
                         }
                         setLoading(false);
-                        setPage(page + 1);
+                        page += 1;
                     }}
                 />
             )}
