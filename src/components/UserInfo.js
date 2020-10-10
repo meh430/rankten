@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import { Avatar, Card, CardContent, makeStyles, useTheme } from "@material-ui/core";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
+import EditIcon from "@material-ui/icons/Edit";
 import ReactLoading from "react-loading";
 
 import { UserListDialog } from "./UserListDialog";
@@ -86,10 +87,16 @@ const FollowButton = (props) => {
 //bio: string
 //date: object
 //textTheme: object
+//isMain: bool
 const UserBio = (props) => {
     return (
         <div style={{ alignSelf: "start", marginLeft: "30px" }}>
-            <h1 style={{ ...props.textTheme, textAlign: "start" }}>Bio</h1>
+            <div className="row" style={{ alignItems: "center" }}>
+                <h1 style={{ ...props.textTheme, textAlign: "start" }}>Bio</h1>
+                <EditIcon
+                    style={{ marginLeft: "12px", cursor: "pointer", display: props.isMain ? "inline" : "none" }}
+                />
+            </div>
             <h3 style={{ ...props.textTheme, textAlign: "start" }}>
                 {props.bio === "" ? "This user does not have a bio" : props.bio}
             </h3>
@@ -170,11 +177,15 @@ export const UserInfo = (props) => {
             <CardContent className="col" style={{ alignItems: "center" }}>
                 <h1 style={textTheme}>{user["user_name"]}</h1>
                 <div className="row" style={{ justifyContent: "space-around", alignItems: "center", width: "100%" }}>
-                    <Avatar src={avatarSrc} className={classes.avatar} onClick={() => {
-                        if (props.isMain) {
-                            setProfPickerOpen(true)
-                        }
-                    }}>
+                    <Avatar
+                        src={avatarSrc}
+                        className={classes.avatar}
+                        onClick={() => {
+                            if (props.isMain) {
+                                setProfPickerOpen(true);
+                            }
+                        }}
+                    >
                         <AccountCircleIcon className={classes.avIcon} />
                     </Avatar>
                     <div className="row" style={{ flexWrap: "wrap", justifyContent: "space-evenly" }}>
@@ -189,7 +200,7 @@ export const UserInfo = (props) => {
                         ))}
                     </div>
                 </div>
-                <UserBio textTheme={textTheme} bio={user["bio"]} date={user["date_created"]} />
+                <UserBio isMain={props.isMain} textTheme={textTheme} bio={user["bio"]} date={user["date_created"]} />
                 {props.isMain ? (
                     <i style={{ display: "none" }} />
                 ) : (
