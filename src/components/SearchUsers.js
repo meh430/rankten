@@ -44,6 +44,7 @@ export const SearchUsers = (props) => {
     const [hitMax, setHitMax] = useState(false);
     const [loading, setLoading] = useState(false);
 
+    //TODO: PLS DO SOME BETTER ERROR HANDLING and clean up accidental re-renders
     useEffect(() => {
         (async () => {
             setUserList([]);

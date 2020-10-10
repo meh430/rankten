@@ -1,4 +1,5 @@
-import React, { useEffect, useState } from 'react';
+import React, { useEffect, useState } from "react";
+import { getRankedListPreview } from "../api/RankedListPreviewRepo";
 
 let page = 1;
 
@@ -8,23 +9,35 @@ let page = 1;
 //query: string
 //emptyMessage: string
 //listType: string
-export const GenericList = props => {
+export const GenericList = (props) => {
     const [rankedLists, setRankedLists] = useState([]);
     const [hitMax, setHitMax] = useState(false);
     const [loading, setLoading] = useState(false);
 
+    //TODO: PLS DO SOME BETTER ERROR HANDLING
     useEffect(() => {
-        console.log("rendered")
-    }, []);
-}
+        (async () => {
+            page = 1;
+            setRankedLists([]);
+            setLoading(true);
+            const [e, lastPage, res] = await getRankedListPreview(
+                getParams(page, props.sort, props.name, props.token, props.query, false, props.listType)
+            );
+            if (!e) {
+                setRankedLists([...res]);
+            }
+            setLoading(false);
+        })();
+    }, [props.query, props.sort]);
+};
 
-function getParams(page = 1, sort = 0, name = "", token = "", query = "", refresh=false, listType) {
+function getParams(page = 1, sort = 0, name = "", token = "", query = "", refresh = false, listType) {
     return {
         page: page,
         sort: sort,
         name: name,
         token: token,
         query: query,
-        endpointBase: listType
+        endpointBase: listType,
     };
 }
