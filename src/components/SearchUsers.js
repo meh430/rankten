@@ -11,6 +11,28 @@ import { searchUsers } from "../api/UserPreviewRepo";
 
 import "../App.css";
 
+//onSort: callback
+export const SortMenu = (props) => {
+    const [anchor, setAnchor] = useState(null);
+    const onItemClick = (sort) => {
+        props.onSort(sort);
+        setAnchor(null);
+    };
+    return (
+        <div>
+            <SortIcon
+                style={{ marginLeft: "10px", cursor: "pointer" }}
+                onClick={(event) => setAnchor(event.currentTarget)}
+            />
+            <Menu id="simple-menu" anchorEl={anchor} keepMounted open={Boolean(anchor)}>
+                <MenuItem onClick={() => onItemClick(SortOptions.likesDesc)}>Likes</MenuItem>
+                <MenuItem onClick={() => onItemClick(SortOptions.dateAsc)}>Oldest to Newest</MenuItem>
+                <MenuItem onClick={() => onItemClick(SortOptions.dateDesc)}>Newest to Oldest</MenuItem>
+            </Menu>
+        </div>
+    );
+};
+
 //query: string
 export const SearchUsers = (props) => {
     const currentTheme = useTheme();
@@ -21,7 +43,6 @@ export const SearchUsers = (props) => {
     const [sort, setSort] = useState(SortOptions.likesDesc);
     const [hitMax, setHitMax] = useState(false);
     const [loading, setLoading] = useState(false);
-    const [anchor, setAnchor] = useState(null);
 
     useEffect(() => {
         (async () => {
@@ -38,7 +59,7 @@ export const SearchUsers = (props) => {
         })();
     }, [props.query]);
 
-    const handleClose = (sortOption) => {
+    const onSort = (sortOption) => {
         (async () => {
             setPage(1);
             setLoading(true);
@@ -49,7 +70,6 @@ export const SearchUsers = (props) => {
             }
             setLoading(false);
             setSort(sortOption);
-            setAnchor(null);
         })();
     };
 
@@ -60,15 +80,7 @@ export const SearchUsers = (props) => {
                 style={{ alignItems: "center", justifyContent: "start", width: "800px", maxWidth: "100%" }}
             >
                 <h2 style={textTheme}>Searching for users "{props.query}"</h2>
-                <SortIcon
-                    style={{ marginLeft: "10px", cursor: "pointer" }}
-                    onClick={(event) => setAnchor(event.currentTarget)}
-                />
-                <Menu id="simple-menu" anchorEl={anchor} keepMounted open={Boolean(anchor)} onClose={handleClose}>
-                    <MenuItem onClick={() => handleClose(SortOptions.likesDesc)}>Likes</MenuItem>
-                    <MenuItem onClick={() => handleClose(SortOptions.dateAsc)}>Oldest to Newest</MenuItem>
-                    <MenuItem onClick={() => handleClose(SortOptions.dateDesc)}>Newest to Oldest</MenuItem>
-                </Menu>
+                <SortMenu onSort={onSort}/>
             </div>
             <div className="row" style={{ justifyContent: "center", flexWrap: "wrap", width: "80%" }}>
                 {userList.length ? (
