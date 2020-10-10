@@ -4,6 +4,7 @@ import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import EditIcon from "@material-ui/icons/Edit";
 import ReactLoading from "react-loading";
 
+import {BioField} from "./SignUp"
 import { UserListDialog } from "./UserListDialog";
 import { UserPreviewTypes } from "../api/UserPreviewRepo";
 import { ProfilePicChooser } from "./ProfPicChooser";
@@ -84,22 +85,48 @@ const FollowButton = (props) => {
     );
 };
 
+let bioEdit = "";
+
 //bio: string
 //date: object
 //textTheme: object
 //isMain: bool
 const UserBio = (props) => {
+    const [editing, setEditing] = useState(false);
+    const [bioError, setError] = useState(false);
+    
     return (
-        <div style={{ alignSelf: "start", marginLeft: "30px" }}>
+        <div className="col" style={{ alignSelf: "start", marginLeft: "30px", width: "100%" }}>
             <div className="row" style={{ alignItems: "center" }}>
                 <h1 style={{ ...props.textTheme, textAlign: "start" }}>Bio</h1>
                 <EditIcon
+                    onClick={() => {
+                        if (props.isMain && !editing) {
+                            setEditing(true);
+                        }
+                    }}
                     style={{ marginLeft: "12px", cursor: "pointer", display: props.isMain ? "inline" : "none" }}
                 />
             </div>
-            <h3 style={{ ...props.textTheme, textAlign: "start" }}>
-                {props.bio === "" ? "This user does not have a bio" : props.bio}
-            </h3>
+            {editing ? (
+                <BioField onChange={(event) => bioEdit = event.target.value} onEnter={() => {
+                    if (bioEdit === "") {
+                        setError(true);
+                        setTimeout(() => {
+                            setError(false);
+                        }, 2000);
+                        return;
+                    }
+
+                    setEditing(false);
+
+                }} error={bioError}/>
+            ) : (
+                <h3 style={{ ...props.textTheme, textAlign: "start" }}>
+                    {props.bio === "" ? (props.isMain ? "Set a bio to highlight your interests" : "This user does not have a bio") : props.bio}
+                </h3>
+            )}
+
             <h1 style={{ ...props.textTheme, textAlign: "start" }}>Date Created</h1>
             <h3 style={{ ...props.textTheme, textAlign: "start" }}>{tsToDate(props.date["$date"])}</h3>
         </div>

@@ -13,6 +13,31 @@ let userName = "";
 let password = "";
 let bio = "";
 
+//onChange: callback
+//onEnter: callback
+//error: bool
+export const BioField = (props) => {
+    return (
+        <TextField
+            onKeyPress={(event) => {
+                if (event.key === "Enter") {
+                    props.onEnter();
+                    event.preventDefault();
+                }
+            }}
+            style={fieldTheme}
+            label="Bio"
+            multiline
+            rows={4}
+            id="bio-field"
+            variant="outlined"
+            error={props.error}
+            helperText={props.error ? "Bio cannot be empty" : ""}
+            onChange={props.onChange}
+        />
+    );
+};
+
 //setAuthFail: callback
 //setLogin: callback
 export const SignUp = (props) => {
@@ -90,26 +115,17 @@ export const SignUp = (props) => {
         >
             <CardContent className="col" style={{ alignItems: "center", paddingBottom: "2px" }}>
                 <h1 style={textTheme}>Sign Up</h1>
-                <NameField error={nameError} onChange={(event) => (userName = event.target.value)} onEnter={submitSignup}/>
-                <PasswordField error={passwordError} onChange={(event) => (password = event.target.value)} onEnter={submitSignup}/>
-                <TextField
-                    onKeyPress={(event) => {
-                        if (event.key === 'Enter') {
-                            submitSignup();
-                            event.preventDefault();
-                        }
-                    }}
-                    style={fieldTheme}
-                    label="Bio"
-                    multiline
-                    rows={4}
-                    id="bio-field"
-                    variant="outlined"
-                    error={bioError}
-                    helperText={bioError ? "Bio cannot be empty" : ""}
-                    onChange={(event) => (bio = event.target.value)}
+                <NameField
+                    error={nameError}
+                    onChange={(event) => (userName = event.target.value)}
+                    onEnter={submitSignup}
                 />
-
+                <PasswordField
+                    error={passwordError}
+                    onChange={(event) => (password = event.target.value)}
+                    onEnter={submitSignup}
+                />
+                <BioField onEnter={submitSignup} onChange={(event) => (bio = event.target.value)} error={bioError}/>
                 <AuthSubmit loading={loading} isLogin={false} onClick={() => submitSignup()} />
                 <AltAuth textTheme={textTheme} isLogin={false} onClick={() => props.setLogin(true)} />
             </CardContent>
