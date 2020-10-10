@@ -16,9 +16,11 @@ let bio = "";
 //onChange: callback
 //onEnter: callback
 //error: bool
+//default: string
 export const BioField = (props) => {
     return (
         <TextField
+            defaultValue={props.default}
             onKeyPress={(event) => {
                 if (event.key === "Enter") {
                     props.onEnter();

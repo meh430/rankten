@@ -4,14 +4,14 @@ import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import EditIcon from "@material-ui/icons/Edit";
 import ReactLoading from "react-loading";
 
-import {BioField} from "./SignUp"
+import { BioField } from "./SignUp";
 import { UserListDialog } from "./UserListDialog";
 import { UserPreviewTypes } from "../api/UserPreviewRepo";
 import { ProfilePicChooser } from "./ProfPicChooser";
 import { ActionButton } from "./ActionButton";
 import { resetUserContext, UserContext } from "../Contexts";
 import { getCardStyle, getTextTheme, appThemeConstants } from "../misc/AppTheme";
-import { followUser } from "../api/UserRepo";
+import { followUser, updateBio } from "../api/UserRepo";
 import { UserReducerTypes } from "../reducers/UserReducer";
 import { containsId, tsToDate, tsToDelta } from "../misc/Utils";
 import "../App.css";
@@ -92,9 +92,10 @@ let bioEdit = "";
 //textTheme: object
 //isMain: bool
 const UserBio = (props) => {
+    const { userDispatch, userToken } = useContext(UserContext);
     const [editing, setEditing] = useState(false);
     const [bioError, setError] = useState(false);
-    
+
     return (
         <div className="col" style={{ alignSelf: "start", marginLeft: "30px", width: "100%" }}>
             <div className="row" style={{ alignItems: "center" }}>
@@ -109,21 +110,40 @@ const UserBio = (props) => {
                 />
             </div>
             {editing ? (
-                <BioField onChange={(event) => bioEdit = event.target.value} onEnter={() => {
-                    if (bioEdit === "") {
-                        setError(true);
-                        setTimeout(() => {
-                            setError(false);
-                        }, 2000);
-                        return;
-                    }
+                <BioField
+                    default={props.bio}
+                    onChange={(event) => (bioEdit = event.target.value)}
+                    onEnter={() => {
+                        if (bioEdit === "") {
+                            setError(true);
+                            setTimeout(() => {
+                                setError(false);
+                            }, 2000);
+                            return;
+                        }
 
-                    setEditing(false);
-
-                }} error={bioError}/>
+                        (async () => {
+                            const [e, res] = await updateBio(bioEdit, userToken);
+                            if (e) {
+                                setError(true);
+                                setTimeout(() => {
+                                    setError(false);
+                                }, 2000);
+                            } else {
+                                userDispatch({ type: UserReducerTypes.updateBioAction, payload: { bio: bioEdit } });
+                                setEditing(false);
+                            }
+                        })();
+                    }}
+                    error={bioError}
+                />
             ) : (
                 <h3 style={{ ...props.textTheme, textAlign: "start" }}>
-                    {props.bio === "" ? (props.isMain ? "Set a bio to highlight your interests" : "This user does not have a bio") : props.bio}
+                    {props.bio === ""
+                        ? props.isMain
+                            ? "Set a bio to highlight your interests"
+                            : "This user does not have a bio"
+                        : props.bio}
                 </h3>
             )}
 
