@@ -15,6 +15,8 @@ export const CommentPreview = (props) => {
         <Card style={props.cardStyle}>
             <div className="col">
                 <CardHeader isDark={props.isDark} />
+                <h3 style={{ ...props.textTheme, margin: "4px" }}>This is just a mock comment. The top comment should be shown here?</h3>
+                <h4 style={{ ...props.textTheme, margin: "4px", textDecoration: "underline", cursor: "pointer"}}>View all 4 comments</h4>
             </div>
         </Card>
     );
@@ -56,9 +58,9 @@ export const RankItemPreview = (props) => {
     return (
         <div className="row" style={{ alignItems: "center", width: "100%", flexWrap: "nowrap" }}>
             <Avatar
-                style={{ height: "65px", width: "65px", backgroundColor: appThemeConstants.lavender, margin: "12px" }}
+                style={{ height: "50px", width: "50px", backgroundColor: appThemeConstants.lavender, margin: "12px" }}
             >
-                <h3 style={{ fontFamily: appThemeConstants.fontFamily, color: "white", fontSize: "32px" }}>
+                <h3 style={{ fontFamily: appThemeConstants.fontFamily, color: "white", fontSize: "26px" }}>
                     {props.rank}
                 </h3>
             </Avatar>
@@ -66,7 +68,8 @@ export const RankItemPreview = (props) => {
                 style={{
                     ...props.textTheme,
                     margin: "0px",
-                    fontSize: "30px",
+                    marginLeft: "2px",
+                    fontSize: "28px",
                     whiteSpace: "nowrap",
                     overflow: "hidden",
                     textOverflow: "ellipsis",
@@ -146,12 +149,15 @@ export const RankedListCard = (props) => {
                 <LikeBar textTheme={textTheme} />
                 <CommentPreview
                     isDark={currentTheme.palette.type === "dark"}
+                    textTheme={textTheme}
                     cardStyle={{
                         ...cardStyle,
                         margin: "0px",
                         marginBottom: "10px",
                         width: "100%",
-                        padding: "4px",
+                        paddingTop: "8px",
+                        paddingLeft: "8px",
+                        paddingRight: "8px",
                         backgroundColor:
                             currentTheme.palette.type === "dark"
                                 ? appThemeConstants.hanPurple
