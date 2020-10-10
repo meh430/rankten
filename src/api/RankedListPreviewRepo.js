@@ -22,7 +22,7 @@ export const RankedListPreviewTypes = {
 */
 
 export const getRankedListPreview = async (params) => {
-    const { token } = params;
+    const { token, refresh } = params;
     if (!token) {
         token = "";
     }
@@ -49,5 +49,18 @@ export const getRankedListPreview = async (params) => {
             break;
     }
 
-    return null;
+    if (refresh) {
+        if (params.endpointBase === RankedListPreviewTypes.searchLists) {
+            endpoint += "&re=True";
+        } else {
+            endpoint += "?re=True";
+        }
+    }
+
+    const [e, res] = await api.get(endpoint, token);
+    if (e) {
+        return res.message.includes("page") ? [false, true, []] : [e, false, []]
+    } else {
+        return [e, res.length < 10, res];
+    }
 }
