@@ -34,6 +34,7 @@ export const LikeBar = (props) => {
         <div
             className="row"
             style={{
+                margin: "0px",
                 justifyContent: "space-between",
                 alignItems: "center",
                 paddingLeft: "12px",
@@ -146,6 +147,7 @@ export const RankedListCard = (props) => {
                         key={`rank_${rItem.rank}`}
                     />
                 ))}
+                <h4 style={{ ...textTheme, margin: "0px", textDecoration: "underline", cursor: "pointer"}}>View 7 more items</h4>
                 <LikeBar textTheme={textTheme} />
                 <CommentPreview
                     isDark={currentTheme.palette.type === "dark"}
