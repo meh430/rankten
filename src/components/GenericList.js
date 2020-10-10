@@ -30,6 +30,12 @@ export const GenericList = (props) => {
             setLoading(false);
         })();
     }, [props.query, props.sort]);
+
+    return (
+        <div>
+            list here
+        </div>
+    );
 };
 
 function getParams(page = 1, sort = 0, name = "", token = "", query = "", refresh = false, listType) {

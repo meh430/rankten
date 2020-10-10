@@ -33,7 +33,6 @@ export const Profile = (props) => {
         return (
             <div className="col" style={{ alignItems: "center" }}>
                 <UserInfo isMain={true} />
-                <RankedListCard/>
             </div>
         );
     } else {

@@ -7,22 +7,41 @@ import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import { appThemeConstants, getCardStyle, getTextTheme } from "../misc/AppTheme";
 
 import "../App.css";
+import { tsToDelta } from "../misc/Utils";
 
+//commentPreview: object
 //cardTheme: object
 //theme: object
 export const CommentPreview = (props) => {
     return (
         <Card style={props.cardStyle}>
             <div className="col">
-                <CardHeader isDark={props.isDark} />
-                <h3 style={{ ...props.textTheme, margin: "4px" }}>This is just a mock comment. The top comment should be shown here?</h3>
-                <h4 style={{ ...props.textTheme, margin: "4px", textDecoration: "underline", cursor: "pointer"}}>View all 4 comments</h4>
+                <CardHeader
+                    isDark={props.isDark}
+                    name={props.commentPreview["user_name"]}
+                    profPic={props.commentPreview["prof_pic"]}
+                    timeStamp={props.commentPreview["date_created"]}
+                />
+                <h3 style={{ ...props.textTheme, margin: "4px" }}>{props.commentPreview["comment"]}</h3>
+                <h4
+                    style={{
+                        ...props.textTheme,
+                        margin: "4px",
+                        textDecoration: "underline",
+                        cursor: "pointer",
+                        display: props.commentPreview["num_comments"] <= 1 ? "none" : "inline",
+                    }}
+                >
+                    View all {props.commentPreview["num_comments"]} comments
+                </h4>
             </div>
         </Card>
     );
 };
 
 // textTheme: object
+// numLikes: number
+// isLiked: bool
 export const LikeBar = (props) => {
     const [liked, setLiked] = useState(false); //get from props?
 
@@ -47,7 +66,7 @@ export const LikeBar = (props) => {
             ) : (
                 <FavoriteBorderIcon onClick={onLike} style={likeStyle} />
             )}
-            <h3 style={{ ...props.textTheme, fontSize: "20px" }}>{5} likes</h3>
+            <h3 style={{ ...props.textTheme, fontSize: "20px" }}>{props.numLikes} likes</h3>
         </div>
     );
 };
@@ -94,16 +113,17 @@ export const CardHeader = (props) => {
     return (
         <div className="row" style={{ justifyContent: "space-between" }}>
             <div className="row">
-                <Avatar style={{ height: "50px", width: "50px", marginRight: "12px" }}>
+                <Avatar src={props.profPic} style={{ height: "50px", width: "50px", marginRight: "12px" }}>
                     <AccountCircleIcon style={{ height: "100%", width: "100%" }} />
                 </Avatar>
-                <h3 style={secondTextTheme}>meh4life</h3>
+                <h3 style={secondTextTheme}>{props.name}</h3>
             </div>
-            <h3 style={{ ...secondTextTheme, marginRight: "4px" }}>2h ago</h3>
+            <h3 style={{ ...secondTextTheme, marginRight: "4px" }}>{tsToDelta(props.timeStamp)}</h3>
         </div>
     );
 };
 
+//rankedList: object
 export const RankedListCard = (props) => {
     const currentTheme = useTheme();
     const cardStyle = getCardStyle(currentTheme);
@@ -120,26 +140,18 @@ export const RankedListCard = (props) => {
             }}
         >
             <div className="col" style={{ width: "100%" }}>
-                <CardHeader isDark={currentTheme.palette.type === "dark"} />
-                <h2 style={{ ...textTheme, marginTop: "0px" }}>Kid's Shows</h2>
+                <CardHeader
+                    name={props.rankedList["user_name"]}
+                    profPic={props.rankedList["prof_pic"]}
+                    timeStamp={props.rankedList["date_created"]}
+                    isDark={currentTheme.palette.type === "dark"}
+                />
+                <h2 style={{ ...textTheme, marginTop: "0px" }}>{props.rankedList['title']}</h2>
                 <img
                     style={{ borderRadius: "15px", width: "375px", maxWidth: "98%", alignSelf: "center" }}
-                    src="https://image.winudf.com/v2/image/Y29tLmJsYWNra29waS5iYWt1Z2FuYmF0dGxlYnJ3YWxlcnNfc2NyZWVuXzRfMTUzMTIxNzAyNl8wNDE/screen-4.jpg?fakeurl=1&type=.jpg"
+                    src={props.rankedList["picture"]}
                 />
-                {[
-                    {
-                        rank: "1",
-                        item_name: "Bakugan",
-                    },
-                    {
-                        rank: "2",
-                        item_name: "Pokemon",
-                    },
-                    {
-                        rank: "3",
-                        item_name: "Some other show",
-                    },
-                ].map((rItem) => (
+                {props.rankedList["rank_list"].map((rItem) => (
                     <RankItemPreview
                         textTheme={textTheme}
                         rank={rItem.rank}
@@ -147,9 +159,23 @@ export const RankedListCard = (props) => {
                         key={`rank_${rItem.rank}`}
                     />
                 ))}
-                <h4 style={{ ...textTheme, margin: "0px", textDecoration: "underline", cursor: "pointer"}}>View 7 more items</h4>
-                <LikeBar textTheme={textTheme} />
+                <h4
+                    style={{
+                        ...textTheme,
+                        margin: "0px",
+                        textDecoration: "underline",
+                        cursor: "pointer",
+                        display: props.rankedList["num_rank_items"] <= 3 ? "none" : "inline",
+                    }}
+                >
+                    View {props.rankedList["num_rank_items"]} more items
+                </h4>
+                <LikeBar numLikes={props.rankedList['num_likes']} textTheme={textTheme} />
                 <CommentPreview
+                    commentPreview={{
+                        ...props.rankedList["comment_preview"],
+                        num_comments: props.rankedList["num_comments"],
+                    }}
                     isDark={currentTheme.palette.type === "dark"}
                     textTheme={textTheme}
                     cardStyle={{
