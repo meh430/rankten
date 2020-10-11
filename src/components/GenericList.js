@@ -1,5 +1,7 @@
 import React, { useEffect, useState } from "react";
+
 import { getRankedListPreview } from "../api/RankedListPreviewRepo";
+import { RankedListCard } from "./RankedListCard";
 
 let page = 1;
 
@@ -33,7 +35,7 @@ export const GenericList = (props) => {
 
     return (
         <div>
-            list here
+            {rankedLists.map(rList => <RankedListCard rankedList={rList}/>)}
         </div>
     );
 };

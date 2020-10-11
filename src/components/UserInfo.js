@@ -97,7 +97,7 @@ const UserBio = (props) => {
     const [bioError, setError] = useState(false);
 
     return (
-        <div className="col" style={{ alignSelf: "start", marginLeft: "30px", width: "100%" }}>
+        <div className="col" style={{ alignSelf: "start", marginLeft: "10px", marginRight: "10px", width: "100%" }}>
             <div className="row" style={{ alignItems: "center" }}>
                 <h1 style={{ ...props.textTheme, textAlign: "start" }}>Bio</h1>
                 <EditIcon
@@ -218,7 +218,7 @@ export const UserInfo = (props) => {
             style={{
                 ...getCardStyle(currentTheme),
                 width: "850px",
-                maxWidth: "98%",
+                maxWidth: "100%",
             }}
         >
             <CardContent className="col" style={{ alignItems: "center" }}>

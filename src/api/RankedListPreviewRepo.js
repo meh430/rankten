@@ -22,7 +22,7 @@ export const RankedListPreviewTypes = {
 */
 
 export const getRankedListPreview = async (params) => {
-    const { token, refresh } = params;
+    let { token, refresh } = params;
     if (!token) {
         token = "";
     }

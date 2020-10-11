@@ -143,10 +143,10 @@ export const RankedListCard = (props) => {
                 <CardHeader
                     name={props.rankedList["user_name"]}
                     profPic={props.rankedList["prof_pic"]}
-                    timeStamp={props.rankedList["date_created"]}
+                    timeStamp={props.rankedList["date_created"]["$date"]}
                     isDark={currentTheme.palette.type === "dark"}
                 />
-                <h2 style={{ ...textTheme, marginTop: "0px" }}>{props.rankedList['title']}</h2>
+                <h2 style={{ ...textTheme, marginTop: "0px" }}>{props.rankedList["title"]}</h2>
                 <img
                     style={{ borderRadius: "15px", width: "375px", maxWidth: "98%", alignSelf: "center" }}
                     src={props.rankedList["picture"]}
@@ -170,28 +170,32 @@ export const RankedListCard = (props) => {
                 >
                     View {props.rankedList["num_rank_items"]} more items
                 </h4>
-                <LikeBar numLikes={props.rankedList['num_likes']} textTheme={textTheme} />
-                <CommentPreview
-                    commentPreview={{
-                        ...props.rankedList["comment_preview"],
-                        num_comments: props.rankedList["num_comments"],
-                    }}
-                    isDark={currentTheme.palette.type === "dark"}
-                    textTheme={textTheme}
-                    cardStyle={{
-                        ...cardStyle,
-                        margin: "0px",
-                        marginBottom: "10px",
-                        width: "100%",
-                        paddingTop: "8px",
-                        paddingLeft: "8px",
-                        paddingRight: "8px",
-                        backgroundColor:
-                            currentTheme.palette.type === "dark"
-                                ? appThemeConstants.hanPurple
-                                : appThemeConstants.palePurple,
-                    }}
-                />
+                <LikeBar numLikes={props.rankedList["num_likes"]} textTheme={textTheme} />
+                {props.rankedList["num_comments"] >= 1 ? (
+                    <CommentPreview
+                        commentPreview={{
+                            ...props.rankedList["comment_preview"],
+                            num_comments: props.rankedList["num_comments"],
+                        }}
+                        isDark={currentTheme.palette.type === "dark"}
+                        textTheme={textTheme}
+                        cardStyle={{
+                            ...cardStyle,
+                            margin: "0px",
+                            marginBottom: "10px",
+                            width: "100%",
+                            paddingTop: "8px",
+                            paddingLeft: "8px",
+                            paddingRight: "8px",
+                            backgroundColor:
+                                currentTheme.palette.type === "dark"
+                                    ? appThemeConstants.hanPurple
+                                    : appThemeConstants.palePurple,
+                        }}
+                    />
+                ) : (
+                    <i style={{ display: "none" }} />
+                )}
             </div>
         </Card>
     );

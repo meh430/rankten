@@ -4,9 +4,10 @@ import ReactLoading from "react-loading";
 
 import { UserInfo } from "./UserInfo";
 import { getUser } from "../api/UserRepo";
-import "../App.css";
 import { appThemeConstants, getTextTheme } from "../misc/AppTheme";
-import { RankedListCard } from "./RankedListCard";
+import { GenericList } from "./GenericList";
+import "../App.css";
+import { RankedListPreviewTypes } from "../api/RankedListPreviewRepo";
 
 //isMain: bool
 //userName: string
@@ -33,6 +34,7 @@ export const Profile = (props) => {
         return (
             <div className="col" style={{ alignItems: "center" }}>
                 <UserInfo isMain={true} />
+                <GenericList sort={0} name={"meh4life"} listType={RankedListPreviewTypes.userLists}/>
             </div>
         );
     } else {
