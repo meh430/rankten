@@ -169,7 +169,7 @@ export const RankedListCard = (props) => {
                         display: props.rankedList["num_rank_items"] <= 3 ? "none" : "inline",
                     }}
                 >
-                    View {props.rankedList["num_rank_items"]} more items
+                    View {props.rankedList["num_rank_items"] - props.rankedList["rank_list"].length} more items
                 </h4>
                 <LikeBar numLikes={props.rankedList["num_likes"]} textTheme={textTheme} />
                 {props.rankedList["num_comments"] >= 1 ? (

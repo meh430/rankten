@@ -10,6 +10,17 @@ import "../App.css";
 import { RankedListPreviewTypes } from "../api/RankedListPreviewRepo";
 
 //isMain: bool
+//token: string
+//name: string
+const UserRankedLists = props => {
+    return (
+        <div>
+            
+        </div>
+    );
+}
+
+//isMain: bool
 //userName: string
 export const Profile = (props) => {
     const [otherUser, setOtherUser] = useState(null);

@@ -49,7 +49,7 @@ export const GenericList = (props) => {
             setRankedLists([]);
             setLoading(true);
             const [e, lastPage, res] = await getRankedListPreview(
-                getParams(page, props.sort, props.name, props.token, props.query, false, props.listType)
+                getParams(page, props.sort, props.name, props.token, props.query, props.refresh, props.listType)
             );
             setHitMax(lastPage);
             if (!e) {
@@ -57,14 +57,14 @@ export const GenericList = (props) => {
             }
             setLoading(false);
         })();
-    }, [props.query, props.sort]);
+    }, [props.query, props.sort, props.refresh]);
 
     return (
         <InfiniteScroll
             dataLength={rankedLists.length}
             next={onPaginate}
             hasMore={!hitMax}
-            loader={<ReactLoading type="bars" color={appThemeConstants.hanPurple} />}
+            loader={<ReactLoading type="cylon" color={appThemeConstants.hanPurple} />}
         >
             <Masonry breakpointCols={breakpointColumnsObj} className="gen-list-grid" columnClassName="gen-list-col">
                 {rankedLists.map((rList) => (
@@ -82,6 +82,7 @@ function getParams(page = 1, sort = 0, name = "", token = "", query = "", refres
         name: name,
         token: token,
         query: query,
+        refresh: refresh,
         endpointBase: listType,
     };
 }
