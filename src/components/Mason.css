@@ -1,0 +1,12 @@
+.gen-list-grid {
+  display: -webkit-box; /* Not needed if autoprefixing */
+  display: -ms-flexbox; /* Not needed if autoprefixing */
+  display: flex;
+  margin-left: 0px; /* gutter size offset */
+  width: auto;
+}
+
+.gen-list-col {
+  padding-left: 0px; /* gutter size */
+  background-clip: padding-box;
+}

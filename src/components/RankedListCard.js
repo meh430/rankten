@@ -137,6 +137,7 @@ export const RankedListCard = (props) => {
                 paddingLeft: "10px",
                 paddingRight: "10px",
                 paddingTop: "10px",
+                marginBottom: "18px"
             }}
         >
             <div className="col" style={{ width: "100%" }}>

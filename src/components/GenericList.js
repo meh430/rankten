@@ -1,9 +1,18 @@
 import React, { useEffect, useState } from "react";
+import Masonry from 'react-masonry-css'
 
 import { getRankedListPreview } from "../api/RankedListPreviewRepo";
 import { RankedListCard } from "./RankedListCard";
+import './Mason.css'
 
 let page = 1;
+
+const breakpointColumnsObj = {
+  default: 3,
+  1100: 3,
+  700: 2,
+  500: 1
+};
 
 //sort: int
 //name: string
@@ -34,9 +43,13 @@ export const GenericList = (props) => {
     }, [props.query, props.sort]);
 
     return (
-        <div>
-            {rankedLists.map(rList => <RankedListCard rankedList={rList}/>)}
-        </div>
+        <Masonry
+            breakpointCols={breakpointColumnsObj}
+            className="gen-list-grid"
+            columnClassName="gen-list-col"
+        >
+            {rankedLists.map(rList => <RankedListCard rankedList={rList} key={'r_' + rList['date_created']['$date']}/>)}
+        </Masonry>
     );
 };
 
