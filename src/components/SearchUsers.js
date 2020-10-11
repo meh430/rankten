@@ -24,7 +24,7 @@ export const SortMenu = (props) => {
                 style={{ marginLeft: "10px", cursor: "pointer" }}
                 onClick={(event) => setAnchor(event.currentTarget)}
             />
-            <Menu id="simple-menu" anchorEl={anchor} keepMounted open={Boolean(anchor)}>
+            <Menu id="simple-menu" anchorEl={anchor} keepMounted open={Boolean(anchor)} onClose={() => setAnchor(null)}>
                 <MenuItem onClick={() => onItemClick(SortOptions.likesDesc)}>Likes</MenuItem>
                 <MenuItem onClick={() => onItemClick(SortOptions.dateAsc)}>Oldest to Newest</MenuItem>
                 <MenuItem onClick={() => onItemClick(SortOptions.dateDesc)}>Newest to Oldest</MenuItem>
