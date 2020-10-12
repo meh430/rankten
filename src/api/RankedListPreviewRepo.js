@@ -4,7 +4,7 @@ export const RankedListPreviewTypes = {
     discoverLists: "discover",
     likedLists: "likes",
     userLists: "rankedlists",
-    userListsP: "rankedlistp",
+    userListsP: "rankedlistsp",
     feedLists: "feed",
     searchLists: "search_lists"
 };

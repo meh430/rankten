@@ -1,5 +1,6 @@
-const baseUrl = "http://192.168.0.22:5000";
 
+const baseUrl = "http://192.168.0.22:5000";
+//const baseUrl = "https://rank-ten-api.herokuapp.com";
 export async function validateImage(imageUrl) {
     var isValid = false;
     try {
@@ -17,6 +18,7 @@ export async function validateImage(imageUrl) {
 export async function get(endpoint, bearerToken = "") {
     var hasError = false;
     var jsonResponse = null;
+    console.log(getHeaders(bearerToken));
 
     try {
         jsonResponse = await parseResponse(

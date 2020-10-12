@@ -1,16 +1,17 @@
-import React, { useEffect, useState } from "react";
+import React, { useContext, useEffect, useState } from "react";
 import { useTheme } from "@material-ui/core";
 import ReactLoading from "react-loading";
-import RefreshIcon from '@material-ui/icons/Refresh';
+import RefreshIcon from "@material-ui/icons/Refresh";
 
 import { UserInfo } from "./UserInfo";
 import { getUser } from "../api/UserRepo";
 import { appThemeConstants, getTextTheme } from "../misc/AppTheme";
 import { GenericList } from "./GenericList";
-import { SortMenu } from "./SearchUsers"
+import { SortMenu } from "./SearchUsers";
 import { RankedListPreviewTypes } from "../api/RankedListPreviewRepo";
 import { SortOptions } from "../misc/Utils";
 import "../App.css";
+import { UserContext } from "../Contexts";
 
 //textTheme: object
 //isMain: bool
@@ -18,16 +19,23 @@ import "../App.css";
 //name: string
 const UserRankedLists = (props) => {
     const [sort, setSort] = useState(SortOptions.likesDesc);
-    const onSort = sortOption => setSort(sortOption);
+    const onSort = (sortOption) => setSort(sortOption);
     return (
-        <div className="col" style={{width: "100%"}}>
+        <div className="col">
             <div className="row" style={{ alignItems: "center", justifyContent: "space-around" }}>
-                <div className="row" style={{alignItems: "center"}}>
+                <div className="row" style={{ alignItems: "center" }}>
                     <h2 style={props.textTheme}>{props.isMain ? "Your Lists" : `${props.name}'s Lists`}</h2>
-                    <RefreshIcon style={{marginLeft: "10px"}}/>
+                    <RefreshIcon style={{ marginLeft: "10px" }} />
                 </div>
-                <SortMenu onSort={onSort}/>
+                <SortMenu onSort={onSort} />
             </div>
+            <GenericList
+                sort={sort}
+                name={props.name}
+                token={props.token}
+                emptyMessage={props.isMain ? "You haven't made any lists" : `${props.name} hasn't made any lists`}
+                listType={props.isMain ? RankedListPreviewTypes.userListsP : RankedListPreviewTypes.userLists}
+            />
         </div>
     );
 };
@@ -39,6 +47,7 @@ export const Profile = (props) => {
     const [errorState, setErrorState] = useState(false);
     const currentTheme = useTheme();
     const textTheme = getTextTheme(currentTheme);
+    const { userToken } = useContext(UserContext);
     useEffect(() => {
         (async () => {
             if (props.isMain) {
@@ -58,7 +67,7 @@ export const Profile = (props) => {
         return (
             <div className="col" style={{ alignItems: "center" }}>
                 <UserInfo isMain={true} />
-                <UserRankedLists textTheme={textTheme} isMain={true}/>
+                <UserRankedLists textTheme={textTheme} isMain={true} token={userToken} />
             </div>
         );
     } else {
