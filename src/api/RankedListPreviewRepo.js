@@ -45,6 +45,7 @@ export const getRankedListPreview = async (params) => {
             endpoint += `/${params.page}`;
             break;
         case RankedListPreviewTypes.searchLists:
+            console.log(params.query);
             endpoint += `/${params.page}/${params.sort}?q=${params.query.replace(/ /g, "+")}`;
             break;
     }

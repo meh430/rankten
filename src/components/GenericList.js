@@ -30,6 +30,7 @@ const breakpointColumnsObj = {
 export const GenericList = (props) => {
     const [rankedLists, setRankedLists] = useState([]);
     const [hitMax, setHitMax] = useState(false);
+    const [loading, setLoading] = useState(false);
 
     const onPaginate = () => {
         (async () => {
@@ -48,6 +49,7 @@ export const GenericList = (props) => {
     //TODO: PLS DO SOME BETTER ERROR HANDLING
     useEffect(() => {
         (async () => {
+            setLoading(true);
             page = 1;
             setRankedLists([]);
             const [e, lastPage, res] = await getRankedListPreview(
@@ -57,8 +59,13 @@ export const GenericList = (props) => {
             if (!e) {
                 setRankedLists([...res]);
             }
+            setLoading(false);
         })();
     }, [props.query, props.sort, props.refresh, props.listType]);
+
+    if (loading) {
+        return <ReactLoading type="bars" color={appThemeConstants.hanPurple} />
+    }
 
     return rankedLists.length ? (
         <InfiniteScroll
@@ -112,6 +119,7 @@ export const SortedListContainer = (props) => {
                 {props.noSort ? <i style={{display: "none"}}/> : <SortMenu onSort={onSort} />}
             </div>
             <GenericList
+                query={props.query}
                 textTheme={props.textTheme}
                 refresh={refresh}
                 sort={sort}

@@ -6,7 +6,7 @@ import FavoriteIcon from "@material-ui/icons/Favorite";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import ReactLoading from "react-loading";
 
-import { UserContext } from "../Contexts";
+import { resetUserContext, UserContext } from "../Contexts";
 import { appThemeConstants, getCardStyle, getTextTheme } from "../misc/AppTheme";
 import { containsId, tsToDelta } from "../misc/Utils";
 import { UserListDialog } from "./UserListDialog";
@@ -177,6 +177,12 @@ export const RankedListCard = (props) => {
     const cardStyle = getCardStyle(currentTheme);
     const textTheme = getTextTheme(currentTheme);
     const mainUser = useContext(UserContext);
+
+    if (!mainUser.user) {
+        resetUserContext(mainUser);
+        return <ReactLoading type="bars" color={appThemeConstants.hanPurple} />;
+    }
+
     return (
         <Card
             style={{

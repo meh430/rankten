@@ -1,6 +1,9 @@
 import React, { useContext, useState } from "react";
 import { Switch, Route, Link, useHistory } from "react-router-dom";
 import {
+    Button,
+    MenuItem,
+    Menu,
     TextField,
     Drawer,
     makeStyles,
@@ -30,8 +33,9 @@ import { Logo } from "../components/Logo";
 import { Profile } from "../components/Profile";
 import { SearchUsers } from "../components/SearchUsers";
 import { Discover } from "../components/Discover";
-import { Feed } from "../components/Feed"
+import { Feed } from "../components/Feed";
 import "../App.css";
+import { SearchLists } from "../components/SearchLists";
 
 const renderOtherProfile = (routerProps) => {
     let userName = routerProps.match.params.name;
@@ -95,6 +99,13 @@ export const MainRoute = (props) => {
     const [mobileOpen, setMobileOpen] = useState(false);
     const [tabIndex, setTabIndex] = useState(getMainTab());
     const [themeSwitch, setThemeSwitch] = useState(currentTheme.palette.type);
+    const [searchLists, setSearchLists] = useState(true);
+    const [menuAnchor, setMenuAnchor] = useState(null);
+
+    const searchItemClicked = (listSelected) => {
+        setSearchLists(listSelected);
+        setMenuAnchor(null);
+    };
 
     const history = useHistory();
 
@@ -211,9 +222,9 @@ export const MainRoute = (props) => {
                         <MenuIcon />
                     </IconButton>
                     <div
+                        className="row"
                         style={{
-                            display: "flex",
-                            flexDirection: "row",
+                            alignItems: "center",
                             justifyContent: "center",
                             width: "90%",
                             alignSelf: "center",
@@ -226,12 +237,30 @@ export const MainRoute = (props) => {
                             placeholder="Search..."
                             onKeyPress={(event) => {
                                 if (event.key === "Enter") {
-                                    history.push("/main/search_users/" + searchQuery);
+                                    history.push(
+                                        `/main/${searchLists ? "search_lists" : "search_users"}/${searchQuery}`
+                                    );
                                     event.preventDefault();
                                 }
                             }}
                             onChange={(event) => (searchQuery = event.target.value)}
                         />
+                        <Button
+                            style={{ height: "fit-content", fontFamily: appThemeConstants.fontFamily }}
+                            onClick={(event) => setMenuAnchor(event.currentTarget)}
+                        >
+                            {searchLists ? "Lists" : "Users"}
+                        </Button>
+                        <Menu
+                            id="simple-menu"
+                            anchorEl={menuAnchor}
+                            keepMounted
+                            open={Boolean(menuAnchor)}
+                            onClose={() => setMenuAnchor(null)}
+                        >
+                            <MenuItem onClick={() => searchItemClicked(true)}>Lists</MenuItem>
+                            <MenuItem onClick={() => searchItemClicked(false)}>Users</MenuItem>
+                        </Menu>
                     </div>
                 </Toolbar>
             </AppBar>
@@ -276,7 +305,12 @@ export const MainRoute = (props) => {
                             return <SearchUsers query={routerProps.match.params.query} />;
                         }}
                     />
-                    <Route path="/main/search_lists/:query" component={() => <h1>Search</h1>} />
+                    <Route
+                        path="/main/search_lists/:query"
+                        render={(routerProps) => {
+                            return <SearchLists query={routerProps.match.params.query} />;
+                        }}
+                    />
                     <Route path="/main/profile" render={() => <Profile isMain={true} />} exact />
                     <Route path="/main/profile/:name" render={(routerProps) => renderOtherProfile(routerProps)} />
                 </Switch>
