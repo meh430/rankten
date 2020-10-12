@@ -18,22 +18,19 @@ export const UserPreviewTypes = {
 */
 
 export async function getFollowing(name) {
-    var response = await api.get("/following/" + name);
-    return response;
+    return await api.get("/following/" + name);
 }
 
 export async function getFollowers(name) {
-    var response = await api.get("/followers/" + name);
-    return response;
+    return await api.get("/followers/" + name);
 }
 
 export async function getLikers(id) {
-    var response = await api.get("/like/" + id);
-    return response;
+    return await api.get("/like/" + id);
 }
 
 export async function searchUsers(params) {
-    var [e, res] = await api.get("/search_users/" + params.page + "/" + params.sort + "?q=" + params.query);
+    const [e, res] = await api.get("/search_users/" + params.page + "/" + params.sort + "?q=" + params.query);
     if (e) {
         return res.includes("Page") ? [false, true, []] : [e, false, []];
     } else {
