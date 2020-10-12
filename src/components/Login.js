@@ -95,7 +95,7 @@ export const AltAuth = (props) => {
         <h4 style={props.textTheme}>
             {props.isLogin ? "Don't have an account? " : "Have an account? "}
             <u style={{ color: props.textTheme.color, cursor: "pointer" }} onClick={props.onClick}>
-                {props.isLogin ? "Log In" : "Sign Up"}
+                {props.isLogin ? "Sign Up" : "Log In"}
             </u>
         </h4>
     );
