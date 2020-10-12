@@ -7,9 +7,10 @@ import RefreshIcon from "@material-ui/icons/Refresh";
 import { getRankedListPreview } from "../api/RankedListPreviewRepo";
 import { RankedListCard } from "./RankedListCard";
 import { appThemeConstants } from "../misc/AppTheme";
-import "./Mason.css";
 import { SortOptions } from "../misc/Utils";
 import { SortMenu } from "./SearchUsers";
+import "./Mason.css";
+
 
 let page = 1;
 
