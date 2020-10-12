@@ -6,7 +6,7 @@ import RefreshIcon from "@material-ui/icons/Refresh";
 import { UserInfo } from "./UserInfo";
 import { getUser } from "../api/UserRepo";
 import { appThemeConstants, getTextTheme } from "../misc/AppTheme";
-import { GenericList } from "./GenericList";
+import { GenericList, SortedListContainer } from "./GenericList";
 import { SortMenu } from "./SearchUsers";
 import { RankedListPreviewTypes } from "../api/RankedListPreviewRepo";
 import { SortOptions } from "../misc/Utils";
@@ -17,7 +17,7 @@ import "../App.css";
 //isMain: bool
 //token: string
 //name: string
-const UserRankedLists = (props) => {
+/*const UserRankedLists = (props) => {
     const [sort, setSort] = useState(SortOptions.likesDesc);
     const [refresh, setRefresh] = useState(false);
     const onSort = (sortOption) => setSort(sortOption);
@@ -26,7 +26,10 @@ const UserRankedLists = (props) => {
             <div className="row" style={{ alignItems: "center", justifyContent: "space-around" }}>
                 <div className="row" style={{ alignItems: "center" }}>
                     <h2 style={props.textTheme}>{props.isMain ? "Your Lists" : `${props.name}'s Lists`}</h2>
-                    <RefreshIcon style={{ marginLeft: "10px", cursor: "pointer" }} onClick={() => setRefresh(!refresh)}/>
+                    <RefreshIcon
+                        style={{ marginLeft: "10px", cursor: "pointer" }}
+                        onClick={() => setRefresh(!refresh)}
+                    />
                 </div>
                 <SortMenu onSort={onSort} />
             </div>
@@ -40,7 +43,7 @@ const UserRankedLists = (props) => {
             />
         </div>
     );
-};
+};*/
 
 //isMain: bool
 //userName: string
@@ -69,7 +72,13 @@ export const Profile = (props) => {
         return (
             <div className="col" style={{ alignItems: "center" }}>
                 <UserInfo isMain={true} />
-                <UserRankedLists textTheme={textTheme} isMain={true} token={userToken} />
+                <SortedListContainer
+                    textTheme={textTheme}
+                    title="Your Lists"
+                    listType={RankedListPreviewTypes.userListsP}
+                    token={userToken}
+                    emptyMessage="You haven't made any lists"
+                />
             </div>
         );
     } else {
@@ -79,7 +88,13 @@ export const Profile = (props) => {
             return (
                 <div className="col" style={{ alignItems: "center" }}>
                     <UserInfo isMain={false} user={otherUser} />
-                    <UserRankedLists textTheme={textTheme} isMain={false} name={otherUser['user_name']} />
+                    <SortedListContainer
+                        name={otherUser["user_name"]}
+                        textTheme={textTheme}
+                        title={`${otherUser["user_name"]}'s Lists`}
+                        listType={RankedListPreviewTypes.userLists}
+                        emptyMessage={`${otherUser["user_name"]} hasn't made any lists`}
+                    />
                 </div>
             );
         } else {

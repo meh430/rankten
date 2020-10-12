@@ -2,11 +2,14 @@ import React, { useEffect, useState } from "react";
 import InfiniteScroll from "react-infinite-scroll-component";
 import Masonry from "react-masonry-css";
 import ReactLoading from "react-loading";
+import RefreshIcon from "@material-ui/icons/Refresh";
 
 import { getRankedListPreview } from "../api/RankedListPreviewRepo";
 import { RankedListCard } from "./RankedListCard";
 import { appThemeConstants } from "../misc/AppTheme";
 import "./Mason.css";
+import { SortOptions } from "../misc/Utils";
+import { SortMenu } from "./SearchUsers";
 
 let page = 1;
 
@@ -23,6 +26,7 @@ const breakpointColumnsObj = {
 //query: string
 //emptyMessage: string
 //listType: string
+//textTheme: object
 export const GenericList = (props) => {
     const [rankedLists, setRankedLists] = useState([]);
     const [hitMax, setHitMax] = useState(false);
@@ -59,7 +63,7 @@ export const GenericList = (props) => {
         })();
     }, [props.query, props.sort, props.refresh]);
 
-    return (
+    return rankedLists.length ? (
         <InfiniteScroll
             dataLength={rankedLists.length}
             next={onPaginate}
@@ -80,6 +84,45 @@ export const GenericList = (props) => {
                 ))}
             </Masonry>
         </InfiniteScroll>
+    ) : (
+        <h2 style={props.textTheme}>{props.emptyMessage}</h2>
+    );
+};
+
+//title: string
+//listType: string
+//name: string
+//token: string
+//query: string
+//emptyMessage: string
+//listType: string
+//textTheme: object
+export const SortedListContainer = (props) => {
+    const [sort, setSort] = useState(SortOptions.likesDesc);
+    const [refresh, setRefresh] = useState(false);
+    const onSort = (sortOption) => setSort(sortOption);
+    return (
+        <div className="col">
+            <div className="row" style={{ alignItems: "center", justifyContent: "space-around" }}>
+                <div className="row" style={{ alignItems: "center" }}>
+                    <h2 style={props.textTheme}>{props.title}</h2>
+                    <RefreshIcon
+                        style={{ marginLeft: "10px", cursor: "pointer" }}
+                        onClick={() => setRefresh(!refresh)}
+                    />
+                </div>
+                <SortMenu onSort={onSort} />
+            </div>
+            <GenericList
+                textTheme={props.textTheme}
+                refresh={refresh}
+                sort={sort}
+                name={props.name}
+                token={props.token}
+                emptyMessage={props.emptyMessage}
+                listType={props.listType}
+            />
+        </div>
     );
 };
 
