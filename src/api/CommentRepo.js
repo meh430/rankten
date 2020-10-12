@@ -30,3 +30,10 @@ export async function getComments(listId, page = 1, sort = 0, refresh = false) {
         return [e, res.length < 10, res];
     }
 }
+
+export async function createComment(listId, comment, token, editing = false) {
+    const endpoint = "/comment/" + listId;
+    const body = { comment: comment };
+
+    return editing ? await api.put(endpoint, token, body) : await api.post(endpoint, token, body);
+}
