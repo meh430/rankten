@@ -127,7 +127,7 @@ export const SignUp = (props) => {
                     onChange={(event) => (password = event.target.value)}
                     onEnter={submitSignup}
                 />
-                <BioField onEnter={submitSignup} onChange={(event) => (bio = event.target.value)} error={bioError}/>
+                <BioField onEnter={submitSignup} onChange={(event) => (bio = event.target.value)} error={bioError} />
                 <AuthSubmit loading={loading} isLogin={false} onClick={() => submitSignup()} />
                 <AltAuth textTheme={textTheme} isLogin={false} onClick={() => props.setLogin(true)} />
             </CardContent>

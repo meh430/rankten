@@ -73,7 +73,7 @@ export const UserListDialog = (props) => {
                     ) : (
                         usersList.map((user) => (
                             <UserPreviewCard
-                                key={`user_${user['user_name']}`}
+                                key={`user_${user["user_name"]}`}
                                 userName={user["user_name"]}
                                 profPic={user["prof_pic"]}
                             />

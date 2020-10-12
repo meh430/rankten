@@ -5,9 +5,8 @@ import FavoriteIcon from "@material-ui/icons/Favorite";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 
 import { appThemeConstants, getCardStyle, getTextTheme } from "../misc/AppTheme";
-
-import "../App.css";
 import { tsToDelta } from "../misc/Utils";
+import "../App.css";
 
 //commentPreview: object
 //cardTheme: object
@@ -137,7 +136,7 @@ export const RankedListCard = (props) => {
                 paddingLeft: "10px",
                 paddingRight: "10px",
                 paddingTop: "10px",
-                marginBottom: "18px"
+                marginBottom: "18px",
             }}
         >
             <div className="col" style={{ width: "100%" }}>

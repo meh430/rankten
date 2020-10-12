@@ -13,7 +13,7 @@ import { resetUserContext, UserContext } from "../Contexts";
 import { getCardStyle, getTextTheme, appThemeConstants } from "../misc/AppTheme";
 import { followUser, updateBio } from "../api/UserRepo";
 import { UserReducerTypes } from "../reducers/UserReducer";
-import { containsId, tsToDate, tsToDelta } from "../misc/Utils";
+import { containsId, tsToDate } from "../misc/Utils";
 import "../App.css";
 
 const useStyles = makeStyles((theme) => ({

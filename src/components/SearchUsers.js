@@ -8,7 +8,6 @@ import { UserPreviewCard } from "./UserPreviewCard";
 import { ActionButton } from "./ActionButton";
 import { SortOptions } from "../misc/Utils";
 import { searchUsers } from "../api/UserPreviewRepo";
-
 import "../App.css";
 
 //onSort: callback
@@ -81,7 +80,7 @@ export const SearchUsers = (props) => {
                 style={{ alignItems: "center", justifyContent: "start", width: "800px", maxWidth: "100%" }}
             >
                 <h2 style={textTheme}>Searching for users "{props.query}"</h2>
-                <SortMenu onSort={onSort}/>
+                <SortMenu onSort={onSort} />
             </div>
             <div className="row" style={{ justifyContent: "center", flexWrap: "wrap", width: "80%" }}>
                 {userList.length ? (

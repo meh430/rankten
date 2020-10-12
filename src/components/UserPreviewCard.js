@@ -1,10 +1,10 @@
 import React from "react";
+import { useHistory } from "react-router-dom";
 import { Card, useTheme, Avatar, makeStyles } from "@material-ui/core";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 
 import { getCardStyle, getTextTheme } from "../misc/AppTheme";
 import "../App.css";
-import { useHistory } from "react-router-dom";
 
 const useStyles = makeStyles((theme) => ({
     avatar: {
