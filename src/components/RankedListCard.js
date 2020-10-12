@@ -9,11 +9,11 @@ import ReactLoading from "react-loading";
 import { UserContext } from "../Contexts";
 import { appThemeConstants, getCardStyle, getTextTheme } from "../misc/AppTheme";
 import { containsId, tsToDelta } from "../misc/Utils";
-import "../App.css";
 import { UserListDialog } from "./UserListDialog";
 import { UserPreviewTypes } from "../api/UserPreviewRepo";
 import { likeList } from "../api/UserRepo";
 import { UserReducerTypes } from "../reducers/UserReducer";
+import "../App.css";
 
 //commentPreview: object
 //cardTheme: object
@@ -72,7 +72,7 @@ export const LikeBar = (props) => {
             setLiked(res === "LIKED");
             props.mainUser.userDispatch({
                 type: UserReducerTypes.likeListAction,
-                payload: { hasLiked: res === "LIKED", targetId: { "$oid": props.id } },
+                payload: { hasLiked: res === "LIKED", targetId: { $oid: props.id } },
             });
             setLoading(false);
         }
