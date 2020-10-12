@@ -19,17 +19,19 @@ import "../App.css";
 //name: string
 const UserRankedLists = (props) => {
     const [sort, setSort] = useState(SortOptions.likesDesc);
+    const [refresh, setRefresh] = useState(false);
     const onSort = (sortOption) => setSort(sortOption);
     return (
         <div className="col">
             <div className="row" style={{ alignItems: "center", justifyContent: "space-around" }}>
                 <div className="row" style={{ alignItems: "center" }}>
                     <h2 style={props.textTheme}>{props.isMain ? "Your Lists" : `${props.name}'s Lists`}</h2>
-                    <RefreshIcon style={{ marginLeft: "10px" }} />
+                    <RefreshIcon style={{ marginLeft: "10px", cursor: "pointer" }} onClick={() => setRefresh(!refresh)}/>
                 </div>
                 <SortMenu onSort={onSort} />
             </div>
             <GenericList
+                refresh={refresh}
                 sort={sort}
                 name={props.name}
                 token={props.token}
