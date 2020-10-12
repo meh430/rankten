@@ -7,6 +7,7 @@ import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 import { appThemeConstants, getCardStyle, getTextTheme } from "../misc/AppTheme";
 import { tsToDelta } from "../misc/Utils";
 import "../App.css";
+import { useHistory } from "react-router-dom";
 
 //commentPreview: object
 //cardTheme: object
@@ -105,13 +106,14 @@ export const RankItemPreview = (props) => {
 // timeStamp: number
 // isDark: bool
 export const CardHeader = (props) => {
+    const history = useHistory();
     const secondTextTheme = {
         color: props.isDark ? "white" : "#666666",
         fontFamily: appThemeConstants.fontFamily,
     };
     return (
         <div className="row" style={{ justifyContent: "space-between" }}>
-            <div className="row">
+            <div className="row" style={{ cursor: "pointer" }} onClick={() => history.push("/main/profile/" + props.name)}>
                 <Avatar src={props.profPic} style={{ height: "50px", width: "50px", marginRight: "12px" }}>
                     <AccountCircleIcon style={{ height: "100%", width: "100%" }} />
                 </Avatar>
