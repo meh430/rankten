@@ -1,15 +1,15 @@
 import React from "react";
+import ArrowBackIcon from '@material-ui/icons/ArrowBack';
 
 //color: string
 //onClick: callback
 export const BackButton = (props) => {
     return (
-        <i
-            className="fas fa-arrow-left"
+        <ArrowBackIcon
             onClick={props.onClick}
             style={{
-                fontSize: "24px",
-                marginLeft: "20px",
+                fontSize: "26px",
+                marginLeft: "10px",
                 color: props.color,
                 cursor: "pointer",
             }}

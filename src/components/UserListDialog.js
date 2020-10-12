@@ -46,7 +46,8 @@ export const UserListDialog = (props) => {
                     className="row"
                     style={{
                         alignItems: "center",
-                        width: "320px",
+                        alignSelf: "start",
+                        width: "fit-conent",
                         maxWidth: "100%",
                         position: "sticky",
                         top: "0",
@@ -55,7 +56,7 @@ export const UserListDialog = (props) => {
                     }}
                 >
                     <BackButton onClick={props.handleClose} />
-                    <h1 style={{ ...textTheme, marginLeft: "22px", fontSize: "22px" }}>{props.title}</h1>
+                    <h1 style={{ ...textTheme, marginLeft: "22px", fontSize: "22px", marginRight: "20px" }}>{props.title}</h1>
                 </div>
                 <div
                     class="col"
