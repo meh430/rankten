@@ -17,7 +17,6 @@ export async function validateImage(imageUrl) {
 export async function get(endpoint, bearerToken = "") {
     var hasError = false;
     var jsonResponse = null;
-    console.log(getHeaders(bearerToken));
 
     try {
         jsonResponse = await parseResponse(

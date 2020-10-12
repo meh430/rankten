@@ -20,15 +20,18 @@ export const UserListDialog = (props) => {
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
+
         (async () => {
-            setLoading(true);
-            const [e, res] = await getUsers(props.type)(props.name);
-            if (!e) {
-                setUsersList([...res]);
+            if (props.open) {
+                setLoading(true);
+                const [e, res] = await getUsers(props.type)(props.name);
+                if (!e) {
+                    setUsersList([...res]);
+                }
+                setLoading(false);
             }
-            setLoading(false);
         })();
-    }, [props.type, props.name]);
+    }, [props.type, props.name, props.open]);
 
     return (
         <Dialog onClose={props.handleClose} aria-labelledby="customized-dialog-title" open={props.open}>
