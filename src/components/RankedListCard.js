@@ -4,6 +4,7 @@ import { Avatar, Card, useTheme } from "@material-ui/core";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
+import ReactLoading from "react-loading";
 
 import { UserContext } from "../Contexts";
 import { appThemeConstants, getCardStyle, getTextTheme } from "../misc/AppTheme";
@@ -11,6 +12,8 @@ import { containsId, tsToDelta } from "../misc/Utils";
 import "../App.css";
 import { UserListDialog } from "./UserListDialog";
 import { UserPreviewTypes } from "../api/UserPreviewRepo";
+import { likeList } from "../api/UserRepo";
+import { UserReducerTypes } from "../reducers/UserReducer";
 
 //commentPreview: object
 //cardTheme: object
@@ -43,19 +46,43 @@ export const CommentPreview = (props) => {
 };
 
 // id: string
-// showLikers: bool
+// mainUser: object
 // textTheme: object
 // numLikes: number
 // isLiked: bool
+// isList: bool
 export const LikeBar = (props) => {
-    const [openLikers, setOpenLikers] = useState(false); 
+    const [loading, setLoading] = useState(false);
+    const [openLikers, setOpenLikers] = useState(false);
     const [liked, setLiked] = useState(props.isLiked);
+    const [numLikes, setNumLikes] = useState(props.numLikes);
 
-    const onLike = () => setLiked(!liked);
+    const onLike = async () => {
+        setLoading(true);
+        const [e, res] = await likeList(props.id, props.mainUser.userToken);
+        if (e) {
+            setLoading(false);
+            return;
+        } else {
+            if (liked) {
+                setNumLikes(numLikes - 1);
+            } else {
+                setNumLikes(numLikes + 1);
+            }
+            setLiked(res === "LIKED");
+            props.mainUser.userDispatch({
+                type: UserReducerTypes.likeListAction,
+                payload: { hasLiked: res === "LIKED", targetId: { "$oid": props.id } },
+            });
+            setLoading(false);
+        }
+    };
 
     const likeStyle = { color: "red", height: "45px", width: "45px" };
 
-    return (
+    return loading ? (
+        <ReactLoading type="bubbles" color={appThemeConstants.hanPurple} />
+    ) : (
         <div
             className="row"
             style={{
@@ -72,7 +99,9 @@ export const LikeBar = (props) => {
             ) : (
                 <FavoriteBorderIcon onClick={onLike} style={likeStyle} />
             )}
-            <h3 style={{ ...props.textTheme, fontSize: "20px" }} onClick={() => setOpenLikers(props.showLikers && true)}>{props.numLikes} likes</h3>
+            <h3 style={{ ...props.textTheme, fontSize: "20px" }} onClick={() => setOpenLikers(props.isList && true)}>
+                {numLikes} likes
+            </h3>
 
             <UserListDialog
                 handleClose={() => setOpenLikers(false)}
@@ -192,11 +221,12 @@ export const RankedListCard = (props) => {
                     View {props.rankedList["num_rank_items"] - props.rankedList["rank_list"].length} more items
                 </h4>
                 <LikeBar
+                    isList={true}
                     numLikes={props.rankedList["num_likes"]}
                     textTheme={textTheme}
-                    showLikers={true}
                     id={props.rankedList["_id"]}
                     isLiked={containsId(mainUser.user["liked_lists"], props.rankedList["_id"])}
+                    mainUser={mainUser}
                 />
                 {props.rankedList["num_comments"] >= 1 ? (
                     <CommentPreview
