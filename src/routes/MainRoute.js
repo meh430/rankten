@@ -28,8 +28,8 @@ import { clearStorage, getMainTab, saveTheme, setMainTab } from "../misc/PrefSto
 import { appThemeConstants } from "../misc/AppTheme";
 import { Logo } from "../components/Logo";
 import { Profile } from "../components/Profile";
-import "../App.css";
 import { SearchUsers } from "../components/SearchUsers";
+import "../App.css";
 
 const renderOtherProfile = (routerProps) => {
     let userName = routerProps.match.params.name;
@@ -208,18 +208,27 @@ export const MainRoute = (props) => {
                     >
                         <MenuIcon />
                     </IconButton>
-                    <div style={{ display: "flex", flexDirection: "row", justifyContent: "center", width: "90%", alignSelf: "center", justifySelf: "center" }}>
+                    <div
+                        style={{
+                            display: "flex",
+                            flexDirection: "row",
+                            justifyContent: "center",
+                            width: "90%",
+                            alignSelf: "center",
+                            justifySelf: "center",
+                        }}
+                    >
                         <TextField
                             style={{ width: "550px", maxWidth: "90%", margin: "12px" }}
                             variant="outlined"
                             placeholder="Search..."
-                            onKeyPress={(event) => {                                
+                            onKeyPress={(event) => {
                                 if (event.key === "Enter") {
-                                    history.push('/main/search_users/' + searchQuery);
+                                    history.push("/main/search_users/" + searchQuery);
                                     event.preventDefault();
                                 }
                             }}
-                            onChange={(event) => searchQuery = event.target.value}
+                            onChange={(event) => (searchQuery = event.target.value)}
                         />
                     </div>
                 </Toolbar>
@@ -259,9 +268,12 @@ export const MainRoute = (props) => {
                 <Switch>
                     <Route path="/main" component={() => <h1>Feed</h1>} exact />
                     <Route path="/main/discover" component={() => <h1>Discover</h1>} />
-                    <Route path="/main/search_users/:query" render={(routerProps) => {
-                        return <SearchUsers query={routerProps.match.params.query}/>;
-                    }}/>
+                    <Route
+                        path="/main/search_users/:query"
+                        render={(routerProps) => {
+                            return <SearchUsers query={routerProps.match.params.query} />;
+                        }}
+                    />
                     <Route path="/main/search_lists/:query" component={() => <h1>Search</h1>} />
                     <Route path="/main/profile" render={() => <Profile isMain={true} />} exact />
                     <Route path="/main/profile/:name" render={(routerProps) => renderOtherProfile(routerProps)} />
