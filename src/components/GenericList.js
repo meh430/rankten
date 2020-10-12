@@ -11,7 +11,6 @@ import { SortOptions } from "../misc/Utils";
 import { SortMenu } from "./SearchUsers";
 import "./Mason.css";
 
-
 let page = 1;
 
 const breakpointColumnsObj = {

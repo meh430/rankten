@@ -29,6 +29,7 @@ import { appThemeConstants } from "../misc/AppTheme";
 import { Logo } from "../components/Logo";
 import { Profile } from "../components/Profile";
 import { SearchUsers } from "../components/SearchUsers";
+import { Discover } from "../components/Discover";
 import "../App.css";
 
 const renderOtherProfile = (routerProps) => {
@@ -267,7 +268,7 @@ export const MainRoute = (props) => {
                 <div className={classes.toolbar} />
                 <Switch>
                     <Route path="/main" component={() => <h1>Feed</h1>} exact />
-                    <Route path="/main/discover" component={() => <h1>Discover</h1>} />
+                    <Route path="/main/discover" component={Discover} />
                     <Route
                         path="/main/search_users/:query"
                         render={(routerProps) => {
