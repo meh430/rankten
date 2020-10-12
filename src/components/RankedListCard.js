@@ -13,8 +13,8 @@ import { UserListDialog } from "./UserListDialog";
 import { UserPreviewTypes } from "../api/UserPreviewRepo";
 import { likeList } from "../api/UserRepo";
 import { UserReducerTypes } from "../reducers/UserReducer";
-import "../App.css";
 import { likeComment } from "../api/CommentRepo";
+import "../App.css";
 
 //commentPreview: object
 //cardTheme: object
@@ -60,7 +60,9 @@ export const LikeBar = (props) => {
 
     const onLike = async () => {
         setLoading(true);
-        const [e, res] = props.isList ? await likeList(props.id, props.mainUser.userToken) : await likeComment(props.id["$oid"], props.mainUser.userToken);
+        const [e, res] = props.isList
+            ? await likeList(props.id, props.mainUser.userToken)
+            : await likeComment(props.id["$oid"], props.mainUser.userToken);
         if (e) {
             setLoading(false);
             return;
