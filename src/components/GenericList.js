@@ -94,6 +94,7 @@ export const GenericList = (props) => {
 //emptyMessage: string
 //listType: string
 //textTheme: object
+//noSort: bool
 export const SortedListContainer = (props) => {
     const [sort, setSort] = useState(SortOptions.likesDesc);
     const [refresh, setRefresh] = useState(false);
@@ -108,7 +109,7 @@ export const SortedListContainer = (props) => {
                         onClick={() => setRefresh(!refresh)}
                     />
                 </div>
-                <SortMenu onSort={onSort} />
+                {props.noSort ? <i style={{display: "none"}}/> : <SortMenu onSort={onSort} />}
             </div>
             <GenericList
                 textTheme={props.textTheme}
