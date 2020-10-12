@@ -10,8 +10,8 @@ import { GenericList } from "./GenericList";
 import { SortMenu } from "./SearchUsers";
 import { RankedListPreviewTypes } from "../api/RankedListPreviewRepo";
 import { SortOptions } from "../misc/Utils";
-import "../App.css";
 import { UserContext } from "../Contexts";
+import "../App.css";
 
 //textTheme: object
 //isMain: bool

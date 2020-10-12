@@ -1,6 +1,5 @@
-
 const baseUrl = "http://192.168.0.22:5000";
-//const baseUrl = "https://rank-ten-api.herokuapp.com";
+
 export async function validateImage(imageUrl) {
     var isValid = false;
     try {

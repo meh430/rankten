@@ -1,4 +1,4 @@
-import * as api from './RankApi';
+import * as api from "./RankApi";
 
 export const RankedListPreviewTypes = {
     discoverLists: "discover",
@@ -6,7 +6,7 @@ export const RankedListPreviewTypes = {
     userLists: "rankedlists",
     userListsP: "rankedlistsp",
     feedLists: "feed",
-    searchLists: "search_lists"
+    searchLists: "search_lists",
 };
 
 /* 
@@ -42,7 +42,7 @@ export const getRankedListPreview = async (params) => {
             endpoint += `/${params.page}/${params.sort}`;
             break;
         case RankedListPreviewTypes.feedLists:
-            endpoint += `/${params.page}`
+            endpoint += `/${params.page}`;
             break;
         case RankedListPreviewTypes.searchLists:
             endpoint += `/${params.page}/${params.sort}?q=${params.query.replace(/ /g, "+")}`;
@@ -59,8 +59,8 @@ export const getRankedListPreview = async (params) => {
 
     const [e, res] = await api.get(endpoint, token);
     if (e) {
-        return res.includes("Page") ? [false, true, []] : [e, false, []]
+        return res.includes("Page") ? [false, true, []] : [e, false, []];
     } else {
         return [e, res.length < 10, res];
     }
-}
+};

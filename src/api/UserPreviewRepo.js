@@ -1,10 +1,10 @@
-import * as api from './RankApi';
+import * as api from "./RankApi";
 
 export const UserPreviewTypes = {
     followingList: "FOLLOWING_LIST",
     followersList: "FOLLOWERS_LIST",
     likersList: "LIKERS_LIST",
-    searchUsersList: "SEARCH_USERS_LIST"
+    searchUsersList: "SEARCH_USERS_LIST",
 };
 
 /* 
@@ -35,8 +35,8 @@ export async function getLikers(id) {
 export async function searchUsers(params) {
     var [e, res] = await api.get("/search_users/" + params.page + "/" + params.sort + "?q=" + params.query);
     if (e) {
-        return res.includes("Page") ? [false, true, []] : [e, false, []]
+        return res.includes("Page") ? [false, true, []] : [e, false, []];
     } else {
-        return [e, res.length < 100, res]
+        return [e, res.length < 100, res];
     }
 }
