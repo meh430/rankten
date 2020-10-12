@@ -12,6 +12,7 @@ import "../App.css";
 //open: bool
 //title: string
 //type: string
+//name: string
 export const UserListDialog = (props) => {
     const currentTheme = useTheme();
     const textTheme = getTextTheme(currentTheme);

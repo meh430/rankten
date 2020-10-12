@@ -28,7 +28,7 @@ export async function getFollowers(name) {
 }
 
 export async function getLikers(id) {
-    var response = await api.get("/like" + id);
+    var response = await api.get("/like/" + id);
     return response;
 }
 

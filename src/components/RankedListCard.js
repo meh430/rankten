@@ -9,6 +9,8 @@ import { UserContext } from "../Contexts";
 import { appThemeConstants, getCardStyle, getTextTheme } from "../misc/AppTheme";
 import { containsId, tsToDelta } from "../misc/Utils";
 import "../App.css";
+import { UserListDialog } from "./UserListDialog";
+import { UserPreviewTypes } from "../api/UserPreviewRepo";
 
 //commentPreview: object
 //cardTheme: object
@@ -46,6 +48,7 @@ export const CommentPreview = (props) => {
 // numLikes: number
 // isLiked: bool
 export const LikeBar = (props) => {
+    const [openLikers, setOpenLikers] = useState(false); 
     const [liked, setLiked] = useState(props.isLiked);
 
     const onLike = () => setLiked(!liked);
@@ -69,7 +72,15 @@ export const LikeBar = (props) => {
             ) : (
                 <FavoriteBorderIcon onClick={onLike} style={likeStyle} />
             )}
-            <h3 style={{ ...props.textTheme, fontSize: "20px" }}>{props.numLikes} likes</h3>
+            <h3 style={{ ...props.textTheme, fontSize: "20px" }} onClick={() => setOpenLikers(props.showLikers && true)}>{props.numLikes} likes</h3>
+
+            <UserListDialog
+                handleClose={() => setOpenLikers(false)}
+                open={openLikers}
+                title="Liked By"
+                type={UserPreviewTypes.likersList}
+                name={props.id}
+            />
         </div>
     );
 };
@@ -183,7 +194,7 @@ export const RankedListCard = (props) => {
                 <LikeBar
                     numLikes={props.rankedList["num_likes"]}
                     textTheme={textTheme}
-                    showLikers={false}
+                    showLikers={true}
                     id={props.rankedList["_id"]}
                     isLiked={containsId(mainUser.user["liked_lists"], props.rankedList["_id"])}
                 />
