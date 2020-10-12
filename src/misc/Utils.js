@@ -21,7 +21,7 @@ export const SortOptions = {
 
 export function containsId(idList, id) {
     for (var i = 0; i < idList.length; i++) {
-        if (idList[i]["$oid"] === id["$oid"]) {
+        if (idList[i]["$oid"] === id) {
             return true;
         }
     }

@@ -1,13 +1,14 @@
-import React, { useState } from "react";
+import React, { useContext, useState } from "react";
+import { useHistory } from "react-router-dom";
 import { Avatar, Card, useTheme } from "@material-ui/core";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 
+import { UserContext } from "../Contexts";
 import { appThemeConstants, getCardStyle, getTextTheme } from "../misc/AppTheme";
-import { tsToDelta } from "../misc/Utils";
+import { containsId, tsToDelta } from "../misc/Utils";
 import "../App.css";
-import { useHistory } from "react-router-dom";
 
 //commentPreview: object
 //cardTheme: object
@@ -39,11 +40,13 @@ export const CommentPreview = (props) => {
     );
 };
 
+// id: string
+// showLikers: bool
 // textTheme: object
 // numLikes: number
 // isLiked: bool
 export const LikeBar = (props) => {
-    const [liked, setLiked] = useState(false); //get from props?
+    const [liked, setLiked] = useState(props.isLiked);
 
     const onLike = () => setLiked(!liked);
 
@@ -113,7 +116,11 @@ export const CardHeader = (props) => {
     };
     return (
         <div className="row" style={{ justifyContent: "space-between" }}>
-            <div className="row" style={{ cursor: "pointer" }} onClick={() => history.push("/main/profile/" + props.name)}>
+            <div
+                className="row"
+                style={{ cursor: "pointer" }}
+                onClick={() => history.push("/main/profile/" + props.name)}
+            >
                 <Avatar src={props.profPic} style={{ height: "50px", width: "50px", marginRight: "12px" }}>
                     <AccountCircleIcon style={{ height: "100%", width: "100%" }} />
                 </Avatar>
@@ -129,6 +136,7 @@ export const RankedListCard = (props) => {
     const currentTheme = useTheme();
     const cardStyle = getCardStyle(currentTheme);
     const textTheme = getTextTheme(currentTheme);
+    const mainUser = useContext(UserContext);
     return (
         <Card
             style={{
@@ -172,7 +180,13 @@ export const RankedListCard = (props) => {
                 >
                     View {props.rankedList["num_rank_items"] - props.rankedList["rank_list"].length} more items
                 </h4>
-                <LikeBar numLikes={props.rankedList["num_likes"]} textTheme={textTheme} />
+                <LikeBar
+                    numLikes={props.rankedList["num_likes"]}
+                    textTheme={textTheme}
+                    showLikers={false}
+                    id={props.rankedList["_id"]}
+                    isLiked={containsId(mainUser.user["liked_lists"], props.rankedList["_id"])}
+                />
                 {props.rankedList["num_comments"] >= 1 ? (
                     <CommentPreview
                         commentPreview={{
