@@ -14,6 +14,7 @@ import { UserPreviewTypes } from "../api/UserPreviewRepo";
 import { likeList } from "../api/UserRepo";
 import { UserReducerTypes } from "../reducers/UserReducer";
 import "../App.css";
+import { likeComment } from "../api/CommentRepo";
 
 //commentPreview: object
 //cardTheme: object
@@ -59,7 +60,7 @@ export const LikeBar = (props) => {
 
     const onLike = async () => {
         setLoading(true);
-        const [e, res] = await likeList(props.id, props.mainUser.userToken);
+        const [e, res] = props.isList ? await likeList(props.id, props.mainUser.userToken) : await likeComment(props.id["$oid"], props.mainUser.userToken);
         if (e) {
             setLoading(false);
             return;
@@ -70,10 +71,12 @@ export const LikeBar = (props) => {
                 setNumLikes(numLikes + 1);
             }
             setLiked(res === "LIKED");
-            props.mainUser.userDispatch({
-                type: UserReducerTypes.likeListAction,
-                payload: { hasLiked: res === "LIKED", targetId: { $oid: props.id } },
-            });
+            if (props.isList) {
+                props.mainUser.userDispatch({
+                    type: UserReducerTypes.likeListAction,
+                    payload: { hasLiked: res === "LIKED", targetId: { $oid: props.id } },
+                });
+            }
             setLoading(false);
         }
     };
