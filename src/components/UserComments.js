@@ -25,6 +25,7 @@ export const UserComments = (props) => {
     const [userComments, setUserComments] = useState([]);
     const [hitMax, setHitMax] = useState(false);
     const [sort, setSort] = useState(SortOptions.likesDesc);
+    const [refresh, setRefresh] = useState(false);
 
     useEffect(() => {
         (async () => {
@@ -34,19 +35,19 @@ export const UserComments = (props) => {
 
             page = 1;
             setUserComments([]);
-            const [e, lastPage, res] = await getUserComments(page, sort, props.mainUser.userToken, false);
+            const [e, lastPage, res] = await getUserComments(page, sort, props.mainUser.userToken, refresh);
             setHitMax(lastPage);
             if (!e) {
                 setUserComments([...res]);
             }
         })();
-    }, [props.open, sort]);
+    }, [props.open, sort, refresh]);
 
     const onPaginate = () => {
         (async () => {
             page += 1;
 
-            const [e, lastPage, res] = await getUserComments(page, sort, props.mainUser.userToken, false);
+            const [e, lastPage, res] = await getUserComments(page, sort, props.mainUser.userToken, refresh);
             setHitMax(lastPage);
             if (!e) {
                 setUserComments([...userComments, ...res]);
@@ -85,7 +86,7 @@ export const UserComments = (props) => {
                         </h1>
                     </div>
                     <div className="row" style={{ alignItems: "center", marginRight: "6px" }}>
-                        <RefreshIcon />
+                        <RefreshIcon style={{ cursor: "pointer" }} onClick={() => setRefresh(!refresh)}/>
                         <SortMenu onSort={(sortOption) => setSort(sortOption)} />
                     </div>
                 </div>
