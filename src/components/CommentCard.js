@@ -13,22 +13,22 @@ import "../App.css";
 export const CommentCard = (props) => {
     const { comment } = props;
     return (
-        <Card style={{ ...cardTheme }}>
-            <div className="col" style={{ width: "100%" }}>
+        <Card style={{ ...props.cardTheme, width: "400px", marginBottom: "2px", maxWidth: "100%" }}>
+            <div className="col" style={{ width: "100%", paddingTop: "10px", paddingLeft: "10px", paddingRight: "10px" }}>
                 <CardHeader
                     name={comment["user_name"]}
                     profPic={comment["prof_pic"]}
                     timeStamp={comment["date_created"]["$date"]}
                     isDark={props.isDark}
                 />
-                <h3 style={props.textTheme}>{comment.comment}</h3>
+                <h3 style={{ ...props.textTheme, marginLeft: "10px" , marginRight: "10px", marginBottom: "0px"}}>{comment.comment}</h3>
                 <LikeBar
                     id={comment["_id"]}
                     mainUser={props.mainUser}
                     textTheme={props.textTheme}
                     numLikes={comment["num_likes"]}
                     isList={false}
-                    isLiked={containsId(comment["liked_users"], mainUser.user["_id"]["$oid"])}
+                    isLiked={containsId(comment["liked_users"], props.mainUser.user["_id"]["$oid"])}
                 />
             </div>
         </Card>

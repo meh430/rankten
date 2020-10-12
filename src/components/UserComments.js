@@ -6,11 +6,11 @@ import RefreshIcon from "@material-ui/icons/Refresh";
 
 import { SortOptions } from "../misc/Utils";
 import { BackButton } from "./BackButton";
-import { getCardStyle, getTextTheme } from "../misc/AppTheme";
+import { appThemeConstants, getCardStyle, getTextTheme } from "../misc/AppTheme";
 import { SortMenu } from "./SearchUsers";
 import { getUserComments } from "../api/CommentRepo";
-import "../App.css";
 import { CommentCard } from "./CommentCard";
+import "../App.css";
 
 let page = 1;
 
@@ -49,7 +49,7 @@ export const UserComments = (props) => {
             const [e, lastPage, res] = await getUserComments(page, sort, props.mainUser.userToken, false);
             setHitMax(lastPage);
             if (!e) {
-                setUserComments([...rankedLists, ...res]);
+                setUserComments([...userComments, ...res]);
             }
         })();
     };
@@ -67,9 +67,10 @@ export const UserComments = (props) => {
                 <div
                     className="row"
                     style={{
+                        justifyContent: "space-between",
+                        width: "100%",
                         alignItems: "center",
                         alignSelf: "start",
-                        width: "fit-conent",
                         maxWidth: "100%",
                         position: "sticky",
                         top: "0",
@@ -77,30 +78,39 @@ export const UserComments = (props) => {
                         backgroundColor: currentTheme.palette.background.default,
                     }}
                 >
-                    <BackButton onClick={props.handleClose} />
-                    <h1 style={{ ...textTheme, marginLeft: "22px", fontSize: "22px", marginRight: "20px" }}>
-                        Your Comments
-                    </h1>
-                    <SortMenu onSort={(sortOption) => setSort(sortOption)} />
-                </div>
-                <InfiniteScroll
-                    dataLength={rankedLists.length}
-                    next={onPaginate}
-                    hasMore={!hitMax}
-                    loader={<ReactLoading type="cylon" color={appThemeConstants.hanPurple} />}
-                >
-                    <div className="col" style={{ alignItems: "center" }}>
-                        {userComments.map((uComment) => (
-                            <CommentCard
-                                comment={uComment}
-                                mainUser={mainUser}
-                                cardTheme={cardTheme}
-                                textTheme={textTheme}
-                                isDark={currentTheme.palette.type === "dark"}
-                            />
-                        ))}
+                    <div className="row" style={{ alignItems: "center" }}>
+                        <BackButton onClick={props.handleClose} />
+                        <h1 style={{ ...textTheme, marginLeft: "22px", fontSize: "22px", marginRight: "20px" }}>
+                            Your Comments
+                        </h1>
                     </div>
-                </InfiniteScroll>
+                    <div className="row" style={{ alignItems: "center", marginRight: "6px" }}>
+                        <RefreshIcon />
+                        <SortMenu onSort={(sortOption) => setSort(sortOption)} />
+                    </div>
+                </div>
+                {userComments.length ? (
+                    <InfiniteScroll
+                        dataLength={userComments.length}
+                        next={onPaginate}
+                        hasMore={!hitMax}
+                        loader={<ReactLoading type="cylon" color={appThemeConstants.hanPurple} />}
+                    >
+                        <div className="col" style={{ alignItems: "center" }}>
+                            {userComments.map((uComment) => (
+                                <CommentCard
+                                    comment={uComment}
+                                    mainUser={props.mainUser}
+                                    cardTheme={cardTheme}
+                                    textTheme={textTheme}
+                                    isDark={currentTheme.palette.type === "dark"}
+                                />
+                            ))}
+                        </div>
+                    </InfiniteScroll>
+                ) : (
+                    <h2 style={props.textTheme}>You haven't commented on anything</h2>
+                )}
             </div>
         </Dialog>
     );

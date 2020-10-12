@@ -15,6 +15,7 @@ import { followUser, updateBio } from "../api/UserRepo";
 import { UserReducerTypes } from "../reducers/UserReducer";
 import { containsId, tsToDate } from "../misc/Utils";
 import "../App.css";
+import { UserComments } from "./UserComments";
 
 const useStyles = makeStyles((theme) => ({
     avatar: {
@@ -166,6 +167,7 @@ export const UserInfo = (props) => {
     const [profPickerOpen, setProfPickerOpen] = useState(false);
     const [followersOpen, setFollowersOpen] = useState(false);
     const [followingOpen, setFollowingOpen] = useState(false);
+    const [userCommentsOpen, setUserCommentsOpen] = useState(false);
 
     let userStats = [];
     let user = props.isMain ? mainUser.user : props.user;
@@ -203,7 +205,7 @@ export const UserInfo = (props) => {
     if (props.isMain) {
         userStats.push(
             {
-                onClick: null,
+                onClick: () => setUserCommentsOpen(true),
                 label: "Comments",
                 stat: user["num_comments"],
             },
@@ -274,6 +276,12 @@ export const UserInfo = (props) => {
                     title={user["user_name"] + "'s Following"}
                     type={UserPreviewTypes.followingList}
                     name={user["user_name"]}
+                />
+
+                <UserComments
+                    open={userCommentsOpen}
+                    handleClose={() => setUserCommentsOpen(false)}
+                    mainUser={mainUser}
                 />
                 <ProfilePicChooser open={profPickerOpen} handleClose={() => setProfPickerOpen(false)} />
             </CardContent>
