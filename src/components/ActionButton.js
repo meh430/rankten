@@ -1,7 +1,7 @@
-import React from 'react';
-import { Button } from '@material-ui/core';
+import React from "react";
+import { Button } from "@material-ui/core";
 
-import { appThemeConstants } from '../misc/AppTheme'
+import { appThemeConstants } from "../misc/AppTheme";
 
 //label: string
 //width: string

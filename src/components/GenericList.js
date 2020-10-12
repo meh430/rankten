@@ -5,7 +5,7 @@ import ReactLoading from "react-loading";
 
 import { getRankedListPreview } from "../api/RankedListPreviewRepo";
 import { RankedListCard } from "./RankedListCard";
-import { appThemeConstants } from "../misc/AppTheme"
+import { appThemeConstants } from "../misc/AppTheme";
 import "./Mason.css";
 
 let page = 1;
@@ -31,7 +31,7 @@ export const GenericList = (props) => {
     const onPaginate = () => {
         (async () => {
             page += 1;
-            
+
             const [e, lastPage, res] = await getRankedListPreview(
                 getParams(page, props.sort, props.name, props.token, props.query, false, props.listType)
             );
@@ -40,7 +40,7 @@ export const GenericList = (props) => {
                 setRankedLists([...rankedLists, ...res]);
             }
         })();
-    }
+    };
 
     //TODO: PLS DO SOME BETTER ERROR HANDLING
     useEffect(() => {

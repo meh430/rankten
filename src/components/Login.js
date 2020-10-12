@@ -22,7 +22,7 @@ export const NameField = (props) => {
     return (
         <TextField
             onKeyPress={(event) => {
-                if (event.key === 'Enter') {
+                if (event.key === "Enter") {
                     props.onEnter();
                     event.preventDefault();
                 }
@@ -45,7 +45,7 @@ export const PasswordField = (props) => {
         <TextField
             error={props.error}
             onKeyPress={(event) => {
-                if (event.key === 'Enter') {
+                if (event.key === "Enter") {
                     props.onEnter();
                     event.preventDefault();
                 }
@@ -172,8 +172,16 @@ export const Login = (props) => {
         >
             <CardContent className="col" style={{ alignItems: "center", paddingBottom: "2px" }}>
                 <h1 style={textTheme}>Log In</h1>
-                <NameField error={nameError} onChange={(event) => (userName = event.target.value)} onEnter={submitLogin}/>
-                <PasswordField error={passwordError} onChange={(event) => (password = event.target.value)} onEnter={submitLogin}/>
+                <NameField
+                    error={nameError}
+                    onChange={(event) => (userName = event.target.value)}
+                    onEnter={submitLogin}
+                />
+                <PasswordField
+                    error={passwordError}
+                    onChange={(event) => (password = event.target.value)}
+                    onEnter={submitLogin}
+                />
                 <AuthSubmit loading={loading} isLogin={true} onClick={() => submitLogin()} />
                 <AltAuth textTheme={textTheme} isLogin={true} onClick={() => props.setLogin(false)} />
             </CardContent>
