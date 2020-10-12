@@ -2,8 +2,8 @@ import React from "react";
 import { Card } from "@material-ui/core";
 
 import { CardHeader, LikeBar } from "./RankedListCard";
-import "../App.css";
 import { containsId } from "../misc/Utils";
+import "../App.css";
 
 // comment: object
 // mainUser: object
