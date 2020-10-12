@@ -1,49 +1,13 @@
 import React, { useContext, useEffect, useState } from "react";
 import { useTheme } from "@material-ui/core";
 import ReactLoading from "react-loading";
-import RefreshIcon from "@material-ui/icons/Refresh";
 
 import { UserInfo } from "./UserInfo";
 import { getUser } from "../api/UserRepo";
 import { appThemeConstants, getTextTheme } from "../misc/AppTheme";
-import { GenericList, SortedListContainer } from "./GenericList";
-import { SortMenu } from "./SearchUsers";
 import { RankedListPreviewTypes } from "../api/RankedListPreviewRepo";
-import { SortOptions } from "../misc/Utils";
 import { UserContext } from "../Contexts";
 import "../App.css";
-
-//textTheme: object
-//isMain: bool
-//token: string
-//name: string
-/*const UserRankedLists = (props) => {
-    const [sort, setSort] = useState(SortOptions.likesDesc);
-    const [refresh, setRefresh] = useState(false);
-    const onSort = (sortOption) => setSort(sortOption);
-    return (
-        <div className="col">
-            <div className="row" style={{ alignItems: "center", justifyContent: "space-around" }}>
-                <div className="row" style={{ alignItems: "center" }}>
-                    <h2 style={props.textTheme}>{props.isMain ? "Your Lists" : `${props.name}'s Lists`}</h2>
-                    <RefreshIcon
-                        style={{ marginLeft: "10px", cursor: "pointer" }}
-                        onClick={() => setRefresh(!refresh)}
-                    />
-                </div>
-                <SortMenu onSort={onSort} />
-            </div>
-            <GenericList
-                refresh={refresh}
-                sort={sort}
-                name={props.name}
-                token={props.token}
-                emptyMessage={props.isMain ? "You haven't made any lists" : `${props.name} hasn't made any lists`}
-                listType={props.isMain ? RankedListPreviewTypes.userListsP : RankedListPreviewTypes.userLists}
-            />
-        </div>
-    );
-};*/
 
 //isMain: bool
 //userName: string
@@ -102,3 +66,35 @@ export const Profile = (props) => {
         }
     }
 };
+
+//textTheme: object
+//isMain: bool
+//token: string
+//name: string
+/*const UserRankedLists = (props) => {
+    const [sort, setSort] = useState(SortOptions.likesDesc);
+    const [refresh, setRefresh] = useState(false);
+    const onSort = (sortOption) => setSort(sortOption);
+    return (
+        <div className="col">
+            <div className="row" style={{ alignItems: "center", justifyContent: "space-around" }}>
+                <div className="row" style={{ alignItems: "center" }}>
+                    <h2 style={props.textTheme}>{props.isMain ? "Your Lists" : `${props.name}'s Lists`}</h2>
+                    <RefreshIcon
+                        style={{ marginLeft: "10px", cursor: "pointer" }}
+                        onClick={() => setRefresh(!refresh)}
+                    />
+                </div>
+                <SortMenu onSort={onSort} />
+            </div>
+            <GenericList
+                refresh={refresh}
+                sort={sort}
+                name={props.name}
+                token={props.token}
+                emptyMessage={props.isMain ? "You haven't made any lists" : `${props.name} hasn't made any lists`}
+                listType={props.isMain ? RankedListPreviewTypes.userListsP : RankedListPreviewTypes.userLists}
+            />
+        </div>
+    );
+};*/
