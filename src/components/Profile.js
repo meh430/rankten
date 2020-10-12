@@ -7,6 +7,7 @@ import { getUser } from "../api/UserRepo";
 import { appThemeConstants, getTextTheme } from "../misc/AppTheme";
 import { RankedListPreviewTypes } from "../api/RankedListPreviewRepo";
 import { UserContext } from "../Contexts";
+import { SortedListContainer } from "./GenericList";
 import "../App.css";
 
 //isMain: bool
@@ -14,6 +15,7 @@ import "../App.css";
 export const Profile = (props) => {
     const [otherUser, setOtherUser] = useState(null);
     const [errorState, setErrorState] = useState(false);
+    const [displayLiked, setDisplayLiked] = useState(false);
     const currentTheme = useTheme();
     const textTheme = getTextTheme(currentTheme);
     const { userToken } = useContext(UserContext);
@@ -35,13 +37,18 @@ export const Profile = (props) => {
     if (props.isMain) {
         return (
             <div className="col" style={{ alignItems: "center" }}>
-                <UserInfo isMain={true} />
+                <UserInfo
+                    isMain={true}
+                    onListClick={() => setDisplayLiked(false)}
+                    onLikeClick={() => setDisplayLiked(true)}
+                />
+
                 <SortedListContainer
                     textTheme={textTheme}
-                    title="Your Lists"
-                    listType={RankedListPreviewTypes.userListsP}
+                    title={(displayLiked ? "Liked" : "Your") + " Lists"}
+                    listType={displayLiked ? RankedListPreviewTypes.likedLists : RankedListPreviewTypes.userListsP}
                     token={userToken}
-                    emptyMessage="You haven't made any lists"
+                    emptyMessage={"You haven't + " + (displayLiked ? "liked" : "created") + " any lists"}
                 />
             </div>
         );

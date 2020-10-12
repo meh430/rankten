@@ -155,6 +155,8 @@ const UserBio = (props) => {
 
 //isMain: bool
 //user: object
+//onLikeClick: callback
+//onListClick: callback
 export const UserInfo = (props) => {
     const mainUser = useContext(UserContext);
     const classes = useStyles();
@@ -182,7 +184,7 @@ export const UserInfo = (props) => {
             stat: user["rank_points"],
         },
         {
-            onClick: null,
+            onClick: props.onListClick,
             label: "Rank Lists",
             stat: user["list_num"],
         },
@@ -206,7 +208,7 @@ export const UserInfo = (props) => {
                 stat: user["num_comments"],
             },
             {
-                onClick: null,
+                onClick: props.onLikeClick,
                 label: "Liked Lists",
                 stat: user["num_liked"],
             }

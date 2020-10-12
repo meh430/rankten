@@ -31,14 +31,13 @@ const breakpointColumnsObj = {
 export const GenericList = (props) => {
     const [rankedLists, setRankedLists] = useState([]);
     const [hitMax, setHitMax] = useState(false);
-    const [loading, setLoading] = useState(false);
 
     const onPaginate = () => {
         (async () => {
             page += 1;
 
             const [e, lastPage, res] = await getRankedListPreview(
-                getParams(page, props.sort, props.name, props.token, props.query, false, props.listType)
+                getParams(page, props.sort, props.name, props.token, props.query, props.refresh, props.listType)
             );
             setHitMax(lastPage);
             if (!e) {
@@ -52,7 +51,6 @@ export const GenericList = (props) => {
         (async () => {
             page = 1;
             setRankedLists([]);
-            setLoading(true);
             const [e, lastPage, res] = await getRankedListPreview(
                 getParams(page, props.sort, props.name, props.token, props.query, props.refresh, props.listType)
             );
@@ -60,9 +58,8 @@ export const GenericList = (props) => {
             if (!e) {
                 setRankedLists([...res]);
             }
-            setLoading(false);
         })();
-    }, [props.query, props.sort, props.refresh]);
+    }, [props.query, props.sort, props.refresh, props.listType]);
 
     return rankedLists.length ? (
         <InfiniteScroll
