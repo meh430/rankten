@@ -77,6 +77,7 @@ export const Profile = (props) => {
             return (
                 <div className="col" style={{ alignItems: "center" }}>
                     <UserInfo isMain={false} user={otherUser} />
+                    <UserRankedLists textTheme={textTheme} isMain={false} name={otherUser['user_name']} />
                 </div>
             );
         } else {

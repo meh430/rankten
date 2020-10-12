@@ -20,7 +20,6 @@ export const UserListDialog = (props) => {
     const [loading, setLoading] = useState(false);
 
     useEffect(() => {
-
         (async () => {
             if (props.open) {
                 setLoading(true);

@@ -66,7 +66,15 @@ export const GenericList = (props) => {
             hasMore={!hitMax}
             loader={<ReactLoading type="cylon" color={appThemeConstants.hanPurple} />}
         >
-            <Masonry breakpointCols={breakpointColumnsObj} className="gen-list-grid" columnClassName="gen-list-col">
+            <Masonry
+                breakpointCols={
+                    rankedLists.length <= 2
+                        ? { ...breakpointColumnsObj, default: rankedLists.length }
+                        : breakpointColumnsObj
+                }
+                className="gen-list-grid"
+                columnClassName="gen-list-col"
+            >
                 {rankedLists.map((rList) => (
                     <RankedListCard rankedList={rList} key={"r_" + rList["date_created"]["$date"]} />
                 ))}
