@@ -50,7 +50,6 @@ export function rankedListReducer(state, action) {
     switch (action.type) {
         //{isNew: bool, rankedList: object}
         case ListReducerTypes.getRankedList:
-            console.log(action.payload.rankedList);
             return action.payload.isNew ? { ...state, ...initRankedList() } : { ...state, ...clone(action.payload.rankedList) };
         //{title: string}
         case ListReducerTypes.updateTitle:
