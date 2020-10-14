@@ -15,6 +15,7 @@ import { likeList } from "../api/UserRepo";
 import { UserReducerTypes } from "../reducers/UserReducer";
 import { likeComment } from "../api/CommentRepo";
 import "../App.css";
+import { RankedListView } from "./RankedListView";
 
 //commentPreview: object
 //cardTheme: object
@@ -183,6 +184,10 @@ export const RankedListCard = (props) => {
     const textTheme = getTextTheme(currentTheme);
     const mainUser = useContext(UserContext);
 
+    const [openList, setOpenList] = useState(false);
+
+    const onOpen = () => setOpenList(true);
+
     if (!mainUser.user) {
         resetUserContext(mainUser);
         return <ReactLoading type="bars" color={appThemeConstants.hanPurple} />;
@@ -207,7 +212,7 @@ export const RankedListCard = (props) => {
                     timeStamp={props.rankedList["date_created"]["$date"]}
                     isDark={currentTheme.palette.type === "dark"}
                 />
-                <h2 style={{ ...textTheme, marginTop: "0px" }}>{props.rankedList["title"]}</h2>
+                <h2 style={{ ...textTheme, marginTop: "0px", cursor: "pointer" }} onClick={onOpen}>{props.rankedList["title"]}</h2>
                 <img
                     style={{ borderRadius: "15px", width: "375px", maxWidth: "98%", alignSelf: "center" }}
                     src={props.rankedList["picture"]}
@@ -263,7 +268,9 @@ export const RankedListCard = (props) => {
                     />
                 ) : (
                     <i style={{ display: "none" }} />
-                )}
+                    )}
+                
+                <RankedListView open={openList} id={props.rankedList["_id"]["$oid"]} onClose={() => setOpenList(false)}/>
             </div>
         </Card>
     );

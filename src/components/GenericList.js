@@ -3,6 +3,8 @@ import InfiniteScroll from "react-infinite-scroll-component";
 import Masonry from "react-masonry-css";
 import ReactLoading from "react-loading";
 import RefreshIcon from "@material-ui/icons/Refresh";
+import useMediaQuery from '@material-ui/core/useMediaQuery';
+
 
 import { getRankedListPreview } from "../api/RankedListPreviewRepo";
 import { RankedListCard } from "./RankedListCard";
@@ -31,6 +33,19 @@ export const GenericList = (props) => {
     const [rankedLists, setRankedLists] = useState([]);
     const [hitMax, setHitMax] = useState(false);
     const [loading, setLoading] = useState(false);
+    const breakPoints = { default: 3 }
+    const isSmall = useMediaQuery('(max-width:700px)')
+    const isLarge = useMediaQuery('(min-width:1100px)')
+
+    
+    if (isSmall) {
+        breakPoints.default = 1
+    } else if (isLarge) {
+        breakPoints.default = 3;
+    } else {
+        breakPoints.default = 2;
+    }
+
 
     const onPaginate = () => {
         (async () => {
@@ -64,7 +79,7 @@ export const GenericList = (props) => {
     }, [props.query, props.sort, props.refresh, props.listType]);
 
     if (loading) {
-        return <ReactLoading type="bars" color={appThemeConstants.hanPurple} />
+        return <ReactLoading type="bars" color={appThemeConstants.hanPurple} />;
     }
 
     return rankedLists.length ? (
@@ -77,8 +92,8 @@ export const GenericList = (props) => {
             <Masonry
                 breakpointCols={
                     rankedLists.length <= 2
-                        ? { ...breakpointColumnsObj, default: rankedLists.length }
-                        : breakpointColumnsObj
+                        ? { ...breakPoints, default: rankedLists.length }
+                        : breakPoints
                 }
                 className="gen-list-grid"
                 columnClassName="gen-list-col"
@@ -116,7 +131,7 @@ export const SortedListContainer = (props) => {
                         onClick={() => setRefresh(!refresh)}
                     />
                 </div>
-                {props.noSort ? <i style={{display: "none"}}/> : <SortMenu onSort={onSort} />}
+                {props.noSort ? <i style={{ display: "none" }} /> : <SortMenu onSort={onSort} />}
             </div>
             <GenericList
                 query={props.query}
