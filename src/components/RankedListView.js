@@ -1,20 +1,15 @@
-import React, { useContext, useEffect, useReducer, useState } from "react";
+import React, { useEffect, useReducer, useState } from "react";
 import ReactLoading from "react-loading";
-import InfiniteScroll from "react-infinite-scroll-component";
-
-import { SortOptions } from "../misc/Utils";
-import "../App.css";
-import { getComments } from "../api/CommentRepo";
+import EditIcon from "@material-ui/icons/Edit";
 import { Dialog, useTheme } from "@material-ui/core";
+
 import { appThemeConstants, getCardStyle, getTextTheme } from "../misc/AppTheme";
-import { CommentCard } from "./CommentCard";
-import { UserContext } from "../Contexts";
 import { BackButton } from "./BackButton";
 import { ListReducerTypes, rankedListReducer } from "../reducers/RankedListReducer";
 import { getRankedList } from "../api/RankedListRepo";
 import { RankItemCard } from "./RankItemCard";
 import { CardHeader } from "./RankedListCard";
-import EditIcon from "@material-ui/icons/Edit";
+import "../App.css";
 
 // listId: string
 // open: bool

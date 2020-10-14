@@ -14,9 +14,9 @@ import { UserPreviewTypes } from "../api/UserPreviewRepo";
 import { likeList } from "../api/UserRepo";
 import { UserReducerTypes } from "../reducers/UserReducer";
 import { likeComment } from "../api/CommentRepo";
-import "../App.css";
 import { RankedListView } from "./RankedListView";
 import { CommentsDialog } from "./CommentsDialog";
+import "../App.css";
 
 // commentPreview: object
 // cardTheme: object
@@ -168,7 +168,15 @@ export const CardHeader = (props) => {
         <div
             className="row"
             style={
-                props.full ? { justifyContent: "space-between", width: "100%", paddingLeft: "10px", paddingRight: "10px", marginBottom: "4px" } : { justifyContent: "space-between" }
+                props.full
+                    ? {
+                          justifyContent: "space-between",
+                          width: "100%",
+                          paddingLeft: "10px",
+                          paddingRight: "10px",
+                          marginBottom: "4px",
+                      }
+                    : { justifyContent: "space-between" }
             }
         >
             <div

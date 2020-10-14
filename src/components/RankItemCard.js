@@ -1,8 +1,8 @@
-import { Avatar, Card } from "@material-ui/core";
 import React from "react";
+import { Avatar, Card } from "@material-ui/core";
 
-import "../App.css";
 import { appThemeConstants } from "../misc/AppTheme";
+import "../App.css";
 
 // rankItem: object
 // onClick: callback
@@ -21,11 +21,14 @@ export const RankItemCard = (props) => {
                 marginBottom: "8px",
                 borderRadius: "15px",
                 marginLeft: "8px",
-                marginRight: "8px"
+                marginRight: "8px",
             }}
         >
             <div className="col" style={{ alignSelf: "center", alignItems: "center", width: "100%" }}>
-                <div className="row" style={{ alignItems: "center", width: "100%", flexWrap: "nowrap", marginBottom: "2px" }}>
+                <div
+                    className="row"
+                    style={{ alignItems: "center", width: "100%", flexWrap: "nowrap", marginBottom: "2px" }}
+                >
                     <Avatar
                         style={{
                             height: "40px",
@@ -53,10 +56,19 @@ export const RankItemCard = (props) => {
                     </h3>
                 </div>
                 <img
-                    style={{ borderRadius: "15px", width: "375px", maxWidth: "98%", alignSelf: "center"}}
+                    style={{ borderRadius: "15px", width: "375px", maxWidth: "98%", alignSelf: "center" }}
                     src={props.rankItem.picture}
                 />
-                <h3 style={{ ...props.textTheme, textAlign: "center", marginTop: props.rankItem.picture ? "8px" : "0px", marginBottom: props.rankItem.description ? "10px" : "6px" }}>{props.rankItem.description}</h3>
+                <h3
+                    style={{
+                        ...props.textTheme,
+                        textAlign: "center",
+                        marginTop: props.rankItem.picture ? "8px" : "0px",
+                        marginBottom: props.rankItem.description ? "10px" : "6px",
+                    }}
+                >
+                    {props.rankItem.description}
+                </h3>
             </div>
         </Card>
     );

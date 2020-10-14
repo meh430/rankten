@@ -1,17 +1,15 @@
 import React, { useEffect, useState } from "react";
 import { Dialog, useTheme } from "@material-ui/core";
-import InfiniteScroll from "react-infinite-scroll-component";
-import ReactLoading from "react-loading";
 import RefreshIcon from "@material-ui/icons/Refresh";
 
 import { SortOptions } from "../misc/Utils";
 import { BackButton } from "./BackButton";
-import { appThemeConstants, getCardStyle, getTextTheme } from "../misc/AppTheme";
+import { getCardStyle, getTextTheme } from "../misc/AppTheme";
 import { SortMenu } from "./SearchUsers";
 import { getComments, getUserComments } from "../api/CommentRepo";
 import { CommentCard } from "./CommentCard";
-import "../App.css";
 import { ActionButton } from "./ActionButton";
+import "../App.css";
 
 let page = 1;
 
@@ -107,7 +105,11 @@ export const CommentsDialog = (props) => {
                                 isDark={currentTheme.palette.type === "dark"}
                             />
                         ))}
-                        {hitMax ? <i style={{display: "none"}}/> : <ActionButton label="Load More" width="145px" onClick={onPaginate} />}
+                        {hitMax ? (
+                            <i style={{ display: "none" }} />
+                        ) : (
+                            <ActionButton label="Load More" width="145px" onClick={onPaginate} />
+                        )}
                     </div>
                 ) : (
                     <h2 style={props.textTheme}>You haven't commented on anything</h2>
