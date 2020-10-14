@@ -13,12 +13,15 @@ import { BackButton } from "./BackButton";
 import { ListReducerTypes, rankedListReducer } from "../reducers/RankedListReducer";
 import { getRankedList } from "../api/RankedListRepo";
 import { RankItemCard } from "./RankItemCard";
-import { CardHeader } from "./RankedListCard"
+import { CardHeader } from "./RankedListCard";
+import EditIcon from "@material-ui/icons/Edit";
+
 // listId: string
 // open: bool
 // onClose: callback
 // mainUser: object
 // profPic: string
+// name: string
 export const RankedListView = (props) => {
     const currentTheme = useTheme();
     const textTheme = getTextTheme(currentTheme);
@@ -60,6 +63,7 @@ export const RankedListView = (props) => {
                 <div
                     className="row"
                     style={{
+                        justifyContent: "space-between",
                         alignItems: "center",
                         alignSelf: "start",
                         width: "100%",
@@ -69,17 +73,24 @@ export const RankedListView = (props) => {
                         backgroundColor: currentTheme.palette.background.default,
                     }}
                 >
-                    <BackButton onClick={props.onClose} />
-                    <h1 style={{ ...textTheme, marginLeft: "22px", fontSize: "22px", marginRight: "20px" }}>
-                        {listNull ? "Loading..." : rankedList.title}
-                    </h1>
+                    <div className="row" style={{ alignItems: "center", justifyContent: "start" }}>
+                        <BackButton onClick={props.onClose} />
+                        <h1 style={{ ...textTheme, marginLeft: "22px", fontSize: "22px", marginRight: "20px" }}>
+                            {listNull ? "Loading..." : rankedList.title}
+                        </h1>
+                    </div>
+                    {props.mainUser.user["user_name"] === props.name ? (
+                        <EditIcon style={{ cursor: "pointer", marginRight: "10px" }} />
+                    ) : (
+                        <i style={{ display: "none" }} />
+                    )}
                 </div>
                 <div
                     className="col"
                     style={{
                         alignItems: "center",
                         overscrollBehaviorY: "scroll",
-                        maxWidth: "100%"
+                        maxWidth: "100%",
                     }}
                 >
                     <CardHeader
@@ -93,7 +104,12 @@ export const RankedListView = (props) => {
                         <ReactLoading type="bars" color={appThemeConstants.hanPurple} />
                     ) : (
                         rankedList["rank_list"].map((rItem) => (
-                            <RankItemCard key={rItem.rank} rankItem={rItem} textTheme={textTheme} cardTheme={cardTheme} />
+                            <RankItemCard
+                                key={rItem.rank}
+                                rankItem={rItem}
+                                textTheme={textTheme}
+                                cardTheme={cardTheme}
+                            />
                         ))
                     )}
                 </div>

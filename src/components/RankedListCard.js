@@ -288,6 +288,7 @@ export const RankedListCard = (props) => {
                     listId={props.rankedList["_id"]}
                     onClose={() => setOpenList(false)}
                     mainUser={mainUser}
+                    name={props.rankedList["user_name"]}
                     profPic={props.rankedList["prof_pic"]}
                 />
                 <CommentsDialog
