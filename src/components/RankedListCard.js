@@ -270,7 +270,7 @@ export const RankedListCard = (props) => {
                     <i style={{ display: "none" }} />
                     )}
                 
-                <RankedListView open={openList} id={props.rankedList["_id"]["$oid"]} onClose={() => setOpenList(false)}/>
+                <RankedListView open={openList} id={props.rankedList["_id"]} onClose={() => setOpenList(false)}/>
             </div>
         </Card>
     );
