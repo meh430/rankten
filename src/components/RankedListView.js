@@ -1,4 +1,4 @@
-import React, { useContext, useEffect, useState } from "react";
+import React, { useContext, useEffect, useReducer, useState } from "react";
 import ReactLoading from "react-loading";
 import InfiniteScroll from "react-infinite-scroll-component";
 
@@ -10,22 +10,42 @@ import { appThemeConstants, getCardStyle, getTextTheme } from "../misc/AppTheme"
 import { CommentCard } from "./CommentCard";
 import { UserContext } from "../Contexts";
 import { BackButton } from "./BackButton";
+import { ListReducerTypes, rankedListReducer } from "../reducers/RankedListReducer";
+import { getRankedList } from "../api/RankedListRepo";
+import { RankItemCard } from "./RankItemCard";
 
 // listId: string
 // open: bool
 // onClose: callback
+// mainUser: object
 export const RankedListView = (props) => {
-    const mainUser = useContext(UserContext);
     const currentTheme = useTheme();
     const textTheme = getTextTheme(currentTheme);
+    const cardTheme = getCardStyle(currentTheme);
+    const [rankedList, rankedListDispatch] = useReducer(rankedListReducer, null);
+    const [loading, setLoading] = useState(false);
+
+    useEffect(() => {
+        (async () => {
+            if (!props.open) {
+                return;
+            }
+            setLoading(true);
+
+            const [e, res] = await getRankedList(props.listId);
+            if (!e) {
+                rankedListDispatch({ type: ListReducerTypes.getRankedList, payload: { isNew: false, rankedList: res } });
+            }
+            setLoading(false);
+        })();
+    }, [props.listId, props.open]);
+
 
     return (
         <Dialog
             onClose={props.onClose}
             aria-labelledby="customized-dialog-title"
             open={props.open}
-            fullWidth={true}
-            maxWidth={"sm"}
         >
             <div
                 className="col"
@@ -41,8 +61,7 @@ export const RankedListView = (props) => {
                     style={{
                         alignItems: "center",
                         alignSelf: "start",
-                        width: "fit-conent",
-                        maxWidth: "100%",
+                        width: "100%",
                         position: "sticky",
                         top: "0",
                         zIndex: "1",
@@ -63,7 +82,13 @@ export const RankedListView = (props) => {
                         marginBottom: "6px",
                     }}
                 >
-                    RANKED LIST ITEMS HERE
+                    {loading || !rankedList ? (
+                        <ReactLoading type="bars" color={appThemeConstants.hanPurple} />
+                    ) : (
+                        rankedList["rank_list"].map((rItem) => (
+                            <RankItemCard rankItem={rItem} textTheme={textTheme} cardTheme={cardTheme} />
+                        ))
+                    )}
                 </div>
             </div>
         </Dialog>

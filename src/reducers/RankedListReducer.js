@@ -18,19 +18,19 @@ export function initRankedList() {
     };
 }
 
-export function createRankedItem(rank = 1, itemName = "", description = "", picture = "", parentTitle = "", private = false) {
+export function createRankedItem(rank = 1, itemName = "", description = "", picture = "", parentTitle = "", priv = false) {
     return {
         rank: rank,
         "item_name": itemName,
         description: description,
         picture: picture,
         "parent_title": parentTitle,
-        private: private
+        private: priv
     };
 }
 
 function reOrder(arr, startIndex, endIndex) {
-  const result = Array.from(list);
+  const result = Array.from(arr);
   const [removed] = result.splice(startIndex, 1);
   result.splice(endIndex, 0, removed);
 
@@ -46,11 +46,12 @@ function updateParentProperties(state) {
 
 export function rankedListReducer(state, action) {
     let stateCopy = {}
-
+    let p = {}
     switch (action.type) {
         //{isNew: bool, rankedList: object}
         case ListReducerTypes.getRankedList:
-            return action.payload.isNew ? { ...state, ...initRankedList() } : { ...state, clone(rankedList) };
+            console.log(action.payload.rankedList);
+            return action.payload.isNew ? { ...state, ...initRankedList() } : { ...state, ...clone(action.payload.rankedList) };
         //{title: string}
         case ListReducerTypes.updateTitle:
             stateCopy = clone(state);
@@ -65,7 +66,7 @@ export function rankedListReducer(state, action) {
             return stateCopy;
         //{index: number, itemName: string, description: string, picture: string}
         case ListReducerTypes.updateItem:
-            const p = action.payload;
+            p = action.payload;
             stateCopy = clone(state);
             stateCopy["rank_list"][p.index]["item_name"] = p.itemName;
             stateCopy["rank_list"][p.index]["description"] = p.description;
@@ -83,7 +84,7 @@ export function rankedListReducer(state, action) {
             return stateCopy;
         //{itemName: string, description: string, picture: string}
         case ListReducerTypes.createItem:
-            const p = action.payload;
+            p = action.payload;
             stateCopy = clone(state);
             stateCopy["rank_list"].push(createRankedItem(stateCopy["rank_list"].length + 1, p.itemName, p.description, p.picture, stateCopy.title, stateCopy.private));
             updateParentProperties(stateCopy);
