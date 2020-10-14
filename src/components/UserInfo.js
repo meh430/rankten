@@ -15,7 +15,7 @@ import { followUser, updateBio } from "../api/UserRepo";
 import { UserReducerTypes } from "../reducers/UserReducer";
 import { containsId, tsToDate } from "../misc/Utils";
 import "../App.css";
-import { UserComments } from "./UserComments";
+import { CommentsDialog } from "./CommentsDialog";
 
 const useStyles = makeStyles((theme) => ({
     avatar: {
@@ -278,10 +278,11 @@ export const UserInfo = (props) => {
                     name={user["user_name"]}
                 />
 
-                <UserComments
+                <CommentsDialog
                     open={userCommentsOpen}
                     handleClose={() => setUserCommentsOpen(false)}
                     mainUser={mainUser}
+                    userComments={true}
                 />
                 <ProfilePicChooser open={profPickerOpen} handleClose={() => setProfPickerOpen(false)} />
             </CardContent>

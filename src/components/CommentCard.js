@@ -13,7 +13,7 @@ import "../App.css";
 export const CommentCard = (props) => {
     const { comment } = props;
     return (
-        <Card style={{ ...props.cardTheme, width: "400px", marginBottom: "2px", maxWidth: "100%" }}>
+        <Card style={{ ...props.cardTheme, width: "400px", marginTop: "0px", marginBottom: "8px", maxWidth: "100%" }}>
             <div className="col" style={{ width: "100%", paddingTop: "10px", paddingLeft: "10px", paddingRight: "10px" }}>
                 <CardHeader
                     name={comment["user_name"]}

@@ -16,10 +16,12 @@ import { UserReducerTypes } from "../reducers/UserReducer";
 import { likeComment } from "../api/CommentRepo";
 import "../App.css";
 import { RankedListView } from "./RankedListView";
+import { CommentsDialog } from "./CommentsDialog";
 
-//commentPreview: object
-//cardTheme: object
-//theme: object
+// commentPreview: object
+// cardTheme: object
+// theme: object
+// onClick: callback
 export const CommentPreview = (props) => {
     return (
         <Card style={props.cardStyle}>
@@ -32,6 +34,7 @@ export const CommentPreview = (props) => {
                 />
                 <h3 style={{ ...props.textTheme, margin: "4px" }}>{props.commentPreview["comment"]}</h3>
                 <h4
+                    onClick={props.onClick}
                     style={{
                         ...props.textTheme,
                         margin: "4px",
@@ -185,6 +188,7 @@ export const RankedListCard = (props) => {
     const mainUser = useContext(UserContext);
 
     const [openList, setOpenList] = useState(false);
+    const [openComments, setOpenComments] = useState(false);
 
     const onOpen = () => setOpenList(true);
 
@@ -212,7 +216,9 @@ export const RankedListCard = (props) => {
                     timeStamp={props.rankedList["date_created"]["$date"]}
                     isDark={currentTheme.palette.type === "dark"}
                 />
-                <h2 style={{ ...textTheme, marginTop: "0px", cursor: "pointer" }} onClick={onOpen}>{props.rankedList["title"]}</h2>
+                <h2 style={{ ...textTheme, marginTop: "0px", cursor: "pointer" }} onClick={onOpen}>
+                    {props.rankedList["title"]}
+                </h2>
                 <img
                     style={{ borderRadius: "15px", width: "375px", maxWidth: "98%", alignSelf: "center" }}
                     src={props.rankedList["picture"]}
@@ -246,6 +252,7 @@ export const RankedListCard = (props) => {
                 />
                 {props.rankedList["num_comments"] >= 1 ? (
                     <CommentPreview
+                        onClick={() => setOpenComments(true)}
                         commentPreview={{
                             ...props.rankedList["comment_preview"],
                             num_comments: props.rankedList["num_comments"],
@@ -268,9 +275,21 @@ export const RankedListCard = (props) => {
                     />
                 ) : (
                     <i style={{ display: "none" }} />
-                    )}
-                
-                <RankedListView open={openList} id={props.rankedList["_id"]} onClose={() => setOpenList(false)}/>
+                )}
+
+                <RankedListView
+                    open={openList}
+                    listId={props.rankedList["_id"]}
+                    onClose={() => setOpenList(false)}
+                    mainUser={mainUser}
+                />
+                <CommentsDialog
+                    open={openComments}
+                    handleClose={() => setOpenComments(false)}
+                    mainUser={mainUser}
+                    listId={props.rankedList["_id"]}
+                    userComments={false}
+                />
             </div>
         </Card>
     );

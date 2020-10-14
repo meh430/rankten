@@ -11,7 +11,7 @@ import { CommentCard } from "./CommentCard";
 import { UserContext } from "../Contexts";
 import { BackButton } from "./BackButton";
 
-// id: string
+// listId: string
 // open: bool
 // onClose: callback
 export const RankedListView = (props) => {
@@ -72,7 +72,7 @@ export const RankedListView = (props) => {
 
 let page = 1;
 
-// mainUser: object
+/*// mainUser: object
 // id: string
 // open: bool
 const ListComments = (props) => {
@@ -149,4 +149,4 @@ const ListComments = (props) => {
             </InfiniteScroll>
         </div>
     );
-};
+};*/

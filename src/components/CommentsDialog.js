@@ -8,7 +8,7 @@ import { SortOptions } from "../misc/Utils";
 import { BackButton } from "./BackButton";
 import { appThemeConstants, getCardStyle, getTextTheme } from "../misc/AppTheme";
 import { SortMenu } from "./SearchUsers";
-import { getUserComments } from "../api/CommentRepo";
+import { getComments, getUserComments } from "../api/CommentRepo";
 import { CommentCard } from "./CommentCard";
 import "../App.css";
 
@@ -17,7 +17,9 @@ let page = 1;
 // open: bool
 // handleClose: callback
 // mainUser: object
-export const UserComments = (props) => {
+// listId: props
+// userComments: bool
+export const CommentsDialog = (props) => {
     const currentTheme = useTheme();
     const textTheme = getTextTheme(currentTheme);
     const cardTheme = getCardStyle(currentTheme);
@@ -35,7 +37,9 @@ export const UserComments = (props) => {
 
             page = 1;
             setUserComments([]);
-            const [e, lastPage, res] = await getUserComments(page, sort, props.mainUser.userToken, refresh);
+            const [e, lastPage, res] = props.userComments
+                ? await getUserComments(page, sort, props.mainUser.userToken, refresh)
+                : await getComments(props.listId, page, sort, refresh);
             setHitMax(lastPage);
             if (!e) {
                 setUserComments([...res]);
@@ -47,7 +51,9 @@ export const UserComments = (props) => {
         (async () => {
             page += 1;
 
-            const [e, lastPage, res] = await getUserComments(page, sort, props.mainUser.userToken, refresh);
+            const [e, lastPage, res] = props.userComments
+                ? await getUserComments(page, sort, props.mainUser.userToken, refresh)
+                : await getComments(props.listId, page, sort, refresh);
             setHitMax(lastPage);
             if (!e) {
                 setUserComments([...userComments, ...res]);
@@ -82,11 +88,11 @@ export const UserComments = (props) => {
                     <div className="row" style={{ alignItems: "center" }}>
                         <BackButton onClick={props.handleClose} />
                         <h1 style={{ ...textTheme, marginLeft: "22px", fontSize: "22px", marginRight: "20px" }}>
-                            Your Comments
+                            {props.userComments ? "Your Comments" : "Comments"}
                         </h1>
                     </div>
                     <div className="row" style={{ alignItems: "center", marginRight: "6px" }}>
-                        <RefreshIcon style={{ cursor: "pointer" }} onClick={() => setRefresh(!refresh)}/>
+                        <RefreshIcon style={{ cursor: "pointer" }} onClick={() => setRefresh(!refresh)} />
                         <SortMenu onSort={(sortOption) => setSort(sortOption)} />
                     </div>
                 </div>
