@@ -11,6 +11,7 @@ import { SortMenu } from "./SearchUsers";
 import { getComments, getUserComments } from "../api/CommentRepo";
 import { CommentCard } from "./CommentCard";
 import "../App.css";
+import { ActionButton } from "./ActionButton";
 
 let page = 1;
 
@@ -47,18 +48,16 @@ export const CommentsDialog = (props) => {
         })();
     }, [props.open, sort, refresh]);
 
-    const onPaginate = () => {
-        (async () => {
-            page += 1;
+    const onPaginate = async () => {
+        page += 1;
 
-            const [e, lastPage, res] = props.userComments
-                ? await getUserComments(page, sort, props.mainUser.userToken, refresh)
-                : await getComments(props.listId, page, sort, refresh);
-            setHitMax(lastPage);
-            if (!e) {
-                setUserComments([...userComments, ...res]);
-            }
-        })();
+        const [e, lastPage, res] = props.userComments
+            ? await getUserComments(page, sort, props.mainUser.userToken, refresh)
+            : await getComments(props.listId, page, sort, refresh);
+        setHitMax(lastPage);
+        if (!e) {
+            setUserComments([...userComments, ...res]);
+        }
     };
 
     return (
@@ -96,25 +95,20 @@ export const CommentsDialog = (props) => {
                         <SortMenu onSort={(sortOption) => setSort(sortOption)} />
                     </div>
                 </div>
+
                 {userComments.length ? (
-                    <InfiniteScroll
-                        dataLength={userComments.length}
-                        next={onPaginate}
-                        hasMore={!hitMax}
-                        loader={<ReactLoading type="cylon" color={appThemeConstants.hanPurple} />}
-                    >
-                        <div className="col" style={{ alignItems: "center" }}>
-                            {userComments.map((uComment) => (
-                                <CommentCard
-                                    comment={uComment}
-                                    mainUser={props.mainUser}
-                                    cardTheme={cardTheme}
-                                    textTheme={textTheme}
-                                    isDark={currentTheme.palette.type === "dark"}
-                                />
-                            ))}
-                        </div>
-                    </InfiniteScroll>
+                    <div className="col" style={{ alignItems: "center", width: "100%" }}>
+                        {userComments.map((uComment) => (
+                            <CommentCard
+                                comment={uComment}
+                                mainUser={props.mainUser}
+                                cardTheme={cardTheme}
+                                textTheme={textTheme}
+                                isDark={currentTheme.palette.type === "dark"}
+                            />
+                        ))}
+                        {hitMax ? <i style={{display: "none"}}/> : <ActionButton label="Load More" width="145px" onClick={onPaginate} />}
+                    </div>
                 ) : (
                     <h2 style={props.textTheme}>You haven't commented on anything</h2>
                 )}
