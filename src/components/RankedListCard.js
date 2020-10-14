@@ -157,6 +157,7 @@ export const RankItemPreview = (props) => {
 // profPic: string
 // timeStamp: number
 // isDark: bool
+// full: bool
 export const CardHeader = (props) => {
     const history = useHistory();
     const secondTextTheme = {
@@ -164,7 +165,12 @@ export const CardHeader = (props) => {
         fontFamily: appThemeConstants.fontFamily,
     };
     return (
-        <div className="row" style={{ justifyContent: "space-between" }}>
+        <div
+            className="row"
+            style={
+                props.full ? { justifyContent: "space-between", width: "100%", paddingLeft: "10px", paddingRight: "10px", marginBottom: "4px" } : { justifyContent: "space-between" }
+            }
+        >
             <div
                 className="row"
                 style={{ cursor: "pointer" }}
@@ -282,6 +288,7 @@ export const RankedListCard = (props) => {
                     listId={props.rankedList["_id"]}
                     onClose={() => setOpenList(false)}
                     mainUser={mainUser}
+                    profPic={props.rankedList["prof_pic"]}
                 />
                 <CommentsDialog
                     open={openComments}

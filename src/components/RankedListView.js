@@ -13,11 +13,12 @@ import { BackButton } from "./BackButton";
 import { ListReducerTypes, rankedListReducer } from "../reducers/RankedListReducer";
 import { getRankedList } from "../api/RankedListRepo";
 import { RankItemCard } from "./RankItemCard";
-
+import { CardHeader } from "./RankedListCard"
 // listId: string
 // open: bool
 // onClose: callback
 // mainUser: object
+// profPic: string
 export const RankedListView = (props) => {
     const currentTheme = useTheme();
     const textTheme = getTextTheme(currentTheme);
@@ -34,19 +35,19 @@ export const RankedListView = (props) => {
 
             const [e, res] = await getRankedList(props.listId);
             if (!e) {
-                rankedListDispatch({ type: ListReducerTypes.getRankedList, payload: { isNew: false, rankedList: res } });
+                rankedListDispatch({
+                    type: ListReducerTypes.getRankedList,
+                    payload: { isNew: false, rankedList: res },
+                });
             }
             setLoading(false);
         })();
     }, [props.listId, props.open]);
 
+    const listNull = loading || !rankedList;
 
     return (
-        <Dialog
-            onClose={props.onClose}
-            aria-labelledby="customized-dialog-title"
-            open={props.open}
-        >
+        <Dialog onClose={props.onClose} aria-labelledby="customized-dialog-title" open={props.open}>
             <div
                 className="col"
                 style={{
@@ -70,23 +71,29 @@ export const RankedListView = (props) => {
                 >
                     <BackButton onClick={props.onClose} />
                     <h1 style={{ ...textTheme, marginLeft: "22px", fontSize: "22px", marginRight: "20px" }}>
-                        "RANKED LIST"
+                        {listNull ? "Loading..." : rankedList.title}
                     </h1>
                 </div>
                 <div
-                    class="col"
+                    className="col"
                     style={{
                         alignItems: "center",
                         overscrollBehaviorY: "scroll",
-                        maxWidth: "100%",
-                        marginBottom: "6px",
+                        maxWidth: "100%"
                     }}
                 >
-                    {loading || !rankedList ? (
+                    <CardHeader
+                        name={listNull ? "Loading..." : rankedList["user_name"]}
+                        profPic={props.profPic}
+                        timeStamp={listNull ? 0 : rankedList["date_created"]["$date"]}
+                        isDark={currentTheme.palette.type === "dark"}
+                        full={true}
+                    />
+                    {listNull ? (
                         <ReactLoading type="bars" color={appThemeConstants.hanPurple} />
                     ) : (
                         rankedList["rank_list"].map((rItem) => (
-                            <RankItemCard rankItem={rItem} textTheme={textTheme} cardTheme={cardTheme} />
+                            <RankItemCard key={rItem.rank} rankItem={rItem} textTheme={textTheme} cardTheme={cardTheme} />
                         ))
                     )}
                 </div>
@@ -94,7 +101,10 @@ export const RankedListView = (props) => {
         </Dialog>
     );
 };
-
+// name: string
+// profPic: string
+// timeStamp: number
+// isDark: bool
 let page = 1;
 
 /*// mainUser: object

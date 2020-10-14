@@ -20,6 +20,8 @@ export const RankItemCard = (props) => {
                 paddingTop: "10px",
                 marginBottom: "8px",
                 borderRadius: "15px",
+                marginLeft: "8px",
+                marginRight: "8px"
             }}
         >
             <div className="col" style={{ alignSelf: "center", alignItems: "center", width: "100%" }}>
