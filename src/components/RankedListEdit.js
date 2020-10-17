@@ -1,22 +1,22 @@
-import React, { useEffect, useReducer, useState } from 'react';
-import VisibilityIcon from '@material-ui/icons/Visibility';
-import DeleteIcon from '@material-ui/icons/Delete';
-
-import "../App.css";
-import { Dialog, useTheme } from '@material-ui/core';
-import { appThemeConstants, getCardStyle, getTextTheme } from '../misc/AppTheme';
-import { ListReducerTypes, rankedListReducer } from '../reducers/RankedListReducer';
-import { getRankedList } from '../api/RankedListRepo';
-import { BackButton } from './BackButton';
+import React, { useEffect, useReducer, useState } from "react";
+import { Dialog, useTheme } from "@material-ui/core";
 import ReactLoading from "react-loading";
-import { RankItemCard } from './RankItemCard';
+import VisibilityIcon from "@material-ui/icons/Visibility";
+import DeleteIcon from "@material-ui/icons/Delete";
+
+import { appThemeConstants, getCardStyle, getTextTheme } from "../misc/AppTheme";
+import { ListReducerTypes, rankedListReducer } from "../reducers/RankedListReducer";
+import { getRankedList } from "../api/RankedListRepo";
+import { BackButton } from "./BackButton";
+import { RankItemCard } from "./RankItemCard";
+import "../App.css";
 
 // open: bool
 // isNew: bool
 // listId: string
 // mainUser: object
 // onClose: callback
-export const RankedListEdit = props => {
+export const RankedListEdit = (props) => {
     const currentTheme = useTheme();
     const textTheme = getTextTheme(currentTheme);
     const cardTheme = getCardStyle(currentTheme);
@@ -74,8 +74,8 @@ export const RankedListEdit = props => {
                         </h1>
                     </div>
                     <div className="row" style={{ alignItems: "center", justifyContent: "end" }}>
-                        <VisibilityIcon style={{ cursor: "pointer", marginRight: "10px" }}/>
-                        <DeleteIcon style={{ cursor: "pointer", marginRight: "10px" }}/>
+                        <VisibilityIcon style={{ cursor: "pointer", marginRight: "10px" }} />
+                        <DeleteIcon style={{ cursor: "pointer", marginRight: "10px" }} />
                     </div>
                 </div>
                 <div
@@ -102,4 +102,4 @@ export const RankedListEdit = props => {
             </div>
         </Dialog>
     );
-}
+};
