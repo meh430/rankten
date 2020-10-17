@@ -17,6 +17,7 @@ import "../App.css";
 // mainUser: object
 // profPic: string
 // name: string
+// onEdit: callback
 export const RankedListView = (props) => {
     const currentTheme = useTheme();
     const textTheme = getTextTheme(currentTheme);
@@ -75,7 +76,7 @@ export const RankedListView = (props) => {
                         </h1>
                     </div>
                     {props.mainUser.user["user_name"] === props.name ? (
-                        <EditIcon style={{ cursor: "pointer", marginRight: "10px" }} />
+                        <EditIcon style={{ cursor: "pointer", marginRight: "10px" }} onClick={props.onEdit}/>
                     ) : (
                         <i style={{ display: "none" }} />
                     )}

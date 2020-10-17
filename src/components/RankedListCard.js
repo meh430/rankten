@@ -17,6 +17,7 @@ import { likeComment } from "../api/CommentRepo";
 import { RankedListView } from "./RankedListView";
 import { CommentsDialog } from "./CommentsDialog";
 import "../App.css";
+import { RankedListEdit } from "./RankedListEdit";
 
 // commentPreview: object
 // cardTheme: object
@@ -202,6 +203,7 @@ export const RankedListCard = (props) => {
     const mainUser = useContext(UserContext);
 
     const [openList, setOpenList] = useState(false);
+    const [openEdit, setOpenEdit] = useState(false);
     const [openComments, setOpenComments] = useState(false);
 
     const onOpen = () => setOpenList(true);
@@ -298,6 +300,17 @@ export const RankedListCard = (props) => {
                     mainUser={mainUser}
                     name={props.rankedList["user_name"]}
                     profPic={props.rankedList["prof_pic"]}
+                    onEdit={() => {
+                        setOpenList(false);
+                        setOpenEdit(true);
+                    }}
+                />
+                <RankedListEdit
+                    open={openEdit}
+                    listId={props.rankedList["_id"]}
+                    onClose={() => setOpenEdit(false)}
+                    mainUser={mainUser}
+                    isNew={false}
                 />
                 <CommentsDialog
                     open={openComments}
