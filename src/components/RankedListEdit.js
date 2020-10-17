@@ -1,7 +1,6 @@
 import React, { useEffect, useReducer, useState } from "react";
 import { Dialog, useTheme } from "@material-ui/core";
 import { Draggable, DragDropContext, Droppable } from "react-beautiful-dnd";
-
 import ReactLoading from "react-loading";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import DeleteIcon from "@material-ui/icons/Delete";
@@ -12,42 +11,6 @@ import { getRankedList } from "../api/RankedListRepo";
 import { BackButton } from "./BackButton";
 import { RankItemCard } from "./RankItemCard";
 import "../App.css";
-
-// index: number
-// rankItem: object
-// textTheme: object
-// cardTheme: object
-const RankItemEdit = (props) => {
-    return (
-        <Draggable draggableId={props.rankItem["_id"]["$oid"]} index={props.index}>
-            {(provided) => (
-                <RankItemCard
-                    rankItem={props.rankItem}
-                    textTheme={props.textTheme}
-                    cardTheme={props.cardTheme}
-                    innerRef={provided.innerRef}
-                    provided={provided}
-                />
-            )}
-        </Draggable>
-    );
-};
-
-// rItems: list
-// textTheme: object
-// cardTheme: object
-const RankListDrag = ({ rItems, textTheme, cardTheme }) => {
-    console.log(rItems.length);
-    return rItems.map((rItem, index) => (
-        <RankItemEdit
-            key={"edit_" + index}
-            rankItem={rItem}
-            index={index}
-            textTheme={textTheme}
-            cardTheme={cardTheme}
-        />
-    ));
-};
 
 // open: bool
 // isNew: bool
