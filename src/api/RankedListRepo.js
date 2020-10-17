@@ -1,7 +1,7 @@
 import * as api from "./RankApi";
 
 export async function getRankedList(listId) {
-    return await api.get(`/rankedlist/${listId}`)
+    return await api.get(`/rankedlist/${listId}`);
 }
 
 /* rankedList
@@ -18,9 +18,24 @@ export async function getRankedList(listId) {
 }
 */
 export async function createRankedList(rankedList, token) {
-    return await api.post('/rankedlist', token, rankedList);
+    for (let i = 0; i < rankedList["rank_list"].length; i++) {
+        delete rankedList["rank_list"][i]["new"];
+        delete rankedList["rank_list"][i]["_id"];
+    }
+    return await api.post("/rankedlist", token, rankedList);
 }
 
 export async function updateRankedList(rankedList, listId, token) {
-    return await api.put(`/rankedlist/${listId}`, token, { "title": rankedList["title"], "rank_list": rankedList["rank_list"]});
+    for (let i = 0; i < rankedList["rank_list"].length; i++) {
+        if (rankedList["rank_list"][i].new) {
+            delete rankedList["rank_list"][i]["new"];
+            delete rankedList["rank_list"][i]["_id"];
+        }
+    }
+
+    return await api.put(`/rankedlist/${listId}`, token, {
+        title: rankedList["title"],
+        private: rankedList["private"],
+        rank_list: rankedList["rank_list"],
+    });
 }

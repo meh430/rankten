@@ -7,34 +7,43 @@ export const ListReducerTypes = {
     updateItem: "UPDATE_ITEM",
     reOrderList: "RE_ORDER",
     createItem: "CREATE_ITEM",
-    deleteItem: "DELETE_ITEM"
+    deleteItem: "DELETE_ITEM",
 };
 
 export function initRankedList() {
     return {
         private: false,
-        "rank_list": [],
-        title: ""
+        rank_list: [],
+        title: "",
     };
 }
 
-export function createRankedItem(rank = 1, itemName = "", description = "", picture = "", parentTitle = "", priv = false) {
+export function createRankedItem(
+    rank = 1,
+    itemName = "",
+    description = "",
+    picture = "",
+    parentTitle = "",
+    priv = false
+) {
     return {
+        new: true,
         rank: rank,
-        "item_name": itemName,
+        item_name: itemName,
         description: description,
         picture: picture,
-        "parent_title": parentTitle,
-        private: priv
+        parent_title: parentTitle,
+        private: priv,
+        _id: { $oid: "id" + Math.floor(Math.random() * 999999999 + 1) },
     };
 }
 
 function reOrder(arr, startIndex, endIndex) {
-  const result = Array.from(arr);
-  const [removed] = result.splice(startIndex, 1);
-  result.splice(endIndex, 0, removed);
+    const result = Array.from(arr);
+    const [removed] = result.splice(startIndex, 1);
+    result.splice(endIndex, 0, removed);
 
-  return result;
+    return result;
 }
 
 function updateParentProperties(state) {
@@ -45,12 +54,14 @@ function updateParentProperties(state) {
 }
 
 export function rankedListReducer(state, action) {
-    let stateCopy = {}
-    let p = {}
+    let stateCopy = {};
+    let p = {};
     switch (action.type) {
         //{isNew: bool, rankedList: object}
         case ListReducerTypes.getRankedList:
-            return action.payload.isNew ? { ...state, ...initRankedList() } : { ...state, ...clone(action.payload.rankedList) };
+            return action.payload.isNew
+                ? { ...state, ...initRankedList() }
+                : { ...state, ...clone(action.payload.rankedList) };
         //{title: string}
         case ListReducerTypes.updateTitle:
             stateCopy = clone(state);
@@ -72,10 +83,14 @@ export function rankedListReducer(state, action) {
             stateCopy["rank_list"][p.index]["picture"] = p.picture;
             updateParentProperties(stateCopy);
             return stateCopy;
-        //{startIndex: number, endIndex: number}
+        // {startIndex: number, endIndex: number}
         case ListReducerTypes.reOrderList:
             stateCopy = clone(state);
-            stateCopy["rank_list"] = reOrder(stateCopy["rank_list"], action.payload.startIndex, action.payload.endIndex);
+            stateCopy["rank_list"] = reOrder(
+                stateCopy["rank_list"],
+                action.payload.startIndex,
+                action.payload.endIndex
+            );
             for (let i = 0; i < stateCopy["rank_list"].length; i++) {
                 stateCopy["rank_list"][i].rank = i + 1;
             }
@@ -85,7 +100,16 @@ export function rankedListReducer(state, action) {
         case ListReducerTypes.createItem:
             p = action.payload;
             stateCopy = clone(state);
-            stateCopy["rank_list"].push(createRankedItem(stateCopy["rank_list"].length + 1, p.itemName, p.description, p.picture, stateCopy.title, stateCopy.private));
+            stateCopy["rank_list"].push(
+                createRankedItem(
+                    stateCopy["rank_list"].length + 1,
+                    p.itemName,
+                    p.description,
+                    p.picture,
+                    stateCopy.title,
+                    stateCopy.private
+                )
+            );
             updateParentProperties(stateCopy);
             return stateCopy;
         //{index: number}

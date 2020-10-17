@@ -4,11 +4,7 @@ import { Avatar, Card } from "@material-ui/core";
 import { appThemeConstants } from "../misc/AppTheme";
 import "../App.css";
 
-// rankItem: object
-// onClick: callback
-// textTheme: object
-// cardTheme: object
-export const RankItemCard = (props) => {
+const RankItemInnerCard = (props) => {
     return (
         <Card
             style={{
@@ -37,7 +33,13 @@ export const RankItemCard = (props) => {
                             margin: "12px",
                         }}
                     >
-                        <h3 style={{ fontFamily: appThemeConstants.fontFamily, color: "white", fontSize: "22px" }}>
+                        <h3
+                            style={{
+                                fontFamily: appThemeConstants.fontFamily,
+                                color: "white",
+                                fontSize: "22px",
+                            }}
+                        >
                             {props.rankItem.rank}
                         </h3>
                     </Avatar>
@@ -73,3 +75,38 @@ export const RankItemCard = (props) => {
         </Card>
     );
 };
+
+// rankItem: object
+// onClick: callback
+// textTheme: object
+// cardTheme: object
+export class RankItemCard extends React.Component {
+    render() {
+        if (this.props.provided) {
+            return (
+                <div
+                    {...this.props.provided.draggableProps}
+                    {...this.props.provided.dragHandleProps}
+                    ref={this.props.innerRef}
+                >
+                    <RankItemInnerCard
+                        rankItem={this.props.rankItem}
+                        onClick={this.props.onClick}
+                        textTheme={this.props.textTheme}
+                        cardTheme={this.props.cardTheme}
+                    />
+                </div>
+            );
+        }
+        return (
+            <div>
+                <RankItemInnerCard
+                    rankItem={this.props.rankItem}
+                    onClick={this.props.onClick}
+                    textTheme={this.props.textTheme}
+                    cardTheme={this.props.cardTheme}
+                />
+            </div>
+        );
+    }
+}
