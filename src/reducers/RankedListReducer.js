@@ -42,7 +42,6 @@ function reOrder(arr, startIndex, endIndex) {
     const result = Array.from(arr);
     const [removed] = result.splice(startIndex, 1);
     result.splice(endIndex, 0, removed);
-
     return result;
 }
 
@@ -87,10 +86,11 @@ export function rankedListReducer(state, action) {
         case ListReducerTypes.reOrderList:
             stateCopy = clone(state);
             stateCopy["rank_list"] = reOrder(
-                stateCopy["rank_list"],
+                clone(stateCopy["rank_list"]),
                 action.payload.startIndex,
                 action.payload.endIndex
             );
+
             for (let i = 0; i < stateCopy["rank_list"].length; i++) {
                 stateCopy["rank_list"][i].rank = i + 1;
             }

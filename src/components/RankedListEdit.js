@@ -36,11 +36,18 @@ const RankItemEdit = (props) => {
 // rItems: list
 // textTheme: object
 // cardTheme: object
-const RankListDrag = React.memo(({ rItems, textTheme, cardTheme }) => {
+const RankListDrag = ({ rItems, textTheme, cardTheme }) => {
+    console.log(rItems.length);
     return rItems.map((rItem, index) => (
-        <RankItemEdit key={"edit_" + index} rankItem={rItem} index={index} textTheme={textTheme} cardTheme={cardTheme} />
+        <RankItemEdit
+            key={"edit_" + index}
+            rankItem={rItem}
+            index={index}
+            textTheme={textTheme}
+            cardTheme={cardTheme}
+        />
     ));
-});
+};
 
 // open: bool
 // isNew: bool
@@ -88,7 +95,6 @@ export const RankedListEdit = (props) => {
     }, [props.listId, props.open, props.isNew]);
 
     const listNull = loading || !rankedList;
-
     return (
         <Dialog onClose={props.onClose} aria-labelledby="customized-dialog-title" open={props.open}>
             <div
@@ -138,14 +144,28 @@ export const RankedListEdit = (props) => {
                         <DragDropContext onDragEnd={onDragEnd}>
                             <Droppable droppableId="list">
                                 {(provided) => {
-                                    return (<div ref={provided.innerRef} {...provided.droppableProps}>
-                                        <RankListDrag
-                                            rItems={rankedList["rank_list"]}
-                                            textTheme={textTheme}
-                                            cardTheme={cardTheme}
-                                        />
-                                        {provided.placeholder}
-                                    </div>);
+                                    return (
+                                        <div ref={provided.innerRef} {...provided.droppableProps}>
+                                            {rankedList["rank_list"].map((rItem, index) => (
+                                                <Draggable
+                                                    key={rItem["_id"]["$oid"]}
+                                                    draggableId={rItem["_id"]["$oid"]}
+                                                    index={index}
+                                                >
+                                                    {(provided) => (
+                                                        <RankItemCard
+                                                            rankItem={rItem}
+                                                            textTheme={textTheme}
+                                                            cardTheme={cardTheme}
+                                                            innerRef={provided.innerRef}
+                                                            provided={provided}
+                                                        />
+                                                    )}
+                                                </Draggable>
+                                            ))}
+                                            {provided.placeholder}
+                                        </div>
+                                    );
                                 }}
                             </Droppable>
                         </DragDropContext>
