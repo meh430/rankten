@@ -116,7 +116,7 @@ export const RankedListView = (props) => {
 // profPic: string
 // timeStamp: number
 // isDark: bool
-let page = 1;
+//let page = 1;
 
 /*// mainUser: object
 // id: string
