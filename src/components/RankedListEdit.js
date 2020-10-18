@@ -53,8 +53,6 @@ export const RankedListEdit = (props) => {
     };
 
     useEffect(() => {
-
-
         (async () => {
             if (!props.open) {
                 return;
@@ -82,6 +80,9 @@ export const RankedListEdit = (props) => {
     }, [props.listId, props.open, props.isNew]);
 
     const listNull = loading || !rankedList;
+    if (!props.open) {
+        return <i style={{ display: "none" }} />;
+    }
     return (
         <Dialog
             onClose={() => {
@@ -178,7 +179,7 @@ export const RankedListEdit = (props) => {
                             />
                         )}
 
-                        <DeleteIcon style={{ cursor: "pointer", marginRight: "10px" }} onClick={props.onDelete}/>
+                        <DeleteIcon style={{ cursor: "pointer", marginRight: "10px" }} onClick={props.onDelete} />
                     </div>
                 </div>
                 <div

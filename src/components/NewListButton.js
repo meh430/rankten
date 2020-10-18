@@ -51,6 +51,7 @@ export const NewListButton = () => {
                             await createRankedList(rankedList, mainUser.userToken);
                         })();
                     }
+
                 }}
             />
         </div>

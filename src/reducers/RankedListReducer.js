@@ -14,7 +14,7 @@ export function initRankedList() {
     return {
         private: false,
         rank_list: [],
-        title: "",
+        title: "Edit Title",
     };
 }
 
