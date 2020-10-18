@@ -278,30 +278,3 @@ export const RankedListEdit = (props) => {
         </Dialog>
     );
 };
-/*
-rankedList["rank_list"].map((rItem) => (
-                            <RankItemCard
-                                key={rItem.rank}
-                                rankItem={rItem}
-                                textTheme={textTheme}
-                                cardTheme={cardTheme}
-                            />
-                        ))
-                        {listNull ? (
-                            <h1 style={{ ...textTheme, marginLeft: "22px", fontSize: "22px", marginRight: "20px" }}>
-                                Loading...
-                            </h1>
-                        ) :
-                            {editTitle ?
-                                        (<TextField
-                                id="standard-basic"
-                                style={{
-                                    marginLeft: "22px",
-                                    fontSize: "22px"
-                                }}
-                                defaultValue={rankedList.title}
-                            />) : (<h1 style={{ ...textTheme, marginLeft: "22px", fontSize: "22px", marginRight: "20px" }}>
-                                rankedList.title
-                            </h1>)}}
-        
-*/
