@@ -191,6 +191,9 @@ export const RankedListEdit = (props) => {
                                                             cardTheme={cardTheme}
                                                             innerRef={provided.innerRef}
                                                             provided={provided}
+                                                            onDelete={() => {
+                                                                rankedListDispatch({ type: ListReducerTypes.deleteItem, payload: {index: index}})
+                                                            }}
                                                             onEdit={() => {
                                                                 setEditIndex(index);
                                                                 setEditItem(rItem);
