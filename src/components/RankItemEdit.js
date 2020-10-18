@@ -1,4 +1,4 @@
-import React from 'react';
+import React, { useEffect } from 'react';
 
 import { Dialog, TextField, useTheme } from "@material-ui/core";
 import { useState } from "react";
@@ -11,8 +11,8 @@ import { ActionButton } from './ActionButton';
 // handleClose: callback
 // onSave: callback
 // index: number
+// isNew: bool
 export const RankItemEdit = (props) => {
-
 
     const currentTheme = useTheme();
     const textTheme = getTextTheme(currentTheme);
@@ -20,9 +20,15 @@ export const RankItemEdit = (props) => {
     const [pictureError, setPictureError] = useState(false);
     const [nameError, setNameError] = useState(false);
 
-    const [picture, setPicture] = useState(props.rankItem.picture);
-    const [name, setName] = useState(props.rankItem["item_name"]);
-    const [desc, setDesc] = useState(props.rankItem.description);
+    const [picture, setPicture] = useState(props.isNew ? "" : props.rankItem.picture);
+    const [name, setName] = useState(props.isNew ? "" : props.rankItem["item_name"]);
+    const [desc, setDesc] = useState(props.isNew ? "" : props.rankItem.description);
+
+    useEffect(() => {
+        setPicture("");
+        setName("");
+        setDesc("");
+    }, [props.open])
 
     if (!props.open) {
         return <i style={{display: "none"}}/>
@@ -85,8 +91,11 @@ export const RankItemEdit = (props) => {
                             setTimeout(() => setNameError(false), 3000)
                             return;
                         }
-
-                        props.onSave(props.index, name, desc, picture);
+                        if (props.isNew) {
+                            props.onSave(0, name, desc, picture);
+                        } else {
+                            props.onSave(props.index, name, desc, picture);
+                        }
                         props.handleClose();
                     }}
                     label="Save Item"

@@ -8,7 +8,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 
 import { appThemeConstants, getCardStyle, getTextTheme } from "../misc/AppTheme";
-import { ListReducerTypes, rankedListReducer } from "../reducers/RankedListReducer";
+import { createRankedItem, ListReducerTypes, rankedListReducer } from "../reducers/RankedListReducer";
 import { getRankedList } from "../api/RankedListRepo";
 import { BackButton } from "./BackButton";
 import { RankItemCard } from "./RankItemCard";
@@ -33,6 +33,7 @@ export const RankedListEdit = (props) => {
     const [editItem, setEditItem] = useState(null);
     const [editIndex, setEditIndex] = useState(null);
     const [openEdit, setOpenEdit] = useState(false);
+    const [openNew, setOpenNew] = useState(false);
 
     const onDragEnd = (result) => {
         if (!result.destination) {
@@ -210,12 +211,12 @@ export const RankedListEdit = (props) => {
                     )}
                 </div>
                 {!listNull && rankedList["rank_list"].length < 10 ? (
-                    <AddCircleIcon style={{ marginBottom: "8px", fontSize: "40px", cursor: "pointer" }} />
+                    <AddCircleIcon style={{ marginBottom: "8px", fontSize: "40px", cursor: "pointer" }} onClick={() => setOpenNew(true)} />
                 ) : (
                     <i style={{ display: "none" }} />
                 )}
 
-                {editItem && editIndex ? (
+                {editItem && editIndex !== null ? (
                     <RankItemEdit
                         rankItem={editItem}
                         index={editIndex}
@@ -235,6 +236,22 @@ export const RankedListEdit = (props) => {
                 ) : (
                     <i style={{ display: "none" }} />
                 )}
+
+                <RankItemEdit
+                    isNew={true}
+                    handleClose={() => {
+                        setOpenNew(false);
+                        setEditIndex(null);
+                        setEditItem(null);
+                    }}
+                    open={openNew}
+                    onSave={(index, name, description, picture) => {
+                        rankedListDispatch({
+                            type: ListReducerTypes.createItem,
+                            payload: { itemName: name, description: description, picture: picture },
+                        });
+                    }}
+                />
             </div>
         </Dialog>
     );
