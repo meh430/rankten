@@ -27,7 +27,6 @@ const useStyles = makeStyles((theme) => ({
 //handleClose: callback
 //open: bool
 export const ProfilePicChooser = (props) => {
-
     const { user, userDispatch, userToken } = useContext(UserContext);
     const currentTheme = useTheme();
     const textTheme = getTextTheme(currentTheme);
@@ -37,7 +36,7 @@ export const ProfilePicChooser = (props) => {
     const [error, setError] = useState(false);
     const [profPic, setProfPic] = useState(user["prof_pic"]);
     if (!props.open) {
-        return <i style={{display: "none"}}/>
+        return <i style={{ display: "none" }} />;
     }
     return (
         <Dialog onClose={props.handleClose} aria-labelledby="customized-dialog-title" open={props.open}>

@@ -20,7 +20,6 @@ import { RankedListEdit } from "./RankedListEdit";
 import { deleteRankedList, updateRankedList } from "../api/RankedListRepo";
 import "../App.css";
 
-
 // commentPreview: object
 // cardTheme: object
 // theme: object

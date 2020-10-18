@@ -4,8 +4,8 @@ import { useTheme } from "@material-ui/core";
 import { RankedListPreviewTypes } from "../api/RankedListPreviewRepo";
 import { SortedListContainer } from "./GenericList";
 import { getTextTheme } from "../misc/AppTheme";
-import "../App.css";
 import { NewListButton } from "./NewListButton";
+import "../App.css";
 
 export const Discover = () => {
     const currentTheme = useTheme();

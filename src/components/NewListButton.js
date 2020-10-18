@@ -7,6 +7,7 @@ import { resetUserContext, UserContext } from "../Contexts";
 import { appThemeConstants } from "../misc/AppTheme";
 import { RankedListEdit } from "./RankedListEdit";
 import { createRankedList } from "../api/RankedListRepo";
+import "../App.css";
 
 const ListButton = withStyles((theme) => ({
     root: {
@@ -51,7 +52,6 @@ export const NewListButton = () => {
                             await createRankedList(rankedList, mainUser.userToken);
                         })();
                     }
-
                 }}
             />
         </div>

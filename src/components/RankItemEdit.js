@@ -1,10 +1,10 @@
-import React, { useEffect } from 'react';
+import React, { useEffect } from "react";
 
 import { Dialog, TextField, useTheme } from "@material-ui/core";
 import { useState } from "react";
 import { getTextTheme } from "../misc/AppTheme";
-import { fieldTheme } from './Login';
-import { ActionButton } from './ActionButton';
+import { fieldTheme } from "./Login";
+import { ActionButton } from "./ActionButton";
 
 // open: bool
 // rankItem: object
@@ -13,7 +13,6 @@ import { ActionButton } from './ActionButton';
 // index: number
 // isNew: bool
 export const RankItemEdit = (props) => {
-
     const currentTheme = useTheme();
     const textTheme = getTextTheme(currentTheme);
 
@@ -28,15 +27,18 @@ export const RankItemEdit = (props) => {
         setPicture(props.isNew ? "" : props.rankItem.picture);
         setName(props.isNew ? "" : props.rankItem["item_name"]);
         setDesc(props.isNew ? "" : props.rankItem.description);
-    }, [props.open, props.isNew, props.rankItem])
+    }, [props.open, props.isNew, props.rankItem]);
 
     if (!props.open) {
-        return <i style={{display: "none"}}/>
+        return <i style={{ display: "none" }} />;
     }
 
     return (
         <Dialog onClose={props.handleClose} aria-labelledby="customized-dialog-title" open={props.open}>
-            <div className="col" style={{ alignItems: "center", backgroundColor: currentTheme.palette.background.default }}>
+            <div
+                className="col"
+                style={{ alignItems: "center", backgroundColor: currentTheme.palette.background.default }}
+            >
                 <img
                     style={{ display: "none" }}
                     src={picture}
@@ -48,7 +50,13 @@ export const RankItemEdit = (props) => {
                     <h1 style={textTheme}>No Image</h1>
                 ) : (
                     <img
-                        style={{ borderRadius: "4px", width: "375px", maxWidth: "98%", alignSelf: "center", margin: "8px" }}
+                        style={{
+                            borderRadius: "4px",
+                            width: "375px",
+                            maxWidth: "98%",
+                            alignSelf: "center",
+                            margin: "8px",
+                        }}
                         src={picture}
                     />
                 )}
@@ -88,7 +96,7 @@ export const RankItemEdit = (props) => {
                     onClick={async () => {
                         if (!name) {
                             setNameError(true);
-                            setTimeout(() => setNameError(false), 3000)
+                            setTimeout(() => setNameError(false), 3000);
                             return;
                         }
                         if (props.isNew) {

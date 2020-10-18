@@ -14,8 +14,8 @@ import { getCardStyle, getTextTheme, appThemeConstants } from "../misc/AppTheme"
 import { followUser, updateBio } from "../api/UserRepo";
 import { UserReducerTypes } from "../reducers/UserReducer";
 import { containsId, tsToDate } from "../misc/Utils";
-import "../App.css";
 import { CommentsDialog } from "./CommentsDialog";
+import "../App.css";
 
 const useStyles = makeStyles((theme) => ({
     avatar: {

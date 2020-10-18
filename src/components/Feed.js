@@ -6,8 +6,8 @@ import { resetUserContext, UserContext } from "../Contexts";
 import { appThemeConstants, getTextTheme } from "../misc/AppTheme";
 import { SortedListContainer } from "./GenericList";
 import { RankedListPreviewTypes } from "../api/RankedListPreviewRepo";
-import "../App.css";
 import { NewListButton } from "./NewListButton";
+import "../App.css";
 
 export const Feed = () => {
     const currentTheme = useTheme();

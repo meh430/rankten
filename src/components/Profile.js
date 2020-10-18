@@ -8,8 +8,8 @@ import { appThemeConstants, getTextTheme } from "../misc/AppTheme";
 import { RankedListPreviewTypes } from "../api/RankedListPreviewRepo";
 import { UserContext } from "../Contexts";
 import { SortedListContainer } from "./GenericList";
-import "../App.css";
 import { NewListButton } from "./NewListButton";
+import "../App.css";
 
 //isMain: bool
 //userName: string
@@ -38,7 +38,7 @@ export const Profile = (props) => {
     if (props.isMain) {
         return (
             <div className="col" style={{ alignItems: "center" }}>
-                <NewListButton/>
+                <NewListButton />
 
                 <UserInfo
                     isMain={true}
