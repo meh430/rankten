@@ -105,6 +105,7 @@ export const RankedListView = (props) => {
                                 rankItem={rItem}
                                 textTheme={textTheme}
                                 cardTheme={cardTheme}
+                                isMain={false}
                             />
                         ))
                     )}

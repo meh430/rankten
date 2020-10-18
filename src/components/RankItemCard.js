@@ -1,9 +1,17 @@
 import React from "react";
 import { Avatar, Card } from "@material-ui/core";
+import EditIcon from "@material-ui/icons/Edit";
+import DeleteIcon from "@material-ui/icons/Delete";
 
 import { appThemeConstants } from "../misc/AppTheme";
 import "../App.css";
 
+// rankItem: object
+// textTheme: object
+// cardTheme: object
+// isMain: bool
+// onEdit: callback
+// onDelte: callback
 const RankItemInnerCard = (props) => {
     return (
         <Card
@@ -71,6 +79,22 @@ const RankItemInnerCard = (props) => {
                 >
                     {props.rankItem.description}
                 </h3>
+                {!props.isMain ? (
+                    <i style={{ display: "none" }} />
+                ) : (
+                    <div
+                        className="row"
+                        style={{
+                            width: "100%",
+                            alignItems: "center",
+                            justifyContent: "space-evenly",
+                            marginBottom: "10px",
+                        }}
+                    >
+                        <EditIcon style={{ cursor: "pointer" }} onClick={props.onEdit} />
+                        <DeleteIcon style={{ cursor: "pointer" }} onClick={props.onDelete} />
+                    </div>
+                )}
             </div>
         </Card>
     );
@@ -80,6 +104,9 @@ const RankItemInnerCard = (props) => {
 // onClick: callback
 // textTheme: object
 // cardTheme: object
+// provided: object
+// innerRef: object
+// isMain: bool
 export class RankItemCard extends React.Component {
     render() {
         if (this.props.provided) {
@@ -94,6 +121,7 @@ export class RankItemCard extends React.Component {
                         onClick={this.props.onClick}
                         textTheme={this.props.textTheme}
                         cardTheme={this.props.cardTheme}
+                        isMain={this.props.isMain}
                     />
                 </div>
             );

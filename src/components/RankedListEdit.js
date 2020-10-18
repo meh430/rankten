@@ -173,6 +173,7 @@ export const RankedListEdit = (props) => {
                                                 >
                                                     {(provided) => (
                                                         <RankItemCard
+                                                            isMain={true}
                                                             rankItem={rItem}
                                                             textTheme={textTheme}
                                                             cardTheme={cardTheme}
