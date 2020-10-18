@@ -18,6 +18,7 @@ import { RankedListView } from "./RankedListView";
 import { CommentsDialog } from "./CommentsDialog";
 import "../App.css";
 import { RankedListEdit } from "./RankedListEdit";
+import { deleteRankedList, updateRankedList } from "../api/RankedListRepo";
 
 // commentPreview: object
 // cardTheme: object
@@ -309,8 +310,16 @@ export const RankedListCard = (props) => {
                     open={openEdit}
                     listId={props.rankedList["_id"]}
                     onClose={() => setOpenEdit(false)}
+                    onDelete={() => {
+                        (async () => await deleteRankedList(props.rankedList["_id"], mainUser.userToken))();
+                        setOpenEdit(false);
+                    }}
                     onSave={(rankedList) => {
-                        console.log(rankedList);
+                        if (rankedList && rankedList["rank_list"].length >= 1) {
+                            (async () => {
+                                await updateRankedList(rankedList, props.rankedList["_id"], mainUser.userToken);
+                            })();
+                        }
                     }}
                     mainUser={mainUser}
                     isNew={false}

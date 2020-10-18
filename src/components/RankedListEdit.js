@@ -166,7 +166,7 @@ export const RankedListEdit = (props) => {
                             />
                         )}
 
-                        <DeleteIcon style={{ cursor: "pointer", marginRight: "10px" }} />
+                        <DeleteIcon style={{ cursor: "pointer", marginRight: "10px" }} onClick={props.onDelete}/>
                     </div>
                 </div>
                 <div

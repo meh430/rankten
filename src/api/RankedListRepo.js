@@ -30,12 +30,20 @@ export async function updateRankedList(rankedList, listId, token) {
         if (rankedList["rank_list"][i].new) {
             delete rankedList["rank_list"][i]["new"];
             delete rankedList["rank_list"][i]["_id"];
+        } else {
+            delete rankedList["rank_list"][i]["belongs_to"];
+            delete rankedList["rank_list"][i]["created_by"];
+            rankedList["rank_list"][i]["_id"] = rankedList["rank_list"][i]["_id"]["$oid"];
         }
     }
-
+    
     return await api.put(`/rankedlist/${listId}`, token, {
         title: rankedList["title"],
         private: rankedList["private"],
         rank_list: rankedList["rank_list"],
     });
+}
+
+export async function deleteRankedList(listId, token) {
+    return await api.del(`/rankedlist/${listId}`, token);
 }
