@@ -249,6 +249,7 @@ export const RankedListCard = (props) => {
                     />
                 ))}
                 <h4
+                    onClick={onOpen}
                     style={{
                         ...textTheme,
                         margin: "0px",
