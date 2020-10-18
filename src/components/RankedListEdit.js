@@ -5,6 +5,7 @@ import ReactLoading from "react-loading";
 import VisibilityIcon from "@material-ui/icons/Visibility";
 import VisibilityOffIcon from "@material-ui/icons/VisibilityOff";
 import DeleteIcon from "@material-ui/icons/Delete";
+import AddCircleIcon from "@material-ui/icons/AddCircle";
 
 import { appThemeConstants, getCardStyle, getTextTheme } from "../misc/AppTheme";
 import { ListReducerTypes, rankedListReducer } from "../reducers/RankedListReducer";
@@ -164,7 +165,7 @@ export const RankedListEdit = (props) => {
                 >
                     {listNull ? (
                         <ReactLoading type="bars" color={appThemeConstants.hanPurple} />
-                    ) : (
+                    ) : rankedList["rank_list"].length ? (
                         <DragDropContext onDragEnd={onDragEnd} style={{ width: "100%" }}>
                             <Droppable droppableId="list" style={{ width: "100%" }}>
                                 {(provided) => {
@@ -204,8 +205,15 @@ export const RankedListEdit = (props) => {
                                 }}
                             </Droppable>
                         </DragDropContext>
+                    ) : (
+                        <h2 style={textTheme}>No items yet</h2>
                     )}
                 </div>
+                {!listNull && rankedList["rank_list"].length < 10 ? (
+                    <AddCircleIcon style={{ marginBottom: "8px", fontSize: "40px", cursor: "pointer" }} />
+                ) : (
+                    <i style={{ display: "none" }} />
+                )}
 
                 {editItem && editIndex ? (
                     <RankItemEdit
