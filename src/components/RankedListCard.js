@@ -16,9 +16,10 @@ import { UserReducerTypes } from "../reducers/UserReducer";
 import { likeComment } from "../api/CommentRepo";
 import { RankedListView } from "./RankedListView";
 import { CommentsDialog } from "./CommentsDialog";
-import "../App.css";
 import { RankedListEdit } from "./RankedListEdit";
 import { deleteRankedList, updateRankedList } from "../api/RankedListRepo";
+import "../App.css";
+
 
 // commentPreview: object
 // cardTheme: object
