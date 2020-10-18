@@ -1,5 +1,5 @@
 # Rank 10 React App
-Rank 10 is a platform that allows users to create and share top ten lists on any topic. This repository is a web client for Rank 10 built using the React library and Material-UI.
+Rank 10 is a platform that allows users to create and share top ten lists on any topic. This repository is a web client for Rank 10 is built using the React library and Material-UI.
 
 ## Features
 - Create and customize an account with a profile picture and a bio that can display interests
