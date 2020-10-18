@@ -9,6 +9,7 @@ import { RankedListPreviewTypes } from "../api/RankedListPreviewRepo";
 import { UserContext } from "../Contexts";
 import { SortedListContainer } from "./GenericList";
 import "../App.css";
+import { NewListButton } from "./NewListButton";
 
 //isMain: bool
 //userName: string
@@ -37,6 +38,8 @@ export const Profile = (props) => {
     if (props.isMain) {
         return (
             <div className="col" style={{ alignItems: "center" }}>
+                <NewListButton/>
+
                 <UserInfo
                     isMain={true}
                     onListClick={() => setDisplayLiked(false)}

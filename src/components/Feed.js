@@ -7,6 +7,7 @@ import { appThemeConstants, getTextTheme } from "../misc/AppTheme";
 import { SortedListContainer } from "./GenericList";
 import { RankedListPreviewTypes } from "../api/RankedListPreviewRepo";
 import "../App.css";
+import { NewListButton } from "./NewListButton";
 
 export const Feed = () => {
     const currentTheme = useTheme();
@@ -19,6 +20,7 @@ export const Feed = () => {
     const noFollowing = mainUser.user["num_following"] === 0;
     return (
         <div className="col" style={{ alignItems: "center" }}>
+            <NewListButton/>
             {noFollowing ? (
                 <h2 style={textTheme}>Follow people to see their lists here</h2>
             ) : (
