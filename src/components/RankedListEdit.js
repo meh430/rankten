@@ -23,6 +23,7 @@ let listTitle = "";
 // mainUser: object
 // onClose: callback
 // onSave: callback
+// onDelete: callback
 export const RankedListEdit = (props) => {
     const currentTheme = useTheme();
     const textTheme = getTextTheme(currentTheme);
@@ -52,10 +53,21 @@ export const RankedListEdit = (props) => {
     };
 
     useEffect(() => {
+
+
         (async () => {
             if (!props.open) {
                 return;
             }
+
+            if (props.isNew) {
+                rankedListDispatch({
+                    type: ListReducerTypes.getRankedList,
+                    payload: { isNew: props.isNew },
+                });
+                return;
+            }
+
             setLoading(true);
 
             const [e, res] = await getRankedList(props.listId);
