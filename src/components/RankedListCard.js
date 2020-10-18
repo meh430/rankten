@@ -309,6 +309,9 @@ export const RankedListCard = (props) => {
                     open={openEdit}
                     listId={props.rankedList["_id"]}
                     onClose={() => setOpenEdit(false)}
+                    onSave={(rankedList) => {
+                        console.log(rankedList);
+                    }}
                     mainUser={mainUser}
                     isNew={false}
                 />

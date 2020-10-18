@@ -8,7 +8,7 @@ import DeleteIcon from "@material-ui/icons/Delete";
 import AddCircleIcon from "@material-ui/icons/AddCircle";
 
 import { appThemeConstants, getCardStyle, getTextTheme } from "../misc/AppTheme";
-import { createRankedItem, ListReducerTypes, rankedListReducer } from "../reducers/RankedListReducer";
+import { ListReducerTypes, rankedListReducer } from "../reducers/RankedListReducer";
 import { getRankedList } from "../api/RankedListRepo";
 import { BackButton } from "./BackButton";
 import { RankItemCard } from "./RankItemCard";
@@ -22,6 +22,7 @@ let listTitle = "";
 // listId: string
 // mainUser: object
 // onClose: callback
+// onSave: callback
 export const RankedListEdit = (props) => {
     const currentTheme = useTheme();
     const textTheme = getTextTheme(currentTheme);
@@ -70,7 +71,14 @@ export const RankedListEdit = (props) => {
 
     const listNull = loading || !rankedList;
     return (
-        <Dialog onClose={props.onClose} aria-labelledby="customized-dialog-title" open={props.open}>
+        <Dialog
+            onClose={() => {
+                props.onSave(rankedList);
+                props.onClose();
+            }}
+            aria-labelledby="customized-dialog-title"
+            open={props.open}
+        >
             <div
                 className="col"
                 style={{
@@ -96,7 +104,12 @@ export const RankedListEdit = (props) => {
                     }}
                 >
                     <div className="row" style={{ alignItems: "center", justifyContent: "start" }}>
-                        <BackButton onClick={props.onClose} />
+                        <BackButton
+                            onClick={() => {
+                                props.onSave(rankedList);
+                                props.onClose();
+                            }}
+                        />
                         {listNull ? (
                             <h1 style={{ ...textTheme, marginLeft: "22px", fontSize: "22px", marginRight: "20px" }}>
                                 Loading...
@@ -192,7 +205,10 @@ export const RankedListEdit = (props) => {
                                                             innerRef={provided.innerRef}
                                                             provided={provided}
                                                             onDelete={() => {
-                                                                rankedListDispatch({ type: ListReducerTypes.deleteItem, payload: {index: index}})
+                                                                rankedListDispatch({
+                                                                    type: ListReducerTypes.deleteItem,
+                                                                    payload: { index: index },
+                                                                });
                                                             }}
                                                             onEdit={() => {
                                                                 setEditIndex(index);
@@ -214,7 +230,10 @@ export const RankedListEdit = (props) => {
                     )}
                 </div>
                 {!listNull && rankedList["rank_list"].length < 10 ? (
-                    <AddCircleIcon style={{ marginBottom: "8px", fontSize: "40px", cursor: "pointer" }} onClick={() => setOpenNew(true)} />
+                    <AddCircleIcon
+                        style={{ marginBottom: "8px", fontSize: "40px", cursor: "pointer" }}
+                        onClick={() => setOpenNew(true)}
+                    />
                 ) : (
                     <i style={{ display: "none" }} />
                 )}
