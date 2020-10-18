@@ -3,6 +3,7 @@ import { Dialog, TextField, useTheme } from "@material-ui/core";
 import { Draggable, DragDropContext, Droppable } from "react-beautiful-dnd";
 import ReactLoading from "react-loading";
 import VisibilityIcon from "@material-ui/icons/Visibility";
+import VisibilityOffIcon from "@material-ui/icons/VisibilityOff";
 import DeleteIcon from "@material-ui/icons/Delete";
 
 import { appThemeConstants, getCardStyle, getTextTheme } from "../misc/AppTheme";
@@ -123,7 +124,28 @@ export const RankedListEdit = (props) => {
                         )}
                     </div>
                     <div className="row" style={{ alignItems: "center", justifyContent: "end" }}>
-                        <VisibilityIcon style={{ cursor: "pointer", marginRight: "10px" }} />
+                        {!listNull && rankedList.private ? (
+                            <VisibilityOffIcon
+                                onClick={() =>
+                                    rankedListDispatch({
+                                        type: ListReducerTypes.updatePrivate,
+                                        payload: { private: false },
+                                    })
+                                }
+                                style={{ cursor: "pointer", marginRight: "10px" }}
+                            />
+                        ) : (
+                            <VisibilityIcon
+                                onClick={() =>
+                                    rankedListDispatch({
+                                        type: ListReducerTypes.updatePrivate,
+                                        payload: { private: true },
+                                    })
+                                }
+                                style={{ cursor: "pointer", marginRight: "10px" }}
+                            />
+                        )}
+
                         <DeleteIcon style={{ cursor: "pointer", marginRight: "10px" }} />
                     </div>
                 </div>
