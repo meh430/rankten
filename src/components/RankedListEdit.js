@@ -30,6 +30,7 @@ export const RankedListEdit = (props) => {
     const [editTitle, setEditTitle] = useState(false);
 
     const [editItem, setEditItem] = useState(null);
+    const [editIndex, setEditIndex] = useState(null);
     const [openEdit, setOpenEdit] = useState(false);
 
     const onDragEnd = (result) => {
@@ -189,6 +190,7 @@ export const RankedListEdit = (props) => {
                                                             innerRef={provided.innerRef}
                                                             provided={provided}
                                                             onEdit={() => {
+                                                                setEditIndex(index);
                                                                 setEditItem(rItem);
                                                                 setOpenEdit(true);
                                                             }}
@@ -205,8 +207,23 @@ export const RankedListEdit = (props) => {
                     )}
                 </div>
 
-                {editItem ? (
-                    <RankItemEdit rankItem={editItem} handleClose={() => setOpenEdit(false)} open={openEdit} />
+                {editItem && editIndex ? (
+                    <RankItemEdit
+                        rankItem={editItem}
+                        index={editIndex}
+                        handleClose={() => {
+                            setOpenEdit(false);
+                            setEditIndex(null);
+                            setEditItem(null);
+                        }}
+                        open={openEdit}
+                        onSave={(index, name, description, picture) => {
+                            rankedListDispatch({
+                                type: ListReducerTypes.updateItem,
+                                payload: { index: index, itemName: name, description: description, picture: picture },
+                            });
+                        }}
+                    />
                 ) : (
                     <i style={{ display: "none" }} />
                 )}

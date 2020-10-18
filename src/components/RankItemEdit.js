@@ -10,6 +10,7 @@ import { ActionButton } from './ActionButton';
 // rankItem: object
 // handleClose: callback
 // onSave: callback
+// index: number
 export const RankItemEdit = (props) => {
 
 
@@ -48,8 +49,6 @@ export const RankItemEdit = (props) => {
 
                 <TextField
                     defaultValue={picture}
-                    error={pictureError}
-                    helperText={pictureError ? "Image not valid" : ""}
                     style={fieldTheme}
                     id="pic-field"
                     label="Picture"
@@ -81,7 +80,14 @@ export const RankItemEdit = (props) => {
                     disabled={nameError}
                     width="225px"
                     onClick={async () => {
-                        console.log("Save");
+                        if (!name) {
+                            setNameError(true);
+                            setTimeout(() => setNameError(false), 3000)
+                            return;
+                        }
+
+                        props.onSave(props.index, name, desc, picture);
+                        props.handleClose();
                     }}
                     label="Save Item"
                 />
