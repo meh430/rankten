@@ -98,6 +98,7 @@ export const CommentsDialog = (props) => {
                     <div className="col" style={{ alignItems: "center", width: "100%" }}>
                         {userComments.map((uComment) => (
                             <CommentCard
+                                key={uComment["_id"]["$oid"]}
                                 comment={uComment}
                                 mainUser={props.mainUser}
                                 cardTheme={cardTheme}
