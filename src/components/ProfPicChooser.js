@@ -27,6 +27,7 @@ const useStyles = makeStyles((theme) => ({
 //handleClose: callback
 //open: bool
 export const ProfilePicChooser = (props) => {
+
     const { user, userDispatch, userToken } = useContext(UserContext);
     const currentTheme = useTheme();
     const textTheme = getTextTheme(currentTheme);
@@ -35,11 +36,13 @@ export const ProfilePicChooser = (props) => {
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
     const [profPic, setProfPic] = useState(user["prof_pic"]);
-
+    if (!props.open) {
+        return <i style={{display: "none"}}/>
+    }
     return (
         <Dialog onClose={props.handleClose} aria-labelledby="customized-dialog-title" open={props.open}>
             <div style={{ backgroundColor: currentTheme.palette.background.default }}>
-                <div class="row" style={{ alignItems: "center", width: "500px", maxWidth: "95%" }}>
+                <div className="row" style={{ alignItems: "center", width: "500px", maxWidth: "95%" }}>
                     <BackButton onClick={props.handleClose} />
                     <h1 style={{ ...textTheme, marginLeft: "22px" }}>Choose Profile Pic</h1>
                 </div>

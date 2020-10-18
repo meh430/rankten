@@ -14,6 +14,7 @@ import "../App.css";
 //type: string
 //name: string
 export const UserListDialog = (props) => {
+
     const currentTheme = useTheme();
     const textTheme = getTextTheme(currentTheme);
 
@@ -32,6 +33,10 @@ export const UserListDialog = (props) => {
             }
         })();
     }, [props.type, props.name, props.open]);
+
+    if (!props.open) {
+        return <i style={{display: "none"}}/>
+    }
 
     return (
         <Dialog onClose={props.handleClose} aria-labelledby="customized-dialog-title" open={props.open}>

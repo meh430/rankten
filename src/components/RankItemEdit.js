@@ -1,8 +1,18 @@
+import React from 'react';
+
+import { Dialog, TextField, useTheme } from "@material-ui/core";
+import { useState } from "react";
+import { getTextTheme } from "../misc/AppTheme";
+import { fieldTheme } from './Login';
+import { ActionButton } from './ActionButton';
+
+// open: bool
 // rankItem: object
 // handleClose: callback
 // onSave: callback
-// open: bool
-export const ProfilePicChooser = (props) => {
+export const RankItemEdit = (props) => {
+
+
     const currentTheme = useTheme();
     const textTheme = getTextTheme(currentTheme);
 
@@ -13,9 +23,13 @@ export const ProfilePicChooser = (props) => {
     const [name, setName] = useState(props.rankItem["item_name"]);
     const [desc, setDesc] = useState(props.rankItem.description);
 
+    if (!props.open) {
+        return <i style={{display: "none"}}/>
+    }
+
     return (
         <Dialog onClose={props.handleClose} aria-labelledby="customized-dialog-title" open={props.open}>
-            <div class="col" style={{ alignItems: "center", backgroundColor: currentTheme.palette.background.default }}>
+            <div className="col" style={{ alignItems: "center", backgroundColor: currentTheme.palette.background.default }}>
                 <img
                     style={{ display: "none" }}
                     src={picture}
@@ -27,7 +41,7 @@ export const ProfilePicChooser = (props) => {
                     <h1 style={textTheme}>No Image</h1>
                 ) : (
                     <img
-                        style={{ borderRadius: "15px", width: "375px", maxWidth: "98%", alignSelf: "center" }}
+                        style={{ borderRadius: "4px", width: "375px", maxWidth: "98%", alignSelf: "center", margin: "8px" }}
                         src={picture}
                     />
                 )}
@@ -64,7 +78,7 @@ export const ProfilePicChooser = (props) => {
                 />
 
                 <ActionButton
-                    disabled={error}
+                    disabled={nameError}
                     width="225px"
                     onClick={async () => {
                         console.log("Save");

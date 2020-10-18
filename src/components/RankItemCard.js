@@ -18,7 +18,7 @@ const RankItemInnerCard = (props) => {
             style={{
                 ...props.cardStyle,
                 width: "412px",
-                maxWidth: "98%",
+                maxWidth: "96%",
                 paddingLeft: "10px",
                 paddingRight: "10px",
                 paddingTop: "10px",
@@ -112,6 +112,7 @@ export class RankItemCard extends React.Component {
         if (this.props.provided) {
             return (
                 <div
+                    style={{ width: "100%" }}
                     {...this.props.provided.draggableProps}
                     {...this.props.provided.dragHandleProps}
                     ref={this.props.innerRef}
@@ -122,12 +123,14 @@ export class RankItemCard extends React.Component {
                         textTheme={this.props.textTheme}
                         cardTheme={this.props.cardTheme}
                         isMain={this.props.isMain}
+                        onEdit={this.props.onEdit}
+                        onDelete={this.props.onDelete}
                     />
                 </div>
             );
         }
         return (
-            <div>
+            <div style={{ width: "100%" }}>
                 <RankItemInnerCard
                     rankItem={this.props.rankItem}
                     onClick={this.props.onClick}

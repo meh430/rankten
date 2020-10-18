@@ -11,6 +11,7 @@ import { ListReducerTypes, rankedListReducer } from "../reducers/RankedListReduc
 import { getRankedList } from "../api/RankedListRepo";
 import { BackButton } from "./BackButton";
 import { RankItemCard } from "./RankItemCard";
+import { RankItemEdit } from "./RankItemEdit";
 import "../App.css";
 
 let listTitle = "";
@@ -27,6 +28,9 @@ export const RankedListEdit = (props) => {
     const [rankedList, rankedListDispatch] = useReducer(rankedListReducer, null);
     const [loading, setLoading] = useState(false);
     const [editTitle, setEditTitle] = useState(false);
+
+    const [editItem, setEditItem] = useState(null);
+    const [openEdit, setOpenEdit] = useState(false);
 
     const onDragEnd = (result) => {
         if (!result.destination) {
@@ -160,13 +164,18 @@ export const RankedListEdit = (props) => {
                     {listNull ? (
                         <ReactLoading type="bars" color={appThemeConstants.hanPurple} />
                     ) : (
-                        <DragDropContext onDragEnd={onDragEnd}>
-                            <Droppable droppableId="list">
+                        <DragDropContext onDragEnd={onDragEnd} style={{ width: "100%" }}>
+                            <Droppable droppableId="list" style={{ width: "100%" }}>
                                 {(provided) => {
                                     return (
-                                        <div ref={provided.innerRef} {...provided.droppableProps}>
+                                        <div
+                                            style={{ width: "100%" }}
+                                            ref={provided.innerRef}
+                                            {...provided.droppableProps}
+                                        >
                                             {rankedList["rank_list"].map((rItem, index) => (
                                                 <Draggable
+                                                    style={{ width: "100%" }}
                                                     key={rItem["_id"]["$oid"]}
                                                     draggableId={rItem["_id"]["$oid"]}
                                                     index={index}
@@ -179,6 +188,10 @@ export const RankedListEdit = (props) => {
                                                             cardTheme={cardTheme}
                                                             innerRef={provided.innerRef}
                                                             provided={provided}
+                                                            onEdit={() => {
+                                                                setEditItem(rItem);
+                                                                setOpenEdit(true);
+                                                            }}
                                                         />
                                                     )}
                                                 </Draggable>
@@ -191,6 +204,12 @@ export const RankedListEdit = (props) => {
                         </DragDropContext>
                     )}
                 </div>
+
+                {editItem ? (
+                    <RankItemEdit rankItem={editItem} handleClose={() => setOpenEdit(false)} open={openEdit} />
+                ) : (
+                    <i style={{ display: "none" }} />
+                )}
             </div>
         </Dialog>
     );
