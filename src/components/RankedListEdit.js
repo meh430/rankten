@@ -1,5 +1,5 @@
 import React, { useEffect, useReducer, useState } from "react";
-import { Dialog, useTheme } from "@material-ui/core";
+import { Dialog, TextField, useTheme } from "@material-ui/core";
 import { Draggable, DragDropContext, Droppable } from "react-beautiful-dnd";
 import ReactLoading from "react-loading";
 import VisibilityIcon from "@material-ui/icons/Visibility";
@@ -12,6 +12,8 @@ import { BackButton } from "./BackButton";
 import { RankItemCard } from "./RankItemCard";
 import "../App.css";
 
+let listTitle = "";
+
 // open: bool
 // isNew: bool
 // listId: string
@@ -23,6 +25,7 @@ export const RankedListEdit = (props) => {
     const cardTheme = getCardStyle(currentTheme);
     const [rankedList, rankedListDispatch] = useReducer(rankedListReducer, null);
     const [loading, setLoading] = useState(false);
+    const [editTitle, setEditTitle] = useState(false);
 
     const onDragEnd = (result) => {
         if (!result.destination) {
@@ -72,6 +75,8 @@ export const RankedListEdit = (props) => {
                 <div
                     className="row"
                     style={{
+                        paddingTop: "10px",
+                        paddingBottom: "10px",
                         justifyContent: "space-between",
                         alignItems: "center",
                         alignSelf: "start",
@@ -84,9 +89,38 @@ export const RankedListEdit = (props) => {
                 >
                     <div className="row" style={{ alignItems: "center", justifyContent: "start" }}>
                         <BackButton onClick={props.onClose} />
-                        <h1 style={{ ...textTheme, marginLeft: "22px", fontSize: "22px", marginRight: "20px" }}>
-                            {listNull ? "Loading..." : rankedList.title}
-                        </h1>
+                        {listNull ? (
+                            <h1 style={{ ...textTheme, marginLeft: "22px", fontSize: "22px", marginRight: "20px" }}>
+                                Loading...
+                            </h1>
+                        ) : editTitle ? (
+                            <TextField
+                                onKeyPress={(event) => {
+                                    if (event.key === "Enter") {
+                                        rankedListDispatch({
+                                            type: ListReducerTypes.updateTitle,
+                                            payload: { title: listTitle },
+                                        });
+                                        setEditTitle(false);
+                                        event.preventDefault();
+                                    }
+                                }}
+                                onChange={(event) => (listTitle = event.target.value)}
+                                id="standard-basic"
+                                style={{
+                                    marginLeft: "22px",
+                                    fontSize: "22px",
+                                }}
+                                defaultValue={rankedList.title}
+                            />
+                        ) : (
+                            <h1
+                                onClick={() => setEditTitle(true)}
+                                style={{ ...textTheme, marginLeft: "22px", fontSize: "22px", marginRight: "20px" }}
+                            >
+                                {rankedList.title}
+                            </h1>
+                        )}
                     </div>
                     <div className="row" style={{ alignItems: "center", justifyContent: "end" }}>
                         <VisibilityIcon style={{ cursor: "pointer", marginRight: "10px" }} />
@@ -147,4 +181,21 @@ rankedList["rank_list"].map((rItem) => (
                                 cardTheme={cardTheme}
                             />
                         ))
+                        {listNull ? (
+                            <h1 style={{ ...textTheme, marginLeft: "22px", fontSize: "22px", marginRight: "20px" }}>
+                                Loading...
+                            </h1>
+                        ) :
+                            {editTitle ?
+                                        (<TextField
+                                id="standard-basic"
+                                style={{
+                                    marginLeft: "22px",
+                                    fontSize: "22px"
+                                }}
+                                defaultValue={rankedList.title}
+                            />) : (<h1 style={{ ...textTheme, marginLeft: "22px", fontSize: "22px", marginRight: "20px" }}>
+                                rankedList.title
+                            </h1>)}}
+        
 */
