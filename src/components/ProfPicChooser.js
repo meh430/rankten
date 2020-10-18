@@ -46,7 +46,7 @@ export const ProfilePicChooser = (props) => {
                     <BackButton onClick={props.handleClose} />
                     <h1 style={{ ...textTheme, marginLeft: "22px" }}>Choose Profile Pic</h1>
                 </div>
-                <div class="col" style={{ alignItems: "center" }}>
+                <div className="col" style={{ alignItems: "center" }}>
                     <img
                         style={{ display: "none" }}
                         src={profPic}

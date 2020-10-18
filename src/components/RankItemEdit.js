@@ -25,10 +25,10 @@ export const RankItemEdit = (props) => {
     const [desc, setDesc] = useState(props.isNew ? "" : props.rankItem.description);
 
     useEffect(() => {
-        setPicture("");
-        setName("");
-        setDesc("");
-    }, [props.open])
+        setPicture(props.isNew ? "" : props.rankItem.picture);
+        setName(props.isNew ? "" : props.rankItem["item_name"]);
+        setDesc(props.isNew ? "" : props.rankItem.description);
+    }, [props.open, props.isNew, props.rankItem])
 
     if (!props.open) {
         return <i style={{display: "none"}}/>
