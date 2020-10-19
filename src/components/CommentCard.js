@@ -85,7 +85,12 @@ export const CommentCard = (props) => {
                             if (event.key === "Enter") {
                                 setEditing(false);
                                 (async () => {
-                                    await createComment(comment["_id"]["$oid"], commentEdit, props.mainUser.userToken, true);
+                                    await createComment(
+                                        comment["_id"]["$oid"],
+                                        commentEdit,
+                                        props.mainUser.userToken,
+                                        true
+                                    );
                                 })();
                                 event.preventDefault();
                             }

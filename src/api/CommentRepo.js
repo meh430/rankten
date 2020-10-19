@@ -37,3 +37,7 @@ export async function createComment(listId, comment, token, editing = false) {
 
     return editing ? await api.put(endpoint, token, body) : await api.post(endpoint, token, body);
 }
+
+export async function deleteComment(commentId, token) {
+    return await api.del('/comment/' + commentId, token);
+}
