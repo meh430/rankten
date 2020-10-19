@@ -1,5 +1,5 @@
-import React from "react";
-import { Card } from "@material-ui/core";
+import React, { useState } from "react";
+import { Card, Menu, MenuItem } from "@material-ui/core";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 
 import { CardHeader, LikeBar } from "./RankedListCard";
@@ -14,6 +14,8 @@ import "../App.css";
 // toList: bool
 export const CommentCard = (props) => {
     const { comment } = props;
+    const [anchorEl, setAnchorEl] = useState(null);
+
     return (
         <Card style={{ ...props.cardTheme, width: "400px", marginTop: "0px", marginBottom: "8px", maxWidth: "94%" }}>
             <div
@@ -34,7 +36,25 @@ export const CommentCard = (props) => {
                             />
                         </div>
 
-                        <MoreVertIcon style={{ padding: "0px", margin: "0px", fontSize: "20px" }} />
+                        <MoreVertIcon
+                            style={{ padding: "0px", margin: "0px", fontSize: "20px", cursor: "pointer" }}
+                            onClick={(event) => setAnchorEl(event.target)}
+                        />
+                        <Menu
+                            id="simple-menu"
+                            anchorEl={anchorEl}
+                            keepMounted
+                            open={Boolean(anchorEl)}
+                            onClose={() => setAnchorEl(null)}
+                        >
+                            <MenuItem onClick={() => setAnchorEl(null)}>Edit</MenuItem>
+                            <MenuItem onClick={() => setAnchorEl(null)}>Delete</MenuItem>
+                            {props.toList ? (
+                                <MenuItem onClick={() => setAnchorEl(null)}>To List</MenuItem>
+                            ) : (
+                                <i style={{ display: "none" }} />
+                            )}
+                        </Menu>
                     </div>
                 ) : (
                     <CardHeader
