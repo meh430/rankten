@@ -1,10 +1,14 @@
 import React, { useState } from "react";
-import { Card, Menu, MenuItem } from "@material-ui/core";
+import { Card, Menu, MenuItem, TextField } from "@material-ui/core";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
 
 import { CardHeader, LikeBar } from "./RankedListCard";
 import { containsId } from "../misc/Utils";
 import "../App.css";
+import { createComment } from "../api/CommentRepo";
+import { fieldTheme } from "./Login";
+
+let commentEdit = "";
 
 // comment: object
 // mainUser: object
@@ -15,6 +19,8 @@ import "../App.css";
 export const CommentCard = (props) => {
     const { comment } = props;
     const [anchorEl, setAnchorEl] = useState(null);
+    const [editing, setEditing] = useState(false);
+    const [commentError, setCommentError] = useState(false);
 
     return (
         <Card style={{ ...props.cardTheme, width: "400px", marginTop: "0px", marginBottom: "8px", maxWidth: "94%" }}>
@@ -47,7 +53,14 @@ export const CommentCard = (props) => {
                             open={Boolean(anchorEl)}
                             onClose={() => setAnchorEl(null)}
                         >
-                            <MenuItem onClick={() => setAnchorEl(null)}>Edit</MenuItem>
+                            <MenuItem
+                                onClick={() => {
+                                    setAnchorEl(null);
+                                    setEditing(true);
+                                }}
+                            >
+                                Edit
+                            </MenuItem>
                             <MenuItem onClick={() => setAnchorEl(null)}>Delete</MenuItem>
                             {props.toList ? (
                                 <MenuItem onClick={() => setAnchorEl(null)}>To List</MenuItem>
@@ -65,9 +78,32 @@ export const CommentCard = (props) => {
                     />
                 )}
 
-                <h3 style={{ ...props.textTheme, marginLeft: "10px", marginRight: "10px", marginBottom: "0px" }}>
-                    {comment.comment}
-                </h3>
+                {editing ? (
+                    <TextField
+                        defaultValue={comment.comment}
+                        onKeyPress={(event) => {
+                            if (event.key === "Enter") {
+                                setEditing(false);
+                                (async () => {
+                                    await createComment(comment["_id"]["$oid"], commentEdit, props.mainUser.userToken, true);
+                                })();
+                                event.preventDefault();
+                            }
+                        }}
+                        style={fieldTheme}
+                        label="Comment"
+                        multiline
+                        id="comment-field"
+                        variant="outlined"
+                        error={commentError}
+                        helperText={commentError ? "Comment cannot be empty" : ""}
+                        onChange={(event) => (commentEdit = event.target.value)}
+                    />
+                ) : (
+                    <h3 style={{ ...props.textTheme, marginLeft: "10px", marginRight: "10px", marginBottom: "0px" }}>
+                        {comment.comment}
+                    </h3>
+                )}
                 <LikeBar
                     id={comment["_id"]}
                     mainUser={props.mainUser}
