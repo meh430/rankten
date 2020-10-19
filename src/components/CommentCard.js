@@ -5,8 +5,9 @@ import MoreVertIcon from "@material-ui/icons/MoreVert";
 import { CardHeader, LikeBar } from "./RankedListCard";
 import { containsId } from "../misc/Utils";
 import "../App.css";
-import { createComment } from "../api/CommentRepo";
+import { createComment, deleteComment, getCommentParent } from "../api/CommentRepo";
 import { fieldTheme } from "./Login";
+import { getRankedList } from "../api/RankedListRepo";
 
 let commentEdit = "";
 
@@ -16,6 +17,7 @@ let commentEdit = "";
 // textTheme: object
 // isDark: bool
 // toList: bool
+// onListNav: callback
 export const CommentCard = (props) => {
     const { comment } = props;
     const [anchorEl, setAnchorEl] = useState(null);
@@ -61,9 +63,28 @@ export const CommentCard = (props) => {
                             >
                                 Edit
                             </MenuItem>
-                            <MenuItem onClick={() => setAnchorEl(null)}>Delete</MenuItem>
+                            <MenuItem
+                                onClick={() => {
+                                    setAnchorEl(null);
+                                    (async () => {
+                                        await deleteComment(comment["_id"]["$oid"], props.mainUser.userToken);
+                                    })();
+                                }}
+                            >
+                                Delete
+                            </MenuItem>
                             {props.toList ? (
-                                <MenuItem onClick={() => setAnchorEl(null)}>To List</MenuItem>
+                                <MenuItem onClick={() => {
+                                    (async () => {
+                                        const [e, rList] = (await getCommentParent(comment["_id"]["$oid"]));
+                                        if (!e) {
+                                            
+                                            props.onListNav(rList["_id"]["$oid"], rList["prof_pic"], rList["user_name"]);
+
+                                        }
+                                    })();
+                                    setAnchorEl(null);
+                                }}>To List</MenuItem>
                             ) : (
                                 <i style={{ display: "none" }} />
                             )}

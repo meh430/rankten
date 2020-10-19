@@ -10,6 +10,9 @@ import { getComments, getUserComments } from "../api/CommentRepo";
 import { CommentCard } from "./CommentCard";
 import { ActionButton } from "./ActionButton";
 import "../App.css";
+import { RankedListView } from "./RankedListView";
+import { RankedListEdit } from "./RankedListEdit";
+import { deleteRankedList, updateRankedList } from "../api/RankedListRepo";
 
 let page = 1;
 
@@ -27,6 +30,18 @@ export const CommentsDialog = (props) => {
     const [hitMax, setHitMax] = useState(false);
     const [sort, setSort] = useState(SortOptions.likesDesc);
     const [refresh, setRefresh] = useState(false);
+    const [id, setId] = useState(null);
+    const [profPic, setProfPic] = useState(null);
+    const [name, setName] = useState(null);
+    const [listOpen, setListOpen] = useState(false);
+    const [editOpen, setEditOpen] = useState(false);
+
+    const onListNav = (toId, pic, name) => {
+        setId(toId);
+        setProfPic(pic);
+        setName(name);
+        setListOpen(true);
+    };
 
     useEffect(() => {
         (async () => {
@@ -98,6 +113,7 @@ export const CommentsDialog = (props) => {
                     <div className="col" style={{ alignItems: "center", width: "100%" }}>
                         {userComments.map((uComment) => (
                             <CommentCard
+                                onListNav={onListNav}
                                 toList={props.userComments}
                                 key={uComment["_id"]["$oid"]}
                                 comment={uComment}
@@ -116,7 +132,38 @@ export const CommentsDialog = (props) => {
                 ) : (
                     <h2 style={props.textTheme}>You haven't commented on anything</h2>
                 )}
+                {props.userComments && id ? (
+                    <RankedListView
+                        listId={id}
+                        open={listOpen}
+                        onClose={() => setListOpen(false)}
+                        mainUser={props.mainUser}
+                        profPic={profPic}
+                        name={name}
+                        onEdit={() => {
+                            setListOpen(false);
+                            setEditOpen(true);
+                        }}
+                    />
+                ) : (
+                    <i style={{ display: "none" }} />
+                )}
+
+                <RankedListEdit
+                    open={editOpen}
+                    isNew={false}
+                    listId={id}
+                    mainUser={props.mainUser}
+                    onClose={() => setEditOpen(false)}
+                    onSave={(rankedList) => {
+                        (async () => {
+                            await updateRankedList(rankedList, id, props.mainUser.userToken);
+                        })();
+                    }}
+                    onDelete={() => async () => await deleteRankedList(id, props.mainUser.userToken)}
+                />
             </div>
         </Dialog>
     );
 };
+

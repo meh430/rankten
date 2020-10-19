@@ -41,3 +41,7 @@ export async function createComment(listId, comment, token, editing = false) {
 export async function deleteComment(commentId, token) {
     return await api.del('/comment/' + commentId, token);
 }
+
+export async function getCommentParent(commentId) {
+    return await api.get('/comment/' + commentId);
+}
