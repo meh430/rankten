@@ -78,7 +78,6 @@ export const CommentCard = (props) => {
                                     (async () => {
                                         const [e, rList] = (await getCommentParent(comment["_id"]["$oid"]));
                                         if (!e) {
-                                            
                                             props.onListNav(rList["_id"]["$oid"], rList["prof_pic"], rList["user_name"]);
 
                                         }

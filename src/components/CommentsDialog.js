@@ -1,5 +1,5 @@
 import React, { useEffect, useState } from "react";
-import { Dialog, useTheme } from "@material-ui/core";
+import { Dialog, TextField, useTheme } from "@material-ui/core";
 import RefreshIcon from "@material-ui/icons/Refresh";
 
 import { SortOptions } from "../misc/Utils";
@@ -13,6 +13,7 @@ import "../App.css";
 import { RankedListView } from "./RankedListView";
 import { RankedListEdit } from "./RankedListEdit";
 import { deleteRankedList, updateRankedList } from "../api/RankedListRepo";
+import { fieldTheme } from "./Login";
 
 let page = 1;
 
@@ -162,8 +163,42 @@ export const CommentsDialog = (props) => {
                     }}
                     onDelete={() => async () => await deleteRankedList(id, props.mainUser.userToken)}
                 />
+                <div
+                    className="row"
+                    style={{
+                        justifyContent: "space-evenly",
+                        width: "100%",
+                        alignItems: "center",
+                        alignSelf: "center",
+                        maxWidth: "100%",
+                        position: "sticky",
+                        bottom: "0",
+                        zIndex: "1",
+                        backgroundColor: currentTheme.palette.background.default,
+                    }}
+                >
+                    {props.userComments ? (
+                        <i style={{ display: "none" }} />
+                    ) : (
+                        <TextField
+                            onKeyPress={(event) => {
+                                if (event.key === "Enter") {
+                                    props.onEnter();
+                                    event.preventDefault();
+                                }
+                            }}
+                            style={fieldTheme}
+                            label="Comment"
+                            multiline
+                            id="comment-field"
+                            variant="outlined"
+                            error={props.error}
+                            helperText={props.error ? "Bio cannot be empty" : ""}
+                            onChange={props.onChange}
+                        />
+                    )}
+                </div>
             </div>
         </Dialog>
     );
 };
-
