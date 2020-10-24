@@ -1,12 +1,13 @@
 import React, { useEffect, useState } from "react";
 import { Dialog, InputAdornment, TextField, useTheme } from "@material-ui/core";
 import RefreshIcon from "@material-ui/icons/Refresh";
+import ReactLoading from "react-loading";
 
 import { SortOptions } from "../misc/Utils";
 import { BackButton } from "./BackButton";
 import { appThemeConstants, getCardStyle, getTextTheme } from "../misc/AppTheme";
 import { SortMenu } from "./SearchUsers";
-import { getComments, getUserComments } from "../api/CommentRepo";
+import { createComment, getComments, getUserComments } from "../api/CommentRepo";
 import { CommentCard } from "./CommentCard";
 import { ActionButton } from "./ActionButton";
 import "../App.css";
@@ -17,6 +18,8 @@ import { fieldTheme } from "./Login";
 import SendIcon from "@material-ui/icons/Send";
 
 let page = 1;
+
+let commentContent = "";
 
 // open: bool
 // handleClose: callback
@@ -37,6 +40,19 @@ export const CommentsDialog = (props) => {
     const [name, setName] = useState(null);
     const [listOpen, setListOpen] = useState(false);
     const [editOpen, setEditOpen] = useState(false);
+    const [sendCommentLoading, setSendCommentLoading] = useState(false);
+
+    const sendComment = () => {
+        (async () => {
+            setSendCommentLoading(true);
+            const [e, res] = await createComment(props.listId, commentContent, props.mainUser.userToken, false);
+            if (!e) {
+                setRefresh(true);
+            }
+
+            setSendCommentLoading(false);
+        })();
+    }
 
     const onListNav = (toId, pic, name) => {
         setId(toId);
@@ -182,29 +198,42 @@ export const CommentsDialog = (props) => {
                             backgroundColor: currentTheme.palette.background.default,
                         }}
                     >
-                        <TextField
-                            onKeyPress={(event) => {
-                                if (event.key === "Enter") {
-                                    props.onEnter();
-                                    event.preventDefault();
-                                }
-                            }}
-                            InputProps={{
-                                endAdornment: (
-                                    <InputAdornment position="start">
-                                        <SendIcon onClick={() => console.log("comment")} style={{cursor: "pointer", color: currentTheme.palette.type === "dark" ? appThemeConstants.lavender : appThemeConstants.hanPurple}}/>
-                                    </InputAdornment>
-                                ),
-                            }}
-                            style={fieldTheme}
-                            label="Comment"
-                            multiline
-                            id="comment-field"
-                            variant="outlined"
-                            error={props.error}
-                            helperText={props.error ? "Bio cannot be empty" : ""}
-                            onChange={props.onChange}
-                        />
+                        {sendCommentLoading ? (
+                            <ReactLoading type="bars" color={appThemeConstants.hanPurple} />
+                        ) : (
+                            <TextField
+                                onKeyPress={(event) => {
+                                    if (event.key === "Enter") {
+                                        sendComment();
+                                        event.preventDefault();
+                                    }
+                                }}
+                                InputProps={{
+                                    endAdornment: (
+                                        <InputAdornment position="start">
+                                            <SendIcon
+                                                onClick={sendComment}
+                                                style={{
+                                                    cursor: "pointer",
+                                                    color:
+                                                        currentTheme.palette.type === "dark"
+                                                            ? appThemeConstants.lavender
+                                                            : appThemeConstants.hanPurple,
+                                                }}
+                                            />
+                                        </InputAdornment>
+                                    ),
+                                }}
+                                style={fieldTheme}
+                                label="Comment"
+                                multiline
+                                id="comment-field"
+                                variant="outlined"
+                                error={props.error}
+                                helperText={props.error ? "Bio cannot be empty" : ""}
+                                onChange={(event) => (commentContent = event.target.value)}
+                            />
+                        )}
                     </div>
                 )}
             </div>
