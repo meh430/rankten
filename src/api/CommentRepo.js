@@ -26,6 +26,9 @@ export async function getComments(listId, page = 1, sort = 0, refresh = false) {
     const [e, res] = await api.get(`/comments/${listId}/${page}/${sort}${refresh ? "?re=True" : ""}`);
     if (e) {
         return res.includes("Page") ? [false, true, []] : [e, false, []];
+    } else if (res.length === 10) {
+        const [e1, res1] = await api.get(`/comments/${listId}/${page + 1}/${sort}${refresh ? "?re=True" : ""}`);
+        return res1.includes("Page") ? [false, true, res] : [e1, true, res];
     } else {
         return [e, res.length < 10, res];
     }
@@ -39,9 +42,9 @@ export async function createComment(listId, comment, token, editing = false) {
 }
 
 export async function deleteComment(commentId, token) {
-    return await api.del('/comment/' + commentId, token);
+    return await api.del("/comment/" + commentId, token);
 }
 
 export async function getCommentParent(commentId) {
-    return await api.get('/comment/' + commentId);
+    return await api.get("/comment/" + commentId);
 }
