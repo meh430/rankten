@@ -1,10 +1,10 @@
 import React, { useEffect, useState } from "react";
-import { Dialog, TextField, useTheme } from "@material-ui/core";
+import { Dialog, InputAdornment, TextField, useTheme } from "@material-ui/core";
 import RefreshIcon from "@material-ui/icons/Refresh";
 
 import { SortOptions } from "../misc/Utils";
 import { BackButton } from "./BackButton";
-import { getCardStyle, getTextTheme } from "../misc/AppTheme";
+import { appThemeConstants, getCardStyle, getTextTheme } from "../misc/AppTheme";
 import { SortMenu } from "./SearchUsers";
 import { getComments, getUserComments } from "../api/CommentRepo";
 import { CommentCard } from "./CommentCard";
@@ -14,6 +14,7 @@ import { RankedListView } from "./RankedListView";
 import { RankedListEdit } from "./RankedListEdit";
 import { deleteRankedList, updateRankedList } from "../api/RankedListRepo";
 import { fieldTheme } from "./Login";
+import SendIcon from "@material-ui/icons/Send";
 
 let page = 1;
 
@@ -163,29 +164,37 @@ export const CommentsDialog = (props) => {
                     }}
                     onDelete={() => async () => await deleteRankedList(id, props.mainUser.userToken)}
                 />
-                <div
-                    className="row"
-                    style={{
-                        justifyContent: "space-evenly",
-                        width: "100%",
-                        alignItems: "center",
-                        alignSelf: "center",
-                        maxWidth: "100%",
-                        position: "sticky",
-                        bottom: "0",
-                        zIndex: "1",
-                        backgroundColor: currentTheme.palette.background.default,
-                    }}
-                >
-                    {props.userComments ? (
-                        <i style={{ display: "none" }} />
-                    ) : (
+
+                {props.userComments ? (
+                    <i style={{ display: "none" }} />
+                ) : (
+                    <div
+                        className="row"
+                        style={{
+                            justifyContent: "space-evenly",
+                            width: "100%",
+                            alignItems: "center",
+                            alignSelf: "center",
+                            maxWidth: "100%",
+                            position: "sticky",
+                            bottom: "0",
+                            zIndex: "1",
+                            backgroundColor: currentTheme.palette.background.default,
+                        }}
+                    >
                         <TextField
                             onKeyPress={(event) => {
                                 if (event.key === "Enter") {
                                     props.onEnter();
                                     event.preventDefault();
                                 }
+                            }}
+                            InputProps={{
+                                endAdornment: (
+                                    <InputAdornment position="start">
+                                        <SendIcon onClick={() => console.log("comment")} style={{cursor: "pointer", color: currentTheme.palette.type === "dark" ? appThemeConstants.lavender : appThemeConstants.hanPurple}}/>
+                                    </InputAdornment>
+                                ),
                             }}
                             style={fieldTheme}
                             label="Comment"
@@ -196,8 +205,8 @@ export const CommentsDialog = (props) => {
                             helperText={props.error ? "Bio cannot be empty" : ""}
                             onChange={props.onChange}
                         />
-                    )}
-                </div>
+                    </div>
+                )}
             </div>
         </Dialog>
     );
