@@ -1,6 +1,7 @@
 import React, { useContext, useState } from "react";
 import { useHistory } from "react-router-dom";
 import { Avatar, Card, useTheme } from "@material-ui/core";
+import CommentIcon from "@material-ui/icons/Comment";
 import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import FavoriteIcon from "@material-ui/icons/Favorite";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
@@ -13,7 +14,6 @@ import { UserListDialog } from "./UserListDialog";
 import { UserPreviewTypes } from "../api/UserPreviewRepo";
 import { likeList } from "../api/UserRepo";
 import { UserReducerTypes } from "../reducers/UserReducer";
-import { likeComment } from "../api/CommentRepo";
 import { RankedListView } from "./RankedListView";
 import { CommentsDialog } from "./CommentsDialog";
 import { RankedListEdit } from "./RankedListEdit";
@@ -57,18 +57,18 @@ export const CommentPreview = (props) => {
 // textTheme: object
 // numLikes: number
 // isLiked: bool
-// isList: bool
-export const LikeBar = (props) => {
+// numComments: number
+const CardLikeBar = (props) => {
     const [loading, setLoading] = useState(false);
     const [openLikers, setOpenLikers] = useState(false);
+    const [openComments, setOpenComments] = useState(false);
     const [liked, setLiked] = useState(props.isLiked);
     const [numLikes, setNumLikes] = useState(props.numLikes);
 
     const onLike = async () => {
         setLoading(true);
-        const [e, res] = props.isList
-            ? await likeList(props.id, props.mainUser.userToken)
-            : await likeComment(props.id["$oid"], props.mainUser.userToken);
+        const [e, res] = await likeList(props.id, props.mainUser.userToken);
+
         if (e) {
             setLoading(false);
             return;
@@ -79,17 +79,16 @@ export const LikeBar = (props) => {
                 setNumLikes(numLikes + 1);
             }
             setLiked(res === "LIKED");
-            if (props.isList) {
-                props.mainUser.userDispatch({
-                    type: UserReducerTypes.likeListAction,
-                    payload: { hasLiked: res === "LIKED", targetId: { $oid: props.id } },
-                });
-            }
+            props.mainUser.userDispatch({
+                type: UserReducerTypes.likeListAction,
+                payload: { hasLiked: res === "LIKED", targetId: { $oid: props.id } },
+            });
+
             setLoading(false);
         }
     };
 
-    const likeStyle = { color: "red", height: "45px", width: "45px" };
+    const likeStyle = { color: "red", height: "45px", width: "45px", marginRight: "6px" };
 
     return loading ? (
         <ReactLoading type="bubbles" color={appThemeConstants.hanPurple} />
@@ -105,14 +104,23 @@ export const LikeBar = (props) => {
                 cursor: "pointer",
             }}
         >
-            {liked ? (
-                <FavoriteIcon onClick={onLike} style={likeStyle} />
-            ) : (
-                <FavoriteBorderIcon onClick={onLike} style={likeStyle} />
-            )}
-            <h3 style={{ ...props.textTheme, fontSize: "20px" }} onClick={() => setOpenLikers(props.isList && true)}>
-                {numLikes} likes
-            </h3>
+            <div className="row" style={{alignItems: "center"}}>
+                {liked ? (
+                    <FavoriteIcon onClick={onLike} style={likeStyle} />
+                ) : (
+                    <FavoriteBorderIcon onClick={onLike} style={likeStyle} />
+                )}
+                <h3 style={{ ...props.textTheme, fontSize: "20px" }} onClick={() => setOpenLikers(true)}>
+                        {numLikes} {numLikes === 1 ? "like" : "likes"}
+                </h3>
+            </div>
+
+                <div className="row" style={{ alignItems: "center" }} onClick={() => setOpenComments(true)}>
+                <CommentIcon style={{ height: "25x", width: "25px", marginRight: "6px" }} />
+                <h3 style={{ ...props.textTheme, fontSize: "20px" }}>
+                    {props.numComments} {props.numComments === 1 ? "comment" : "comments"}
+                </h3>
+            </div>
 
             <UserListDialog
                 handleClose={() => setOpenLikers(false)}
@@ -120,7 +128,15 @@ export const LikeBar = (props) => {
                 title="Liked By"
                 type={UserPreviewTypes.likersList}
                 name={props.id}
-            />
+                />
+                
+                <CommentsDialog
+                    open={openComments}
+                    handleClose={() => setOpenComments(false)}
+                    mainUser={props.mainUser}
+                    listId={props.id}
+                    userComments={false}
+                />
         </div>
     );
 };
@@ -260,14 +276,16 @@ export const RankedListCard = (props) => {
                 >
                     View {props.rankedList["num_rank_items"] - props.rankedList["rank_list"].length} more items
                 </h4>
-                <LikeBar
-                    isList={true}
+
+                <CardLikeBar
+                    numComments={props.rankedList["num_comments"]}
                     numLikes={props.rankedList["num_likes"]}
                     textTheme={textTheme}
                     id={props.rankedList["_id"]}
                     isLiked={containsId(mainUser.user["liked_lists"], props.rankedList["_id"])}
                     mainUser={mainUser}
                 />
+
                 {props.rankedList["num_comments"] >= 1 ? (
                     <CommentPreview
                         onClick={() => setOpenComments(true)}

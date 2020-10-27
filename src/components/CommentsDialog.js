@@ -31,7 +31,7 @@ export const CommentsDialog = (props) => {
     const textTheme = getTextTheme(currentTheme);
     const cardTheme = getCardStyle(currentTheme);
 
-    const [userComments, setUserComments] = useState([]);
+    const [commentsList, setCommentsList] = useState([]);
     const [hitMax, setHitMax] = useState(false);
     const [sort, setSort] = useState(SortOptions.likesDesc);
     const [refresh, setRefresh] = useState(false);
@@ -44,6 +44,7 @@ export const CommentsDialog = (props) => {
 
     const sendComment = () => {
         (async () => {
+            
             setSendCommentLoading(true);
             const [e, res] = await createComment(props.listId, commentContent, props.mainUser.userToken, false);
             if (!e) {
@@ -68,13 +69,13 @@ export const CommentsDialog = (props) => {
             }
 
             page = 1;
-            setUserComments([]);
+            setCommentsList([]);
             const [e, lastPage, res] = props.userComments
                 ? await getUserComments(page, sort, props.mainUser.userToken, refresh)
                 : await getComments(props.listId, page, sort, refresh);
             setHitMax(lastPage);
             if (!e) {
-                setUserComments([...res]);
+                setCommentsList([...res]);
             }
         })();
     }, [props.open, sort, refresh]);
@@ -87,9 +88,10 @@ export const CommentsDialog = (props) => {
             : await getComments(props.listId, page, sort, refresh);
         setHitMax(lastPage);
         if (!e) {
-            setUserComments([...userComments, ...res]);
+            setCommentsList([...commentsList, ...res]);
         }
     };
+    console.log(commentsList);
 
     return (
         <Dialog onClose={props.handleClose} aria-labelledby="customized-dialog-title" open={props.open}>
@@ -127,9 +129,9 @@ export const CommentsDialog = (props) => {
                     </div>
                 </div>
 
-                {userComments.length ? (
+                {commentsList.length >= 1 ? (
                     <div className="col" style={{ alignItems: "center", width: "100%" }}>
-                        {userComments.map((uComment) => (
+                        {commentsList.map((uComment) => (
                             <CommentCard
                                 onListNav={onListNav}
                                 toList={props.userComments}
@@ -148,7 +150,7 @@ export const CommentsDialog = (props) => {
                         )}
                     </div>
                 ) : (
-                    <h2 style={props.textTheme}>You haven't commented on anything</h2>
+                    <h2 style={props.textTheme}>No comments found</h2>
                 )}
                 {props.userComments && id ? (
                     <RankedListView

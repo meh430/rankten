@@ -51,7 +51,7 @@ export const Profile = (props) => {
                     title={(displayLiked ? "Liked" : "Your") + " Lists"}
                     listType={displayLiked ? RankedListPreviewTypes.likedLists : RankedListPreviewTypes.userListsP}
                     token={userToken}
-                    emptyMessage={"You haven't + " + (displayLiked ? "liked" : "created") + " any lists"}
+                    emptyMessage={"You haven't " + (displayLiked ? "liked" : "created") + " any lists"}
                 />
             </div>
         );

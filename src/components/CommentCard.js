@@ -1,15 +1,76 @@
 import React, { useState } from "react";
 import { Card, Menu, MenuItem, TextField } from "@material-ui/core";
 import MoreVertIcon from "@material-ui/icons/MoreVert";
+import ReactLoading from "react-loading";
+import FavoriteIcon from "@material-ui/icons/Favorite";
+import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 
-import { CardHeader, LikeBar } from "./RankedListCard";
+import { CardHeader } from "./RankedListCard";
 import { containsId } from "../misc/Utils";
 import "../App.css";
-import { createComment, deleteComment, getCommentParent } from "../api/CommentRepo";
+import { createComment, deleteComment, getCommentParent, likeComment } from "../api/CommentRepo";
 import { fieldTheme } from "./Login";
 import { getRankedList } from "../api/RankedListRepo";
+import { appThemeConstants } from "../misc/AppTheme";
 
 let commentEdit = "";
+
+// id: string
+// mainUser: object
+// textTheme: object
+// numLikes: number
+// isLiked: bool
+const CommentLikeBar = (props) => {
+    const [loading, setLoading] = useState(false);
+    const [liked, setLiked] = useState(props.isLiked);
+    const [numLikes, setNumLikes] = useState(props.numLikes);
+
+    const onLike = async () => {
+        setLoading(true);
+        const [e, res] = await likeComment(props.id["$oid"], props.mainUser.userToken);
+        if (e) {
+            setLoading(false);
+            return;
+        } else {
+            if (liked) {
+                setNumLikes(numLikes - 1);
+            } else {
+                setNumLikes(numLikes + 1);
+            }
+            setLiked(res === "LIKED");
+            
+            setLoading(false);
+        }
+    };
+
+    const likeStyle = { color: "red", height: "45px", width: "45px" };
+
+    return loading ? (
+        <ReactLoading type="bubbles" color={appThemeConstants.hanPurple} />
+    ) : (
+        <div
+            className="row"
+            style={{
+                margin: "0px",
+                justifyContent: "space-between",
+                alignItems: "center",
+                paddingLeft: "12px",
+                paddingRight: "12px",
+                cursor: "pointer",
+            }}
+        >
+            {liked ? (
+                <FavoriteIcon onClick={onLike} style={likeStyle} />
+            ) : (
+                <FavoriteBorderIcon onClick={onLike} style={likeStyle} />
+            )}
+            <h3 style={{ ...props.textTheme, fontSize: "20px" }}>
+                {numLikes} likes
+            </h3>
+        </div>
+    );
+};
+
 
 // comment: object
 // mainUser: object
@@ -129,7 +190,7 @@ export const CommentCard = (props) => {
                         {comment.comment}
                     </h3>
                 )}
-                <LikeBar
+                <CommentLikeBar
                     id={comment["_id"]}
                     mainUser={props.mainUser}
                     textTheme={props.textTheme}
