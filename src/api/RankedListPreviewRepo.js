@@ -27,41 +27,51 @@ export const getRankedListPreview = async (params) => {
         token = "";
     }
 
-    let endpoint = "/" + params.endpointBase;
-    switch (params.endpointBase) {
+    let endpoint = getEndpoint(params.endpointBase, params.page, params.sort, params.name, params.query, refresh);
+
+    const [e, res] = await api.get(endpoint, token);
+    if (e) {
+        return res.includes("Page") ? [false, true, []] : [e, false, []];
+    } else if (res.length === 10) {
+        const [e1, res1] = await api.get(getEndpoint(params.endpointBase, params.page + 1, params.sort, params.name, params.query, refresh), token);
+        return res1.includes("Page") ? [false, true, res] : [e1, false, res];
+    }  else {
+        return [e, res.length < 10, res];
+    }
+};
+
+function getEndpoint(endpointBase, page, sort, name, query, refresh) {
+    let endpoint = "/" + endpointBase;
+
+    switch (endpointBase) {
         case RankedListPreviewTypes.discoverLists:
-            endpoint += `/${params.page}/${params.sort}`;
+            endpoint += `/${page}/${sort}`;
             break;
         case RankedListPreviewTypes.likedLists:
-            endpoint += `/${params.page}/${params.sort}`;
+            endpoint += `/${page}/${sort}`;
             break;
         case RankedListPreviewTypes.userLists:
-            endpoint += `/${params.name}/${params.page}/${params.sort}`;
+            endpoint += `/${name}/${page}/${sort}`;
             break;
         case RankedListPreviewTypes.userListsP:
-            endpoint += `/${params.page}/${params.sort}`;
+            endpoint += `/${page}/${sort}`;
             break;
         case RankedListPreviewTypes.feedLists:
-            endpoint += `/${params.page}`;
+            endpoint += `/${page}`;
             break;
         case RankedListPreviewTypes.searchLists:
-            console.log(params.query);
-            endpoint += `/${params.page}/${params.sort}?q=${params.query.replace(/ /g, "+")}`;
+            console.log(query);
+            endpoint += `/${page}/${sort}?q=${query.replace(/ /g, "+")}`;
             break;
     }
 
     if (refresh) {
-        if (params.endpointBase === RankedListPreviewTypes.searchLists) {
+        if (endpointBase === RankedListPreviewTypes.searchLists) {
             endpoint += "&re=True";
         } else {
             endpoint += "?re=True";
         }
     }
 
-    const [e, res] = await api.get(endpoint, token);
-    if (e) {
-        return res.includes("Page") ? [false, true, []] : [e, false, []];
-    } else {
-        return [e, res.length < 10, res];
-    }
-};
+    return endpoint
+}
