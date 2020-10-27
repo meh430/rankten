@@ -8,8 +8,10 @@ import { BackButton } from "./BackButton";
 import { ListReducerTypes, rankedListReducer } from "../reducers/RankedListReducer";
 import { getRankedList } from "../api/RankedListRepo";
 import { RankItemCard } from "./RankItemCard";
-import { CardHeader } from "./RankedListCard";
+import { CardHeader, CardLikeBar } from "./RankedListCard";
+
 import "../App.css";
+import { containsId } from "../misc/Utils";
 
 // listId: string
 // open: bool
@@ -76,7 +78,7 @@ export const RankedListView = (props) => {
                         </h1>
                     </div>
                     {props.mainUser.user["user_name"] === props.name ? (
-                        <EditIcon style={{ cursor: "pointer", marginRight: "10px" }} onClick={props.onEdit}/>
+                        <EditIcon style={{ cursor: "pointer", marginRight: "10px" }} onClick={props.onEdit} />
                     ) : (
                         <i style={{ display: "none" }} />
                     )}
@@ -108,7 +110,17 @@ export const RankedListView = (props) => {
                                 isMain={false}
                             />
                         ))
-                    )}
+                        )}
+                    {listNull ? <ReactLoading type="bars" color={appThemeConstants.hanPurple} /> :
+                        (<div style={{width: "100%"}}>
+                        <CardLikeBar
+                            numComments={rankedList["num_comments"]}
+                            numLikes={rankedList["num_likes"]}
+                            textTheme={textTheme}
+                            id={rankedList["_id"]["$oid"]}
+                            isLiked={containsId(props.mainUser.user["liked_lists"], rankedList["_id"]["$oid"])}
+                            mainUser={props.mainUser}
+                        /></div>)}
                 </div>
             </div>
         </Dialog>

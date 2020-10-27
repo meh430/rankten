@@ -58,7 +58,7 @@ export const CommentPreview = (props) => {
 // numLikes: number
 // isLiked: bool
 // numComments: number
-const CardLikeBar = (props) => {
+export const CardLikeBar = (props) => {
     const [loading, setLoading] = useState(false);
     const [openLikers, setOpenLikers] = useState(false);
     const [openComments, setOpenComments] = useState(false);
