@@ -212,7 +212,8 @@ export const CardHeader = (props) => {
     );
 };
 
-//rankedList: object
+// rankedList: object
+// onUpdate: callback
 export const RankedListCard = (props) => {
     const currentTheme = useTheme();
     const cardStyle = getCardStyle(currentTheme);

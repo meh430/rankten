@@ -21,13 +21,15 @@ const breakpointColumnsObj = {
     500: 1,
 };
 
-//sort: int
-//name: string
-//token: string
-//query: string
-//emptyMessage: string
-//listType: string
-//textTheme: object
+// sort: int
+// name: string
+// token: string
+// query: string
+// refresh: bool
+// emptyMessage: string
+// listType: string
+// textTheme: object
+// onUpdate: callback
 export const GenericList = (props) => {
     const [rankedLists, setRankedLists] = useState([]);
     const [hitMax, setHitMax] = useState(false);
@@ -92,7 +94,7 @@ export const GenericList = (props) => {
                 columnClassName="gen-list-col"
             >
                 {rankedLists.map((rList) => (
-                    <RankedListCard rankedList={rList} key={"r_" + rList["date_created"]["$date"]} />
+                    <RankedListCard onUpdate={props.onUpdate} rankedList={rList} key={"r_" + rList["date_created"]["$date"]} />
                 ))}
             </Masonry>
         </InfiniteScroll>
@@ -101,15 +103,15 @@ export const GenericList = (props) => {
     );
 };
 
-//title: string
-//listType: string
-//name: string
-//token: string
-//query: string
-//emptyMessage: string
-//listType: string
-//textTheme: object
-//noSort: bool
+// title: string
+// listType: string
+// name: string
+// token: string
+// query: string
+// emptyMessage: string
+// listType: string
+// textTheme: object
+// noSort: bool
 export const SortedListContainer = (props) => {
     const [sort, setSort] = useState(SortOptions.likesDesc);
     const [refresh, setRefresh] = useState(false);
@@ -130,6 +132,7 @@ export const SortedListContainer = (props) => {
                 query={props.query}
                 textTheme={props.textTheme}
                 refresh={refresh}
+                onUpdate={() => setRefresh(true)}
                 sort={sort}
                 name={props.name}
                 token={props.token}

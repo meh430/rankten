@@ -9,9 +9,10 @@ import { ListReducerTypes, rankedListReducer } from "../reducers/RankedListReduc
 import { getRankedList } from "../api/RankedListRepo";
 import { RankItemCard } from "./RankItemCard";
 import { CardHeader, CardLikeBar } from "./RankedListCard";
+import { containsId } from "../misc/Utils";
 
 import "../App.css";
-import { containsId } from "../misc/Utils";
+
 
 // listId: string
 // open: bool
@@ -126,87 +127,3 @@ export const RankedListView = (props) => {
         </Dialog>
     );
 };
-// name: string
-// profPic: string
-// timeStamp: number
-// isDark: bool
-//let page = 1;
-
-/*// mainUser: object
-// id: string
-// open: bool
-const ListComments = (props) => {
-    const currentTheme = useTheme();
-    const textTheme = getTextTheme(currentTheme);
-    const cardTheme = getCardStyle(currentTheme);
-
-    const [loading, setLoading] = useState(false);
-    const [refresh, setRefresh] = useState(false);
-    const [comments, setComments] = useState([]);
-    const [sort, setSort] = useState(SortOptions.likesDesc);
-    const [hitMax, setHitMax] = useState(false);
-
-    const onPaginate = () => {
-        (async () => {
-            if (!props.open) {
-                return;
-            }
-            page += 1;
-
-            const [e, lastPage, res] = await getComments(props.id, page, sort, refresh);
-            setHitMax(lastPage);
-            if (!e) {
-                setComments([...comments, ...res]);
-            }
-        })();
-    };
-
-    useEffect(() => {
-        (async () => {
-            if (!props.open) {
-                return;
-            }
-
-            setLoading(true);
-            page = 1;
-            setComments([]);
-            const [e, lastPage, res] = await getComments(props.id, page, sort, refresh);
-            setHitMax(lastPage);
-            if (!e) {
-                setComments([...res]);
-            }
-            setLoading(false);
-        })();
-    }, [props.id, props.open, sort, refresh]);
-
-    if (!comments.length) {
-        return <h2 style={textTheme}>No comments</h2>;
-    }
-
-    if (loading) {
-        return <ReactLoading type="bars" color={appThemeConstants.hanPurple} />;
-    }
-
-    return (
-        <div className="col" style={{ width: "412px" }}>
-            <InfiniteScroll
-                dataLength={comments.length}
-                next={onPaginate}
-                hasMore={!hitMax}
-                loader={<ReactLoading type="cylon" color={appThemeConstants.hanPurple} />}
-            >
-                <div className="col">
-                    {comments.map((comment) => (
-                        <CommentCard
-                            comment={comment}
-                            mainUser={props.mainUser}
-                            cardTheme={cardTheme}
-                            textTheme={textTheme}
-                            isDark={currentTheme.palette.type === "dark"}
-                        />
-                    ))}
-                </div>
-            </InfiniteScroll>
-        </div>
-    );
-};*/
