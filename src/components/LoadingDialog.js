@@ -24,14 +24,15 @@ export const LoadingDialog = (props) => {
             setLoading(true);
             const [e, res] = await props.asyncTask();
             console.log([e, res]);
-            setSuccess(e);
+            setSuccess(!e);
             if (!e) {
                 setTimeout(props.onClose, 1500);
             }
+            setLoading(false);
         })();
     };
 
-    useEffect(executeTask, []);
+    useEffect(executeTask, [props.open]);
 
     return (
         <Dialog onClose={props.onClose} aria-labelledby="customized-dialog-title" open={props.open}>
