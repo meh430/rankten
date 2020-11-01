@@ -13,7 +13,6 @@ import { containsId } from "../misc/Utils";
 
 import "../App.css";
 
-
 // listId: string
 // open: bool
 // onClose: callback
@@ -111,17 +110,21 @@ export const RankedListView = (props) => {
                                 isMain={false}
                             />
                         ))
-                        )}
-                    {listNull ? <ReactLoading type="bars" color={appThemeConstants.hanPurple} /> :
-                        (<div style={{width: "100%"}}>
-                        <CardLikeBar
-                            numComments={rankedList["num_comments"]}
-                            numLikes={rankedList["num_likes"]}
-                            textTheme={textTheme}
-                            id={rankedList["_id"]["$oid"]}
-                            isLiked={containsId(props.mainUser.user["liked_lists"], rankedList["_id"]["$oid"])}
-                            mainUser={props.mainUser}
-                        /></div>)}
+                    )}
+                    {listNull ? (
+                        <ReactLoading type="bars" color={appThemeConstants.hanPurple} />
+                    ) : (
+                        <div style={{ width: "100%" }}>
+                            <CardLikeBar
+                                numComments={rankedList["num_comments"]}
+                                numLikes={rankedList["num_likes"]}
+                                textTheme={textTheme}
+                                id={rankedList["_id"]["$oid"]}
+                                isLiked={containsId(props.mainUser.user["liked_lists"], rankedList["_id"]["$oid"])}
+                                mainUser={props.mainUser}
+                            />
+                        </div>
+                    )}
                 </div>
             </div>
         </Dialog>

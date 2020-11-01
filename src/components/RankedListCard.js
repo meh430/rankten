@@ -18,8 +18,8 @@ import { RankedListView } from "./RankedListView";
 import { CommentsDialog } from "./CommentsDialog";
 import { RankedListEdit } from "./RankedListEdit";
 import { deleteRankedList, updateRankedList } from "../api/RankedListRepo";
-import "../App.css";
 import { LoadingDialog } from "./LoadingDialog";
+import "../App.css";
 
 // commentPreview: object
 // cardTheme: object

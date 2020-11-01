@@ -2,9 +2,10 @@ import React, { useEffect, useState } from "react";
 import ReactLoading from "react-loading";
 import { Dialog, useTheme } from "@material-ui/core";
 
-import "../App.css";
 import { appThemeConstants, getTextTheme } from "../misc/AppTheme";
 import { ActionButton } from "./ActionButton";
+import "../App.css";
+
 
 // open: bool
 // asyncTask: callback

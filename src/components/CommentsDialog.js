@@ -10,12 +10,12 @@ import { SortMenu } from "./SearchUsers";
 import { createComment, getComments, getUserComments } from "../api/CommentRepo";
 import { CommentCard } from "./CommentCard";
 import { ActionButton } from "./ActionButton";
-import "../App.css";
 import { RankedListView } from "./RankedListView";
 import { RankedListEdit } from "./RankedListEdit";
 import { deleteRankedList, updateRankedList } from "../api/RankedListRepo";
 import { fieldTheme } from "./Login";
 import SendIcon from "@material-ui/icons/Send";
+import "../App.css";
 
 let page = 1;
 
