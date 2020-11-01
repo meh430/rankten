@@ -37,9 +37,9 @@ export const LoadingDialog = (props) => {
 
     return (
         <Dialog onClose={props.onClose} aria-labelledby="customized-dialog-title" open={props.open}>
-            <div className="col" style={{ justifyContent: "center", alignItems: "center" }}>
+            <div className="col" style={{ justifyContent: "center", alignItems: "center", padding: "10px" }}>
                 {loading ? (
-                    <ReactLoading type="cylon" color={appThemeConstants.hanPurple} />
+                    <ReactLoading type="bars" color={appThemeConstants.hanPurple} />
                 ) : (
                     <ResultDisplay
                         success={success}
@@ -58,14 +58,14 @@ export const LoadingDialog = (props) => {
 // errorMessage: string
 // executeTask: callback
 const ResultDisplay = (props) => {
-    const textTheme = getTextTheme(useTheme());
+    const textTheme = { ...getTextTheme(useTheme()), margin: "0px"};
 
     if (props.success) {
-        return <h2 style={textTheme}>{props.successMessage}</h2>;
+        return <h3 style={textTheme}>{props.successMessage}</h3>;
     } else {
         return (
-            <div className="row" style={{ alignItems: "center" }}>
-                <h2 style={textTheme}>{props.errorMessage}</h2>
+            <div className="col" style={{ alignItems: "center" }}>
+                <h3 style={textTheme}>{props.errorMessage}</h3>
                 <ActionButton onClick={props.executeTask} width="100px" label="Try Again" />
             </div>
         );

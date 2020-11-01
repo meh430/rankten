@@ -136,7 +136,7 @@ export const SortedListContainer = (props) => {
                 query={props.query}
                 textTheme={props.textTheme}
                 refresh={refresh}
-                onUpdate={() => setRefresh(true)}
+                onUpdate={() => setRefresh(!refresh)}
                 sort={sort}
                 name={props.name}
                 token={props.token}

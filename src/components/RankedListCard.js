@@ -370,8 +370,8 @@ export const RankedListCard = (props) => {
 
                         props.onUpdate();
                     }}
-                    errorMessage={"Unable to " + (edited ? "edit" : "delete") + " list"}
-                    successMessage={(edited ? "Edited" : "Deleted") + " list!"}
+                    errorMessage={"Unable to " + (edited ? "edit" : deleted ? "delete" : "") + " list"}
+                    successMessage={(edited ? "Edited" : deleted ? "Deleted" : "") + " list!"}
                 />
                 <CommentsDialog
                     open={openComments}
