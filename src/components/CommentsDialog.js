@@ -91,7 +91,6 @@ export const CommentsDialog = (props) => {
             setCommentsList([...commentsList, ...res]);
         }
     };
-    console.log(commentsList);
 
     return (
         <Dialog onClose={props.handleClose} aria-labelledby="customized-dialog-title" open={props.open}>

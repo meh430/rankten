@@ -94,7 +94,11 @@ export const GenericList = (props) => {
                 columnClassName="gen-list-col"
             >
                 {rankedLists.map((rList) => (
-                    <RankedListCard onUpdate={props.onUpdate} rankedList={rList} key={"r_" + rList["date_created"]["$date"]} />
+                    <RankedListCard
+                        onUpdate={props.onUpdate}
+                        rankedList={rList}
+                        key={"r_" + rList["date_created"]["$date"]}
+                    />
                 ))}
             </Masonry>
         </InfiniteScroll>

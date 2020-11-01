@@ -19,6 +19,7 @@ import { CommentsDialog } from "./CommentsDialog";
 import { RankedListEdit } from "./RankedListEdit";
 import { deleteRankedList, updateRankedList } from "../api/RankedListRepo";
 import "../App.css";
+import { LoadingDialog } from "./LoadingDialog";
 
 // commentPreview: object
 // cardTheme: object
@@ -104,18 +105,18 @@ export const CardLikeBar = (props) => {
                 cursor: "pointer",
             }}
         >
-            <div className="row" style={{alignItems: "center"}}>
+            <div className="row" style={{ alignItems: "center" }}>
                 {liked ? (
                     <FavoriteIcon onClick={onLike} style={likeStyle} />
                 ) : (
                     <FavoriteBorderIcon onClick={onLike} style={likeStyle} />
                 )}
                 <h3 style={{ ...props.textTheme, fontSize: "20px" }} onClick={() => setOpenLikers(true)}>
-                        {numLikes} {numLikes === 1 ? "like" : "likes"}
+                    {numLikes} {numLikes === 1 ? "like" : "likes"}
                 </h3>
             </div>
 
-                <div className="row" style={{ alignItems: "center" }} onClick={() => setOpenComments(true)}>
+            <div className="row" style={{ alignItems: "center" }} onClick={() => setOpenComments(true)}>
                 <CommentIcon style={{ height: "25x", width: "25px", marginRight: "6px" }} />
                 <h3 style={{ ...props.textTheme, fontSize: "20px" }}>
                     {props.numComments} {props.numComments === 1 ? "comment" : "comments"}
@@ -128,15 +129,15 @@ export const CardLikeBar = (props) => {
                 title="Liked By"
                 type={UserPreviewTypes.likersList}
                 name={props.id}
-                />
-                
-                <CommentsDialog
-                    open={openComments}
-                    handleClose={() => setOpenComments(false)}
-                    mainUser={props.mainUser}
-                    listId={props.id}
-                    userComments={false}
-                />
+            />
+
+            <CommentsDialog
+                open={openComments}
+                handleClose={() => setOpenComments(false)}
+                mainUser={props.mainUser}
+                listId={props.id}
+                userComments={false}
+            />
         </div>
     );
 };
@@ -220,9 +221,26 @@ export const RankedListCard = (props) => {
     const textTheme = getTextTheme(currentTheme);
     const mainUser = useContext(UserContext);
 
+    const [edited, setEdited] = useState(false);
+    const [deleted, setDeleted] = useState(false);
     const [openList, setOpenList] = useState(false);
     const [openEdit, setOpenEdit] = useState(false);
     const [openComments, setOpenComments] = useState(false);
+    const [savedList, setSavedList] = useState(null);
+
+    const deleteList = async () => {
+        setOpenEdit(false);
+        return await deleteRankedList(props.rankedList["_id"], mainUser.userToken);
+    };
+
+    const editList = async () => {
+        console.log(savedList);
+        if (savedList && savedList["rank_list"].length >= 1) {
+            return await updateRankedList(savedList, props.rankedList["_id"], mainUser.userToken);
+        } else {
+            return [false, {}]
+        }
+    };
 
     const onOpen = () => setOpenList(true);
 
@@ -330,19 +348,30 @@ export const RankedListCard = (props) => {
                     open={openEdit}
                     listId={props.rankedList["_id"]}
                     onClose={() => setOpenEdit(false)}
-                    onDelete={() => {
-                        (async () => await deleteRankedList(props.rankedList["_id"], mainUser.userToken))();
-                        setOpenEdit(false);
-                    }}
+                    onDelete={() => setDeleted(true)}
                     onSave={(rankedList) => {
-                        if (rankedList && rankedList["rank_list"].length >= 1) {
-                            (async () => {
-                                await updateRankedList(rankedList, props.rankedList["_id"], mainUser.userToken);
-                            })();
-                        }
+                        console.log(rankedList);
+                        setSavedList(rankedList);
+                        setEdited(true);
+                        setDeleted(false);
                     }}
                     mainUser={mainUser}
                     isNew={false}
+                />
+                <LoadingDialog
+                    open={(edited || deleted) && !(edited && deleted)}
+                    asyncTask={edited ? editList : deleteList}
+                    onClose={() => {
+                        if (edited) {
+                            setEdited(false);
+                        } else if(deleted) {
+                            setDeleted(false);
+                        }
+
+                        props.onUpdate();
+                    }}
+                    errorMessage={"Unable to " + (edited ? "edit" : "delete") + " list"}
+                    successMessage={(edited ? "Edited" : "Deleted") + " list!"}
                 />
                 <CommentsDialog
                     open={openComments}
