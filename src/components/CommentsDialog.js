@@ -140,6 +140,7 @@ export const CommentsDialog = (props) => {
                     <div className="col" style={{ alignItems: "center", width: "100%" }}>
                         {commentsList.map((uComment) => (
                             <CommentCard
+                                onUpdate={() => setRefresh(!refresh)}
                                 onListNav={onListNav}
                                 toList={props.userComments}
                                 key={uComment["_id"]["$oid"]}
@@ -252,16 +253,11 @@ export const CommentsDialog = (props) => {
                         setCommented(false);
                         setRefresh(true);
                     }}
-                    errorMessage={"Failed to send comment"}
-                    successMessage={"Successfully commented"}
+                    errorMessage="Failed to send comment"
+                    successMessage="Successfully commented"
                 />
             </div>
         </Dialog>
     );
 };
 
-// open: bool
-// asyncTask: callback
-// onClose: callback
-// errorMessage: string
-// successMessage: string

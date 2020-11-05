@@ -12,6 +12,7 @@ import { createComment, deleteComment, getCommentParent, likeComment } from "../
 import { fieldTheme } from "./Login";
 import { getRankedList } from "../api/RankedListRepo";
 import { appThemeConstants } from "../misc/AppTheme";
+import { LoadingDialog } from "./LoadingDialog";
 
 let commentEdit = "";
 
@@ -38,7 +39,7 @@ const CommentLikeBar = (props) => {
                 setNumLikes(numLikes + 1);
             }
             setLiked(res === "LIKED");
-            
+
             setLoading(false);
         }
     };
@@ -64,13 +65,10 @@ const CommentLikeBar = (props) => {
             ) : (
                 <FavoriteBorderIcon onClick={onLike} style={likeStyle} />
             )}
-            <h3 style={{ ...props.textTheme, fontSize: "20px" }}>
-                {numLikes} likes
-            </h3>
+            <h3 style={{ ...props.textTheme, fontSize: "20px" }}>{numLikes} likes</h3>
         </div>
     );
 };
-
 
 // comment: object
 // mainUser: object
@@ -79,11 +77,19 @@ const CommentLikeBar = (props) => {
 // isDark: bool
 // toList: bool
 // onListNav: callback
+// onUpdate: callback
 export const CommentCard = (props) => {
     const { comment } = props;
     const [anchorEl, setAnchorEl] = useState(null);
     const [editing, setEditing] = useState(false);
     const [commentError, setCommentError] = useState(false);
+
+    const [submitEdit, setSubmitEdit] = useState(false);
+    const [deletedComment, setDeletedComment] = useState(false);
+
+    const delComment = async () => {
+        return await deleteComment(comment["_id"]["$oid"], props.mainUser.userToken);
+    };
 
     return (
         <Card style={{ ...props.cardTheme, width: "400px", marginTop: "0px", marginBottom: "8px", maxWidth: "94%" }}>
@@ -127,24 +133,29 @@ export const CommentCard = (props) => {
                             <MenuItem
                                 onClick={() => {
                                     setAnchorEl(null);
-                                    (async () => {
-                                        await deleteComment(comment["_id"]["$oid"], props.mainUser.userToken);
-                                    })();
+                                    setDeletedComment(true);
                                 }}
                             >
                                 Delete
                             </MenuItem>
                             {props.toList ? (
-                                <MenuItem onClick={() => {
-                                    (async () => {
-                                        const [e, rList] = (await getCommentParent(comment["_id"]["$oid"]));
-                                        if (!e) {
-                                            props.onListNav(rList["_id"]["$oid"], rList["prof_pic"], rList["user_name"]);
-
-                                        }
-                                    })();
-                                    setAnchorEl(null);
-                                }}>To List</MenuItem>
+                                <MenuItem
+                                    onClick={() => {
+                                        (async () => {
+                                            const [e, rList] = await getCommentParent(comment["_id"]["$oid"]);
+                                            if (!e) {
+                                                props.onListNav(
+                                                    rList["_id"]["$oid"],
+                                                    rList["prof_pic"],
+                                                    rList["user_name"]
+                                                );
+                                            }
+                                        })();
+                                        setAnchorEl(null);
+                                    }}
+                                >
+                                    To List
+                                </MenuItem>
                             ) : (
                                 <i style={{ display: "none" }} />
                             )}
@@ -197,6 +208,17 @@ export const CommentCard = (props) => {
                     numLikes={comment["num_likes"]}
                     isList={false}
                     isLiked={containsId(comment["liked_users"], props.mainUser.user["_id"]["$oid"])}
+                />
+
+                <LoadingDialog
+                    open={deletedComment}
+                    asyncTask={delComment}
+                    onClose={() => {
+                        setDeletedComment(false);
+                        props.onUpdate();
+                    }}
+                    errorMessage="Failed to delete comment"
+                    successMessage="Deleted comment"
                 />
             </div>
         </Card>
