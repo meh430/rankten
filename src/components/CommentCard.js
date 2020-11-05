@@ -91,6 +91,10 @@ export const CommentCard = (props) => {
         return await deleteComment(comment["_id"]["$oid"], props.mainUser.userToken);
     };
 
+    const editComment = async () => {
+        return await createComment(comment["_id"]["$oid"], commentEdit, props.mainUser.userToken, true);
+    };
+
     return (
         <Card style={{ ...props.cardTheme, width: "400px", marginTop: "0px", marginBottom: "8px", maxWidth: "94%" }}>
             <div
@@ -175,15 +179,13 @@ export const CommentCard = (props) => {
                         defaultValue={comment.comment}
                         onKeyPress={(event) => {
                             if (event.key === "Enter") {
+                                if (!commentEdit) {
+                                    setCommentError(true);
+                                    return;
+                                }
+
                                 setEditing(false);
-                                (async () => {
-                                    await createComment(
-                                        comment["_id"]["$oid"],
-                                        commentEdit,
-                                        props.mainUser.userToken,
-                                        true
-                                    );
-                                })();
+                                setSubmitEdit(true);
                                 event.preventDefault();
                             }
                         }}
@@ -194,7 +196,7 @@ export const CommentCard = (props) => {
                         variant="outlined"
                         error={commentError}
                         helperText={commentError ? "Comment cannot be empty" : ""}
-                        onChange={(event) => (commentEdit = event.target.value)}
+                        onChange={(event) => { commentEdit = event.target.value; setCommentError(false); }}
                     />
                 ) : (
                     <h3 style={{ ...props.textTheme, marginLeft: "10px", marginRight: "10px", marginBottom: "0px" }}>
@@ -211,14 +213,19 @@ export const CommentCard = (props) => {
                 />
 
                 <LoadingDialog
-                    open={deletedComment}
-                    asyncTask={delComment}
+                    open={(submitEdit || deletedComment) && !(submitEdit && deletedComment)}
+                    asyncTask={submitEdit ? editComment : delComment}
                     onClose={() => {
-                        setDeletedComment(false);
+                        if (submitEdit) {
+                            setSubmitEdit(false);
+                        } else if (deleteComment) {
+                            setDeletedComment(false);
+                        }
+
                         props.onUpdate();
                     }}
-                    errorMessage="Failed to delete comment"
-                    successMessage="Deleted comment"
+                    errorMessage={"Failed to " + (submitEdit ? "edit" : "delete") + " comment"}
+                    successMessage={(submitEdit ? "Edited" : "Deleted") + " comment"}
                 />
             </div>
         </Card>
