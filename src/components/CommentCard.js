@@ -7,12 +7,12 @@ import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 
 import { CardHeader } from "./RankedListCard";
 import { containsId } from "../misc/Utils";
-import "../App.css";
 import { createComment, deleteComment, getCommentParent, likeComment } from "../api/CommentRepo";
 import { fieldTheme } from "./Login";
 import { getRankedList } from "../api/RankedListRepo";
 import { appThemeConstants } from "../misc/AppTheme";
 import { LoadingDialog } from "./LoadingDialog";
+import "../App.css";
 
 let commentEdit = "";
 
@@ -196,7 +196,10 @@ export const CommentCard = (props) => {
                         variant="outlined"
                         error={commentError}
                         helperText={commentError ? "Comment cannot be empty" : ""}
-                        onChange={(event) => { commentEdit = event.target.value; setCommentError(false); }}
+                        onChange={(event) => {
+                            commentEdit = event.target.value;
+                            setCommentError(false);
+                        }}
                     />
                 ) : (
                     <h3 style={{ ...props.textTheme, marginLeft: "10px", marginRight: "10px", marginBottom: "0px" }}>

@@ -6,7 +6,6 @@ import { appThemeConstants, getTextTheme } from "../misc/AppTheme";
 import { ActionButton } from "./ActionButton";
 import "../App.css";
 
-
 // open: bool
 // asyncTask: callback
 // onClose: callback
@@ -58,7 +57,7 @@ export const LoadingDialog = (props) => {
 // errorMessage: string
 // executeTask: callback
 const ResultDisplay = (props) => {
-    const textTheme = { ...getTextTheme(useTheme()), margin: "0px"};
+    const textTheme = { ...getTextTheme(useTheme()), margin: "0px" };
 
     if (props.success) {
         return <h3 style={textTheme}>{props.successMessage}</h3>;

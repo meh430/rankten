@@ -14,9 +14,9 @@ import { RankedListView } from "./RankedListView";
 import { RankedListEdit } from "./RankedListEdit";
 import { deleteRankedList, updateRankedList } from "../api/RankedListRepo";
 import { fieldTheme } from "./Login";
+import { LoadingDialog } from "./LoadingDialog";
 import SendIcon from "@material-ui/icons/Send";
 import "../App.css";
-import { LoadingDialog } from "./LoadingDialog";
 
 let page = 1;
 
@@ -260,4 +260,3 @@ export const CommentsDialog = (props) => {
         </Dialog>
     );
 };
-
