@@ -16,6 +16,7 @@ import { deleteRankedList, updateRankedList } from "../api/RankedListRepo";
 import { fieldTheme } from "./Login";
 import SendIcon from "@material-ui/icons/Send";
 import "../App.css";
+import { LoadingDialog } from "./LoadingDialog";
 
 let page = 1;
 
@@ -42,7 +43,9 @@ export const CommentsDialog = (props) => {
     const [editOpen, setEditOpen] = useState(false);
     const [sendCommentLoading, setSendCommentLoading] = useState(false);
 
-    const sendComment = () => {
+    const [commented, setCommented] = useState(false);
+
+    /*const sendComment = () => {
         (async () => {
             
             setSendCommentLoading(true);
@@ -52,8 +55,13 @@ export const CommentsDialog = (props) => {
             }
 
             setSendCommentLoading(false);
+            return [e, res];
         })();
-    }
+    }*/
+
+    const sendComment = async () => {
+        return await createComment(props.listId, commentContent, props.mainUser.userToken, false);
+    };
 
     const onListNav = (toId, pic, name) => {
         setId(toId);
@@ -205,7 +213,7 @@ export const CommentsDialog = (props) => {
                             <TextField
                                 onKeyPress={(event) => {
                                     if (event.key === "Enter") {
-                                        sendComment();
+                                        setCommented(true);
                                         event.preventDefault();
                                     }
                                 }}
@@ -213,7 +221,7 @@ export const CommentsDialog = (props) => {
                                     endAdornment: (
                                         <InputAdornment position="start">
                                             <SendIcon
-                                                onClick={sendComment}
+                                                onClick={() => setCommented(true)}
                                                 style={{
                                                     cursor: "pointer",
                                                     color:
@@ -237,7 +245,23 @@ export const CommentsDialog = (props) => {
                         )}
                     </div>
                 )}
+                <LoadingDialog
+                    open={commented}
+                    asyncTask={sendComment}
+                    onClose={() => {
+                        setCommented(false);
+                        setRefresh(true);
+                    }}
+                    errorMessage={"Failed to send comment"}
+                    successMessage={"Successfully commented"}
+                />
             </div>
         </Dialog>
     );
 };
+
+// open: bool
+// asyncTask: callback
+// onClose: callback
+// errorMessage: string
+// successMessage: string
