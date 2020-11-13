@@ -350,7 +350,6 @@ export const RankedListCard = (props) => {
                     onClose={() => setOpenEdit(false)}
                     onDelete={() => setDeleted(true)}
                     onSave={(rankedList) => {
-                        console.log(rankedList);
                         setSavedList(rankedList);
                         setEdited(true);
                         setDeleted(false);

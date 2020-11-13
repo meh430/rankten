@@ -8,6 +8,7 @@ import { appThemeConstants } from "../misc/AppTheme";
 import { RankedListEdit } from "./RankedListEdit";
 import { createRankedList } from "../api/RankedListRepo";
 import "../App.css";
+import { LoadingDialog } from "./LoadingDialog";
 
 const ListButton = withStyles((theme) => ({
     root: {
@@ -23,6 +24,8 @@ const ListButton = withStyles((theme) => ({
 export const NewListButton = () => {
     const mainUser = useContext(UserContext);
     const [createNew, setCreateNew] = useState(false);
+    const [saving, setSaving] = useState(false);
+    const [savedList, setSavedList] = useState(null);
 
     const closeEdit = () => setCreateNew(false);
 
@@ -47,12 +50,23 @@ export const NewListButton = () => {
                 onClose={closeEdit}
                 onDelete={closeEdit}
                 onSave={(rankedList) => {
-                    if (rankedList && rankedList["rank_list"].length >= 1) {
-                        (async () => {
-                            await createRankedList(rankedList, mainUser.userToken);
-                        })();
-                    }
+                    setSavedList(rankedList);
+                    setSaving(true);
                 }}
+            />
+
+            <LoadingDialog
+                open={saving}
+                asyncTask={() => {
+                    if (savedList && savedList["rank_list"].length >= 1) {
+                        return createRankedList(savedList, mainUser.userToken);
+                    }
+
+                    return [true, null];
+                }}
+                onClose={() => setSaving(false)}
+                errorMessage="Failed Creating List"
+                successMessage="Created List!"
             />
         </div>
     );
