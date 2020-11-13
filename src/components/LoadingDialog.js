@@ -65,7 +65,7 @@ const ResultDisplay = (props) => {
         return (
             <div className="col" style={{ alignItems: "center" }}>
                 <h3 style={textTheme}>{props.errorMessage}</h3>
-                <ActionButton onClick={props.executeTask} width="100px" label="Try Again" />
+                <ActionButton onClick={props.executeTask} width="150px" label="Try Again" />
             </div>
         );
     }
