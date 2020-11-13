@@ -1,7 +1,6 @@
-import React, { useEffect } from "react";
-
+import React, { useState, useEffect } from "react";
 import { Dialog, TextField, useTheme } from "@material-ui/core";
-import { useState } from "react";
+
 import { getTextTheme } from "../misc/AppTheme";
 import { fieldTheme } from "./Login";
 import { ActionButton } from "./ActionButton";

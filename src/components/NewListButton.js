@@ -7,8 +7,8 @@ import { resetUserContext, UserContext } from "../Contexts";
 import { appThemeConstants } from "../misc/AppTheme";
 import { RankedListEdit } from "./RankedListEdit";
 import { createRankedList } from "../api/RankedListRepo";
-import "../App.css";
 import { LoadingDialog } from "./LoadingDialog";
+import "../App.css";
 
 const ListButton = withStyles((theme) => ({
     root: {
