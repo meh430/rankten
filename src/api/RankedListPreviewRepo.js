@@ -34,6 +34,7 @@ export const getRankedListPreview = async (params) => {
         return res.includes("Page") ? [false, true, []] : [e, false, []];
     } else if (res.length === 10) {
         const [e1, res1] = await api.get(getEndpoint(params.endpointBase, params.page + 1, params.sort, params.name, params.query, refresh), token);
+        console.log(res1);
         return res1.includes("Page") ? [false, true, res] : [e1, false, res];
     }  else {
         return [e, res.length < 10, res];
