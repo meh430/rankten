@@ -251,7 +251,7 @@ export const CommentsDialog = (props) => {
                     asyncTask={sendComment}
                     onClose={() => {
                         setCommented(false);
-                        setRefresh(true);
+                        setRefresh(!refresh);
                     }}
                     errorMessage="Failed to send comment"
                     successMessage="Successfully commented"

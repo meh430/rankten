@@ -31,6 +31,7 @@ export const RankedListEdit = (props) => {
     const [rankedList, rankedListDispatch] = useReducer(rankedListReducer, null);
     const [loading, setLoading] = useState(false);
     const [editTitle, setEditTitle] = useState(false);
+    const [titleError, setTitleError] = useState(false);
 
     const [editItem, setEditItem] = useState(null);
     const [editIndex, setEditIndex] = useState(null);
@@ -131,6 +132,10 @@ export const RankedListEdit = (props) => {
                             <TextField
                                 onKeyPress={(event) => {
                                     if (event.key === "Enter") {
+                                        if (listTitle.length > 20) {
+                                            setTitleError(true);
+                                            return;
+                                        }
                                         rankedListDispatch({
                                             type: ListReducerTypes.updateTitle,
                                             payload: { title: listTitle },
@@ -139,7 +144,12 @@ export const RankedListEdit = (props) => {
                                         event.preventDefault();
                                     }
                                 }}
-                                onChange={(event) => (listTitle = event.target.value)}
+                                onChange={(event) => {
+                                    listTitle = event.target.value;
+                                    setTitleError(false);
+                                }}
+                                error={titleError}
+                                helperText={titleError ? "Must have < 20 characters" : ""}
                                 id="standard-basic"
                                 style={{
                                     marginLeft: "22px",
