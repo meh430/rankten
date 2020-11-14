@@ -3,9 +3,10 @@ import { Button } from "@material-ui/core";
 
 import { appThemeConstants } from "../misc/AppTheme";
 
-//label: string
-//width: string
-//onClick: callback
+// label: string
+// width: string
+// onClick: callback
+// disabled: bool
 export const ActionButton = (props) => {
     const { maxWidth } = props;
     return (

@@ -28,7 +28,7 @@ export const Feed = () => {
                     noSort={true}
                     title="Feed"
                     token={mainUser.userToken}
-                    listType={RankedListPreviewTypes.feedList}
+                    listType={RankedListPreviewTypes.feedLists}
                     emptyMessage="No lists posted in the last 24 hours"
                     textTheme={textTheme}
                 />
