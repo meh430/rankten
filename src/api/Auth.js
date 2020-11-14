@@ -1,10 +1,7 @@
 import * as api from "./RankApi";
 import { saveToken } from "../misc/PrefStore";
 
-export async function tokenValid(token) {
-    var response = await api.post("/validate_token", token);
-    return response;
-}
+export const tokenValid = async(token) => await api.post("/validate_token", token);
 
 export async function loginUser(userName, password) {
     var [hasError, response] = await api.post("/login", "", { user_name: userName, password: password });
