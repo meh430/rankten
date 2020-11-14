@@ -19,7 +19,7 @@ export async function getUserComments(page, sort, token, refresh = false) {
         return res.includes("Page") ? [false, true, []] : [e, false, []];
     } else if (res.length === 10) {
         const [e1, res1] = await api.get(`/user_comments/${page + 1}/${sort}${refresh ? "?re=True" : ""}`, token);
-        return (Array.isArray(res1) && res1[0].includes("page")) ? [false, true, res] : [e1, false, res];
+        return isLastPage(res1) ? [false, true, res] : [e1, false, res];
     } else {
         return [e, res.length < 10, "Trying to access a page that does not exist" === res[0] ? [] : res];
     }
@@ -31,7 +31,7 @@ export async function getComments(listId, page = 1, sort = 0, refresh = false) {
         return res.includes("Page") ? [false, true, []] : [e, false, []];
     } else if (res.length === 10) {
         const [e1, res1] = await api.get(`/comments/${listId}/${page + 1}/${sort}${refresh ? "?re=True" : ""}`);
-        return (Array.isArray(res1) && res1[0].includes("page")) ? [false, true, res] : [e1, false, res];
+        return isLastPage(res1) ? [false, true, res] : [e1, false, res];
     } else {
         return [e, res.length < 10, "Trying to access a page that does not exist" === res[0] ? [] : res];
     }
@@ -50,4 +50,8 @@ export async function deleteComment(commentId, token) {
 
 export async function getCommentParent(commentId) {
     return await api.get("/comment/" + commentId);
+}
+
+function isLastPage(response) {
+    return (Array.isArray(response) && (typeof response[0] === 'string' || response[0] instanceof String) && response[0].includes("page"))
 }
