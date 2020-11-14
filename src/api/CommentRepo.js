@@ -44,13 +44,9 @@ export async function createComment(listId, comment, token, editing = false) {
     return editing ? await api.put(endpoint, token, body) : await api.post(endpoint, token, body);
 }
 
-export async function deleteComment(commentId, token) {
-    return await api.del("/comment/" + commentId, token);
-}
+export const deleteComment = async(commentId, token) => await api.del("/comment/" + commentId, token);
 
-export async function getCommentParent(commentId) {
-    return await api.get("/comment/" + commentId);
-}
+export const getCommentParent = async(commentId) => await api.get("/comment/" + commentId);
 
 function isLastPage(response) {
     return (Array.isArray(response) && (typeof response[0] === 'string' || response[0] instanceof String) && response[0].includes("page"))
