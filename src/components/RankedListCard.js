@@ -20,6 +20,7 @@ import { RankedListEdit } from "./RankedListEdit";
 import { deleteRankedList, updateRankedList } from "../api/RankedListRepo";
 import { LoadingDialog } from "./LoadingDialog";
 import "../App.css";
+import { closeErrorSB, ErrorSnack } from "./ErrorSnack";
 
 // commentPreview: object
 // cardTheme: object
@@ -65,11 +66,12 @@ export const CardLikeBar = (props) => {
     const [openComments, setOpenComments] = useState(false);
     const [liked, setLiked] = useState(props.isLiked);
     const [numLikes, setNumLikes] = useState(props.numLikes);
+    const [apiError, setApiError] = useState(false);
 
     const onLike = async () => {
         setLoading(true);
         const [e, res] = await likeList(props.id, props.mainUser.userToken);
-
+        setApiError(e);
         if (e) {
             setLoading(false);
             return;
@@ -137,6 +139,11 @@ export const CardLikeBar = (props) => {
                 mainUser={props.mainUser}
                 listId={props.id}
                 userComments={false}
+            />
+            <ErrorSnack
+                open={apiError}
+                handleClose={(event, reason) => closeErrorSB(event, reason, setApiError)}
+                message="Error Liking"
             />
         </div>
     );
@@ -238,7 +245,7 @@ export const RankedListCard = (props) => {
         if (savedList && savedList["rank_list"].length >= 1) {
             return await updateRankedList(savedList, props.rankedList["_id"], mainUser.userToken);
         } else {
-            return [false, {}]
+            return [false, {}];
         }
     };
 
@@ -363,7 +370,7 @@ export const RankedListCard = (props) => {
                     onClose={() => {
                         if (edited) {
                             setEdited(false);
-                        } else if(deleted) {
+                        } else if (deleted) {
                             setDeleted(false);
                         }
 
