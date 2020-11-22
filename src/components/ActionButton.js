@@ -5,6 +5,7 @@ import { appThemeConstants } from "../misc/AppTheme";
 
 // label: string
 // width: string
+// maxWidth: string
 // onClick: callback
 // disabled: bool
 export const ActionButton = (props) => {

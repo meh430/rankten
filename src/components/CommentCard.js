@@ -9,10 +9,11 @@ import { CardHeader } from "./RankedListCard";
 import { containsId } from "../misc/Utils";
 import { createComment, deleteComment, getCommentParent, likeComment } from "../api/CommentRepo";
 import { fieldTheme } from "./Login";
-import { getRankedList } from "../api/RankedListRepo";
 import { appThemeConstants } from "../misc/AppTheme";
 import { LoadingDialog } from "./LoadingDialog";
 import "../App.css";
+import { likeRes } from "../api/UserRepo";
+import { closeErrorSB, ErrorSnack } from "./ErrorSnack";
 
 let commentEdit = "";
 
@@ -25,10 +26,12 @@ const CommentLikeBar = (props) => {
     const [loading, setLoading] = useState(false);
     const [liked, setLiked] = useState(props.isLiked);
     const [numLikes, setNumLikes] = useState(props.numLikes);
+    const [apiError, setApiError] = useState(false);
 
     const onLike = async () => {
         setLoading(true);
         const [e, res] = await likeComment(props.id["$oid"], props.mainUser.userToken);
+        setApiError(e);
         if (e) {
             setLoading(false);
             return;
@@ -38,7 +41,7 @@ const CommentLikeBar = (props) => {
             } else {
                 setNumLikes(numLikes + 1);
             }
-            setLiked(res === "LIKED");
+            setLiked(res === likeRes.liked);
 
             setLoading(false);
         }
@@ -66,6 +69,11 @@ const CommentLikeBar = (props) => {
                 <FavoriteBorderIcon onClick={onLike} style={likeStyle} />
             )}
             <h3 style={{ ...props.textTheme, fontSize: "20px" }}>{numLikes} likes</h3>
+            <ErrorSnack
+                handleClose={(event, reason) => closeErrorSB(event, reason, setApiError)}
+                open={apiError}
+                message="Error Liking Comment"
+            />
         </div>
     );
 };
