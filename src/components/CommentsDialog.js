@@ -17,6 +17,7 @@ import { deleteRankedList, updateRankedList } from "../api/RankedListRepo";
 import { fieldTheme } from "./Login";
 import { LoadingDialog } from "./LoadingDialog";
 import "../App.css";
+import { closeErrorSB, ErrorSnack } from "./ErrorSnack";
 
 let page = 1;
 
@@ -45,6 +46,8 @@ export const CommentsDialog = (props) => {
 
     const [commented, setCommented] = useState(false);
     const [commentEmpty, setCommentEmpty] = useState(false);
+
+    const [apiError, setApiError] = useState(false);
 
     /*const sendComment = () => {
         (async () => {
@@ -93,6 +96,7 @@ export const CommentsDialog = (props) => {
                 ? await getUserComments(page, sort, props.mainUser.userToken, refresh)
                 : await getComments(props.listId, page, sort, refresh);
             setHitMax(lastPage);
+            setApiError(e);
             if (!e) {
                 setCommentsList([...res]);
             }
@@ -106,6 +110,7 @@ export const CommentsDialog = (props) => {
             ? await getUserComments(page, sort, props.mainUser.userToken, refresh)
             : await getComments(props.listId, page, sort, refresh);
         setHitMax(lastPage);
+        setApiError(e);
         if (!e) {
             setCommentsList([...commentsList, ...res]);
         }
@@ -266,6 +271,11 @@ export const CommentsDialog = (props) => {
                     }}
                     errorMessage="Failed to send comment"
                     successMessage="Successfully commented"
+                />
+                <ErrorSnack
+                    message="Error Loading Comments"
+                    handleClose={(event, reason) => closeErrorSB(event, reason, setApiError)}
+                    open={apiError}
                 />
             </div>
         </Dialog>
