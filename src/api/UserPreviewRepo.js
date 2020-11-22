@@ -17,17 +17,11 @@ export const UserPreviewTypes = {
     } 
 */
 
-export async function getFollowing(name) {
-    return await api.get("/following/" + name);
-}
+export const getFollowing = async (name) => await api.get("/following/" + name);
 
-export async function getFollowers(name) {
-    return await api.get("/followers/" + name);
-}
+export const getFollowers = async (name) => await api.get("/followers/" + name);
 
-export async function getLikers(id) {
-    return await api.get("/like/" + id);
-}
+export const getLikers = async (id) => await api.get("/like/" + id);
 
 export async function searchUsers(params) {
     const [e, res] = await api.get("/search_users/" + params.page + "/" + params.sort + "?q=" + params.query);
