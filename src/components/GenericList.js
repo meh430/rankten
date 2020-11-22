@@ -63,7 +63,6 @@ export const GenericList = (props) => {
         })();
     };
 
-    //TODO: PLS DO SOME BETTER ERROR HANDLING
     useEffect(() => {
         (async () => {
             setLoading(true);
@@ -86,31 +85,35 @@ export const GenericList = (props) => {
     }
 
     return rankedLists.length ? (
-        <InfiniteScroll
-            dataLength={rankedLists.length}
-            next={onPaginate}
-            hasMore={!hitMax}
-            loader={<ReactLoading type="cylon" color={appThemeConstants.hanPurple} />}
-        >
-            <Masonry
-                breakpointCols={rankedLists.length <= 2 ? { ...breakPoints, default: rankedLists.length } : breakPoints}
-                className="gen-list-grid"
-                columnClassName="gen-list-col"
+        <div>
+            <InfiniteScroll
+                dataLength={rankedLists.length}
+                next={onPaginate}
+                hasMore={!hitMax}
+                loader={<ReactLoading type="cylon" color={appThemeConstants.hanPurple} />}
             >
-                {rankedLists.map((rList) => (
-                    <RankedListCard
-                        onUpdate={props.onUpdate}
-                        rankedList={rList}
-                        key={"r_" + rList["date_created"]["$date"]}
-                    />
-                ))}
-                <ErrorSnack
-                    message="Error Loading Lists"
-                    open={apiError}
-                    handleClose={(event, reason) => closeErrorSB(event, reason, setApiError)}
-                />
-            </Masonry>
-        </InfiniteScroll>
+                <Masonry
+                    breakpointCols={
+                        rankedLists.length <= 2 ? { ...breakPoints, default: rankedLists.length } : breakPoints
+                    }
+                    className="gen-list-grid"
+                    columnClassName="gen-list-col"
+                >
+                    {rankedLists.map((rList) => (
+                        <RankedListCard
+                            onUpdate={props.onUpdate}
+                            rankedList={rList}
+                            key={"r_" + rList["date_created"]["$date"]}
+                        />
+                    ))}
+                </Masonry>
+            </InfiniteScroll>
+            <ErrorSnack
+                message="Error Loading Lists"
+                open={apiError}
+                handleClose={(event, reason) => closeErrorSB(event, reason, setApiError)}
+            />
+        </div>
     ) : (
         <h2 style={props.textTheme}>{props.emptyMessage}</h2>
     );

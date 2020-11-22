@@ -3,7 +3,7 @@ const baseUrl = "http://192.168.0.22:5000";
 export async function validateImage(imageUrl) {
     var isValid = false;
     try {
-        var response = await fetch(imageUrl);
+        var response = await fetchTimeout(imageUrl);
         console.log(response.headers);
         isValid = response.ok && response.headers["Content-Type"].includes("image");
     } catch (e) {
@@ -20,7 +20,7 @@ export async function get(endpoint, bearerToken = "") {
 
     try {
         jsonResponse = await parseResponse(
-            await fetch(baseUrl + endpoint, {
+            await fetchTimeout(baseUrl + endpoint, {
                 method: "GET",
                 headers: getHeaders(bearerToken),
             })
@@ -39,7 +39,7 @@ export async function post(endpoint, bearerToken = "", body = {}) {
 
     try {
         jsonResponse = await parseResponse(
-            await fetch(baseUrl + endpoint, {
+            await fetchTimeout(baseUrl + endpoint, {
                 method: "POST",
                 body: JSON.stringify(body),
                 headers: getHeaders(bearerToken),
@@ -59,7 +59,7 @@ export async function put(endpoint, bearerToken = "", body = {}) {
 
     try {
         jsonResponse = await parseResponse(
-            await fetch(baseUrl + endpoint, {
+            await fetchTimeout(baseUrl + endpoint, {
                 method: "PUT",
                 body: JSON.stringify(body),
                 headers: getHeaders(bearerToken),
@@ -79,7 +79,7 @@ export async function del(endpoint, bearerToken = "") {
 
     try {
         jsonResponse = await parseResponse(
-            await fetch(baseUrl + endpoint, {
+            await fetchTimeout(baseUrl + endpoint, {
                 method: "DELETE",
                 headers: getHeaders(bearerToken),
             })
@@ -125,4 +125,18 @@ async function parseResponse(response) {
         default:
             throw new Error("Something went wrong");
     }
+}
+
+async function fetchTimeout(url, options) {
+
+    const controller = new AbortController();
+    const id = setTimeout(() => controller.abort(), 6000);
+
+    const response = await fetch(url, {
+        ...options,
+        signal: controller.signal,
+    });
+    clearTimeout(id);
+
+    return response;
 }
