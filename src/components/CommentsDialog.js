@@ -1,6 +1,7 @@
 import React, { useEffect, useState } from "react";
 import { Dialog, InputAdornment, TextField, useTheme } from "@material-ui/core";
 import RefreshIcon from "@material-ui/icons/Refresh";
+import SendIcon from "@material-ui/icons/Send";
 import ReactLoading from "react-loading";
 
 import { SortOptions } from "../misc/Utils";
@@ -15,7 +16,6 @@ import { RankedListEdit } from "./RankedListEdit";
 import { deleteRankedList, updateRankedList } from "../api/RankedListRepo";
 import { fieldTheme } from "./Login";
 import { LoadingDialog } from "./LoadingDialog";
-import SendIcon from "@material-ui/icons/Send";
 import "../App.css";
 
 let page = 1;
@@ -44,6 +44,7 @@ export const CommentsDialog = (props) => {
     const [sendCommentLoading, setSendCommentLoading] = useState(false);
 
     const [commented, setCommented] = useState(false);
+    const [commentEmpty, setCommentEmpty] = useState(false);
 
     /*const sendComment = () => {
         (async () => {
@@ -61,6 +62,16 @@ export const CommentsDialog = (props) => {
 
     const sendComment = async () => {
         return await createComment(props.listId, commentContent, props.mainUser.userToken, false);
+    };
+
+    const preSend = () => {
+        if (!commentContent) {
+            setCommentEmpty(true);
+            return;
+        }
+
+        setCommentEmpty(false);
+        setCommented(true);
     };
 
     const onListNav = (toId, pic, name) => {
@@ -214,7 +225,7 @@ export const CommentsDialog = (props) => {
                             <TextField
                                 onKeyPress={(event) => {
                                     if (event.key === "Enter") {
-                                        setCommented(true);
+                                        preSend();
                                         event.preventDefault();
                                     }
                                 }}
@@ -222,7 +233,7 @@ export const CommentsDialog = (props) => {
                                     endAdornment: (
                                         <InputAdornment position="start">
                                             <SendIcon
-                                                onClick={() => setCommented(true)}
+                                                onClick={() => preSend()}
                                                 style={{
                                                     cursor: "pointer",
                                                     color:
@@ -239,8 +250,8 @@ export const CommentsDialog = (props) => {
                                 multiline
                                 id="comment-field"
                                 variant="outlined"
-                                error={props.error}
-                                helperText={props.error ? "Bio cannot be empty" : ""}
+                                error={commentEmpty}
+                                helperText={commentEmpty ? "Comment cannot be empty" : ""}
                                 onChange={(event) => (commentContent = event.target.value)}
                             />
                         )}

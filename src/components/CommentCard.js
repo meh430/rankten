@@ -11,9 +11,9 @@ import { createComment, deleteComment, getCommentParent, likeComment } from "../
 import { fieldTheme } from "./Login";
 import { appThemeConstants } from "../misc/AppTheme";
 import { LoadingDialog } from "./LoadingDialog";
-import "../App.css";
 import { likeRes } from "../api/UserRepo";
 import { closeErrorSB, ErrorSnack } from "./ErrorSnack";
+import "../App.css";
 
 let commentEdit = "";
 
