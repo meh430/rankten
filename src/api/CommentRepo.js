@@ -1,15 +1,14 @@
 import * as api from "./RankApi";
+import {likeRes} from "./UserRepo"
 
 export async function likeComment(commentId, token) {
-    const [hasError, response] = await api.post("/like_comment/" + commentId, token);
-    if (hasError) {
-        return [hasError, response];
+    const [e, res] = await api.post("/like_comment/" + commentId, token);
+    if (e) {
+        return [e, res];
+    } else if (res.message.includes("unliked")) {
+        return [e, likeRes.unliked];
     } else {
-        if (response.message.includes("unliked")) {
-            return [false, "UNLIKED"];
-        } else {
-            return [false, "LIKED"];
-        }
+        return [e, likeRes.liked];
     }
 }
 

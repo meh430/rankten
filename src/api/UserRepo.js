@@ -1,5 +1,8 @@
 import * as api from "./RankApi";
 
+export const likeRes = { liked: "LIKED", unliked: "UNLIKED" }
+export const followRes = {follow: "FOLLOW", unfollow: "UNFOLLOW"}
+
 export async function getUser(name) {
     return await api.get("/users/" + name);
 }
