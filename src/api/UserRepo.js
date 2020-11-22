@@ -15,22 +15,22 @@ export async function followUser(name, token) {
         return [e, res];
     } else {
         if (res.message.includes("unfollow")) {
-            return [false, followRes.unfollow];
+            return [e, followRes.unfollow];
         } else {
-            return [false, followRes.follow];
+            return [e, followRes.follow];
         }
     }
 }
 
 export async function likeList(listId, token) {
-    const [hasError, response] = await api.post("/like/" + listId, token);
-    if (hasError) {
-        return [hasError, response];
+    const [e, res] = await api.post("/like/" + listId, token);
+    if (e) {
+        return [e, res];
     } else {
-        if (response.message.includes("unliked")) {
-            return [false, likeRes.unliked];
+        if (res.message.includes("unliked")) {
+            return [e, likeRes.unliked];
         } else {
-            return [false, likeRes.liked];
+            return [e, likeRes.liked];
         }
     }
 }
