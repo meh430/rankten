@@ -14,6 +14,7 @@ import { BackButton } from "./BackButton";
 import { RankItemCard } from "./RankItemCard";
 import { RankItemEdit } from "./RankItemEdit";
 import "../App.css";
+import { closeErrorSB, ErrorSnack } from "./ErrorSnack";
 
 let listTitle = "";
 
@@ -37,6 +38,8 @@ export const RankedListEdit = (props) => {
     const [editIndex, setEditIndex] = useState(null);
     const [openEdit, setOpenEdit] = useState(false);
     const [openNew, setOpenNew] = useState(false);
+    const [apiError, setApiError] = useState(false);
+    const [validList, setValidList] = useState(false);
 
     const onDragEnd = (result) => {
         if (!result.destination) {
@@ -70,6 +73,7 @@ export const RankedListEdit = (props) => {
             setLoading(true);
 
             const [e, res] = await getRankedList(props.listId);
+            setApiError(e);
             if (!e) {
                 rankedListDispatch({
                     type: ListReducerTypes.getRankedList,
@@ -80,16 +84,24 @@ export const RankedListEdit = (props) => {
         })();
     }, [props.listId, props.open, props.isNew]);
 
+    const beforeExit = () => {
+        if (!rankedList || rankedList["rank_list"].length < 1 || !rankedList["title"]) {
+            setValidList(true);
+            setTimeout(() => setValidList(false), 3000);
+            return;
+        }
+
+        props.onSave(rankedList);
+        props.onClose();
+    };
+
     const listNull = loading || !rankedList;
     if (!props.open) {
         return <i style={{ display: "none" }} />;
     }
     return (
         <Dialog
-            onClose={() => {
-                props.onSave(rankedList);
-                props.onClose();
-            }}
+            onClose={beforeExit}
             aria-labelledby="customized-dialog-title"
             open={props.open}
         >
@@ -119,10 +131,7 @@ export const RankedListEdit = (props) => {
                 >
                     <div className="row" style={{ alignItems: "center", justifyContent: "start" }}>
                         <BackButton
-                            onClick={() => {
-                                props.onSave(rankedList);
-                                props.onClose();
-                            }}
+                            onClick={beforeExit}
                         />
                         {listNull ? (
                             <h1 style={{ ...textTheme, marginLeft: "22px", fontSize: "22px", marginRight: "20px" }}>
@@ -296,6 +305,16 @@ export const RankedListEdit = (props) => {
                             payload: { itemName: name, description: description, picture: picture },
                         });
                     }}
+                />
+                <ErrorSnack
+                    message="Error Loading List"
+                    open={apiError}
+                    handleClose={(event, reason) => closeErrorSB(event, reason, setApiError)}
+                />
+                <ErrorSnack
+                    message="List needs at least 1 item"
+                    open={validList}
+                    handleClose={(event, reason) => closeErrorSB(event, reason, setValidList)}
                 />
             </div>
         </Dialog>
