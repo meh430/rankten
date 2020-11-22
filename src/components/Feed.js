@@ -20,7 +20,7 @@ export const Feed = () => {
     const noFollowing = mainUser.user["num_following"] === 0;
     return (
         <div className="col" style={{ alignItems: "center" }}>
-            <NewListButton/>
+            <NewListButton />
             {noFollowing ? (
                 <h2 style={textTheme}>Follow people to see their lists here</h2>
             ) : (

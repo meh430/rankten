@@ -11,6 +11,7 @@ import { appThemeConstants } from "../misc/AppTheme";
 import { SortOptions } from "../misc/Utils";
 import { SortMenu } from "./SearchUsers";
 import "./Mason.css";
+import { closeErrorSB, ErrorSnack } from "./ErrorSnack";
 
 let page = 1;
 
@@ -34,6 +35,7 @@ export const GenericList = (props) => {
     const [rankedLists, setRankedLists] = useState([]);
     const [hitMax, setHitMax] = useState(false);
     const [loading, setLoading] = useState(false);
+    const [apiError, setApiError] = useState(false);
     const breakPoints = { default: 3 };
     const isSmall = useMediaQuery("(max-width:700px)");
     const isLarge = useMediaQuery("(min-width:1100px)");
@@ -54,6 +56,7 @@ export const GenericList = (props) => {
                 getParams(page, props.sort, props.name, props.token, props.query, props.refresh, props.listType)
             );
             setHitMax(lastPage);
+            setApiError(e);
             if (!e) {
                 setRankedLists([...rankedLists, ...res]);
             }
@@ -70,6 +73,7 @@ export const GenericList = (props) => {
                 getParams(page, props.sort, props.name, props.token, props.query, props.refresh, props.listType)
             );
             setHitMax(lastPage);
+            setApiError(e);
             if (!e) {
                 setRankedLists([...res]);
             }
@@ -100,6 +104,11 @@ export const GenericList = (props) => {
                         key={"r_" + rList["date_created"]["$date"]}
                     />
                 ))}
+                <ErrorSnack
+                    message="Error Loading Lists"
+                    open={apiError}
+                    handleClose={(event, reason) => closeErrorSB(event, reason, setApiError)}
+                />
             </Masonry>
         </InfiniteScroll>
     ) : (

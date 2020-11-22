@@ -12,7 +12,7 @@ export const Discover = () => {
     const textTheme = getTextTheme(currentTheme);
     return (
         <div className="col" style={{ alignItems: "center" }}>
-            <NewListButton/>
+            <NewListButton />
             <SortedListContainer
                 title="Discover Lists"
                 listType={RankedListPreviewTypes.discoverLists}
