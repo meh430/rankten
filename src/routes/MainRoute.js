@@ -129,6 +129,7 @@ export const MainRoute = (props) => {
         color: currentTheme.palette.type === "dark" ? appThemeConstants.lavender : appThemeConstants.hanPurple,
     };
     const handleDrawerToggle = () => setMobileOpen(!mobileOpen);
+    console.log(tabIndex)
     const drawer = (
         <div className="col" style={{ width: "100%" }}>
             <Logo />
@@ -276,7 +277,7 @@ export const MainRoute = (props) => {
                             paper: classes.drawerPaper,
                         }}
                         ModalProps={{
-                            keepMounted: true,
+                            keepMounted: false,
                         }}
                     >
                         {drawer}
