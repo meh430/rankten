@@ -18,7 +18,7 @@ export async function getUserComments(page, sort, token, refresh = false) {
         return res.includes("Page") ? [false, true, []] : [e, false, []];
     } else if (res.length === 10) {
         const [e1, res1] = await api.get(`/user_comments/${page + 1}/${sort}${refresh ? "?re=True" : ""}`, token);
-        return isLastPage(res1) ? [false, true, res] : [e1, false, res];
+        return res1.includes("Page") ? [false, true, res] : [e1, false, res];
     } else {
         return [e, res.length < 10, "Trying to access a page that does not exist" === res[0] ? [] : res];
     }
@@ -30,9 +30,9 @@ export async function getComments(listId, page = 1, sort = 0, refresh = false) {
         return res.includes("Page") ? [false, true, []] : [e, false, []];
     } else if (res.length === 10) {
         const [e1, res1] = await api.get(`/comments/${listId}/${page + 1}/${sort}${refresh ? "?re=True" : ""}`);
-        return isLastPage(res1) ? [false, true, res] : [e1, false, res];
+        return res1.includes("Page") ? [false, true, res] : [e1, false, res];
     } else {
-        return [e, res.length < 10, "Trying to access a page that does not exist" === res[0] ? [] : res];
+        return [e, res.length < 10, res];
     }
 }
 
