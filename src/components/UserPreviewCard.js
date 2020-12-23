@@ -19,6 +19,7 @@ const useStyles = makeStyles((theme) => ({
 
 //profPic: string
 //userName: string
+//userId: number
 export const UserPreviewCard = (props) => {
     const history = useHistory();
     const currentTheme = useTheme();
@@ -38,7 +39,7 @@ export const UserPreviewCard = (props) => {
                 cursor: "pointer",
             }}
             onClick={() => {
-                history.push("/main/profile/" + props.userName);
+                history.push("/main/profile/" + props.userId);
             }}
         >
             {" "}

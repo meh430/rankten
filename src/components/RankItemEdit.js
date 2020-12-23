@@ -19,12 +19,12 @@ export const RankItemEdit = (props) => {
     const [nameError, setNameError] = useState(false);
 
     const [picture, setPicture] = useState(props.isNew ? "" : props.rankItem.picture);
-    const [name, setName] = useState(props.isNew ? "" : props.rankItem["item_name"]);
+    const [name, setName] = useState(props.isNew ? "" : props.rankItem.itemName);
     const [desc, setDesc] = useState(props.isNew ? "" : props.rankItem.description);
 
     useEffect(() => {
         setPicture(props.isNew ? "" : props.rankItem.picture);
-        setName(props.isNew ? "" : props.rankItem["item_name"]);
+        setName(props.isNew ? "" : props.rankItem.itemName);
         setDesc(props.isNew ? "" : props.rankItem.description);
     }, [props.open, props.isNew, props.rankItem]);
 

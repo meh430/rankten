@@ -9,7 +9,7 @@ export const UserPreviewTypes = {
 
 /* 
     params: {
-        name: string,
+        userId: string,
         page: int,
         sort: int,
         query: string,
@@ -17,22 +17,24 @@ export const UserPreviewTypes = {
     } 
 */
 
-export const getFollowing = async (name) => await api.get("/following/" + name);
+const refreshQuery = (refresh = false) => (refresh ? "?re=true" : "");
 
-export const getFollowers = async (name) => await api.get("/followers/" + name);
+export const getFollowing = async (userId, refresh = false) =>
+    await api.get("/following/" + userId + refreshQuery(refresh));
 
-export const getLikers = async (id) => await api.get("/like/" + id);
+export const getFollowers = async (userId, refresh = false) =>
+    await api.get("/followers/" + userId + refreshQuery(refresh));
 
-export async function searchUsers(params) {
-    const [e, res] = await api.get("/search_users/" + params.page + "/" + params.sort + "?q=" + params.query);
+export const getLikers = async (listId, refresh = false) => await api.get("/like/" + listId + refreshQuery(refresh));
+
+export async function searchUsers(params, refresh = false) {
+    params.query = params.query.replace(/ /g, "+");
+    const [e, res] = await api.get(
+        "/search_users/" + params.page + "/" + params.sort + "?q=" + params.query + (refresh ? "&re=true" : "")
+    );
     if (e) {
-        return res.includes("Page") ? [false, true, []] : [e, false, []];
-    } else if (res.length === 100) {
-        const [e1, res1] = await api.get(
-            "/search_users/" + (params.page + 1) + "/" + params.sort + "?q=" + params.query
-        );
-        return res1.includes("Page") ? [false, true, res] : [e1, false, res];
+        return [e, true, []];
     } else {
-        return [e, res.length < 100, res];
+        return [e, res.lastPage === params.lastPage, res.items];
     }
 }

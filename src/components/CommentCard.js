@@ -14,6 +14,7 @@ import { LoadingDialog } from "./LoadingDialog";
 import { likeRes } from "../api/UserRepo";
 import { closeErrorSB, ErrorSnack } from "./ErrorSnack";
 import "../App.css";
+import { getRankedList } from "../api/RankedListRepo";
 
 let commentEdit = "";
 
@@ -30,7 +31,7 @@ const CommentLikeBar = (props) => {
 
     const onLike = async () => {
         setLoading(true);
-        const [e, res] = await likeComment(props.id["$oid"], props.mainUser.userToken);
+        const [e, res] = await likeComment(props.id, props.mainUser.userToken);
         setApiError(e);
         if (e) {
             setLoading(false);
@@ -96,11 +97,11 @@ export const CommentCard = (props) => {
     const [deletedComment, setDeletedComment] = useState(false);
 
     const delComment = async () => {
-        return await deleteComment(comment["_id"]["$oid"], props.mainUser.userToken);
+        return await deleteComment(comment.commentId, props.mainUser.userToken);
     };
 
     const editComment = async () => {
-        return await createComment(comment["_id"]["$oid"], commentEdit, props.mainUser.userToken, true);
+        return await createComment(comment.commentId, commentEdit, props.mainUser.userToken, true);
     };
 
     return (
@@ -109,16 +110,17 @@ export const CommentCard = (props) => {
                 className="col"
                 style={{ width: "100%", paddingTop: "10px", paddingLeft: "10px", paddingRight: "10px" }}
             >
-                {props.mainUser.user["user_name"] === comment["user_name"] ? (
+                {props.mainUser.user.userId === comment.userId ? (
                     <div
                         className="row"
                         style={{ width: "100%", alignItems: "center", justifyContent: "space-between" }}
                     >
                         <div style={{ width: "93%" }}>
                             <CardHeader
-                                name={comment["user_name"]}
-                                profPic={comment["prof_pic"]}
-                                timeStamp={comment["date_created"]["$date"]}
+                                name={comment.userName}
+                                userId={comment.userId}
+                                profPic={comment.profilePic}
+                                timeStamp={comment.dateCreated}
                                 isDark={props.isDark}
                             />
                         </div>
@@ -154,13 +156,9 @@ export const CommentCard = (props) => {
                                 <MenuItem
                                     onClick={() => {
                                         (async () => {
-                                            const [e, rList] = await getCommentParent(comment["_id"]["$oid"]);
+                                            const [e, rList] = await getRankedList(comment.listId);
                                             if (!e) {
-                                                props.onListNav(
-                                                    rList["_id"]["$oid"],
-                                                    rList["prof_pic"],
-                                                    rList["user_name"]
-                                                );
+                                                props.onListNav(rList.listId, rList.profilePic, rList.username);
                                             }
                                         })();
                                         setAnchorEl(null);
@@ -175,9 +173,10 @@ export const CommentCard = (props) => {
                     </div>
                 ) : (
                     <CardHeader
-                        name={comment["user_name"]}
-                        profPic={comment["prof_pic"]}
-                        timeStamp={comment["date_created"]["$date"]}
+                        name={comment.username}
+                        userId={comment.userId}
+                        profPic={comment.profilePic}
+                        timeStamp={comment.dateCreated}
                         isDark={props.isDark}
                     />
                 )}
@@ -215,12 +214,12 @@ export const CommentCard = (props) => {
                     </h3>
                 )}
                 <CommentLikeBar
-                    id={comment["_id"]}
+                    id={comment.commentId}
                     mainUser={props.mainUser}
                     textTheme={props.textTheme}
-                    numLikes={comment["num_likes"]}
+                    numLikes={comment.numLikes}
                     isList={false}
-                    isLiked={containsId(comment["liked_users"], props.mainUser.user["_id"]["$oid"])}
+                    isLiked={props.mainUser.user.likedComments.includes(comment.commentId)}
                 />
 
                 <LoadingDialog

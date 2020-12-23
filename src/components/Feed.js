@@ -17,7 +17,7 @@ export const Feed = () => {
         resetUserContext(mainUser);
         return <ReactLoading type="bars" color={appThemeConstants.hanPurple} />;
     }
-    const noFollowing = mainUser.user["num_following"] === 0;
+    const noFollowing = mainUser.user.numFollowing === 0;
     return (
         <div className="col" style={{ alignItems: "center" }}>
             <NewListButton />

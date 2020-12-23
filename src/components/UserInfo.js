@@ -13,8 +13,8 @@ import { resetUserContext, UserContext } from "../Contexts";
 import { getCardStyle, getTextTheme, appThemeConstants } from "../misc/AppTheme";
 import { followUser, updateBio } from "../api/UserRepo";
 import { UserReducerTypes } from "../reducers/UserReducer";
-import { containsId, tsToDate } from "../misc/Utils";
 import { CommentsDialog } from "./CommentsDialog";
+import { tsToDate } from "../misc/Utils";
 import "../App.css";
 
 const useStyles = makeStyles((theme) => ({
@@ -54,8 +54,7 @@ const UserStat = (props) => {
 
 //isFollowing: bool
 //mainUser: UserContext
-//name: string
-//id: object
+//userId: string
 const FollowButton = (props) => {
     const [loading, setLoading] = useState(false);
     const [following, setFollowing] = useState(props.isFollowing);
@@ -66,8 +65,7 @@ const FollowButton = (props) => {
         <ActionButton
             onClick={async () => {
                 setLoading(true);
-                const [e, res] = await followUser(props.name, mainUser.userToken);
-                console.log(res);
+                const [e, res] = await followUser(props.userId, mainUser.userToken);
                 if (e) {
                     setLoading(false);
                     return;
@@ -75,7 +73,7 @@ const FollowButton = (props) => {
                     setFollowing(res === "FOLLOW");
                     mainUser.userDispatch({
                         type: UserReducerTypes.followUserAction,
-                        payload: { hasFollowed: res === "FOLLOW", targetId: props.id },
+                        payload: { hasFollowed: res === "FOLLOW", targetId: props.userId },
                     });
                     setLoading(false);
                 }
@@ -124,8 +122,8 @@ const UserBio = (props) => {
                         }
 
                         (async () => {
-                            const [e, res] = await updateBio(bioEdit, userToken);
-                            if (e) {
+                            const res = await updateBio(bioEdit, userToken);
+                            if (res[0]) {
                                 setError(true);
                                 setTimeout(() => {
                                     setError(false);
@@ -149,7 +147,7 @@ const UserBio = (props) => {
             )}
 
             <h1 style={{ ...props.textTheme, textAlign: "start" }}>Date Created</h1>
-            <h3 style={{ ...props.textTheme, textAlign: "start" }}>{tsToDate(props.date["$date"])}</h3>
+            <h3 style={{ ...props.textTheme, textAlign: "start" }}>{tsToDate(props.date)}</h3>
         </div>
     );
 };
@@ -177,28 +175,28 @@ export const UserInfo = (props) => {
         return <ReactLoading type="bars" color={appThemeConstants.hanPurple} />;
     }
 
-    let avatarSrc = user["prof_pic"];
+    let avatarSrc = user.profilePic;
 
     userStats.push(
         {
             onClick: null,
             label: "Rank Points",
-            stat: user["rank_points"],
+            stat: user.rankPoints,
         },
         {
             onClick: props.onListClick,
             label: "Rank Lists",
-            stat: user["list_num"],
+            stat: user.numLists,
         },
         {
             onClick: () => setFollowersOpen(true),
             label: "Followers",
-            stat: user["num_followers"],
+            stat: user.numFollowers,
         },
         {
             onClick: () => setFollowingOpen(true),
             label: "Following",
-            stat: user["num_following"],
+            stat: user.numFollowing,
         }
     );
 
@@ -207,12 +205,12 @@ export const UserInfo = (props) => {
             {
                 onClick: () => setUserCommentsOpen(true),
                 label: "Comments",
-                stat: user["num_comments"],
+                stat: user.numComments,
             },
             {
                 onClick: props.onLikeClick,
                 label: "Liked Lists",
-                stat: user["num_liked"],
+                stat: user.likedLists.length,
             }
         );
     }
@@ -226,7 +224,7 @@ export const UserInfo = (props) => {
             }}
         >
             <CardContent className="col" style={{ alignItems: "center" }}>
-                <h1 style={textTheme}>{user["user_name"]}</h1>
+                <h1 style={textTheme}>{user.userName}</h1>
                 <div className="row" style={{ justifyContent: "space-around", alignItems: "center", width: "100%" }}>
                     <Avatar
                         src={avatarSrc}
@@ -251,31 +249,31 @@ export const UserInfo = (props) => {
                         ))}
                     </div>
                 </div>
-                <UserBio isMain={props.isMain} textTheme={textTheme} bio={user["bio"]} date={user["date_created"]} />
+                <UserBio isMain={props.isMain} textTheme={textTheme} bio={user["bio"]} date={user.dateCreated} />
                 {props.isMain ? (
                     <i style={{ display: "none" }} />
                 ) : (
                     <FollowButton
                         mainUser={mainUser}
-                        name={user["user_name"]}
-                        isFollowing={containsId(mainUser.user["following"], user["_id"])}
-                        id={user["_id"]}
+                        name={user.username}
+                        isFollowing={mainUser.user.following.includes(user.userId)}
+                        id={user.userId}
                     />
                 )}
 
                 <UserListDialog
                     open={followersOpen}
                     handleClose={() => setFollowersOpen(false)}
-                    title={user["user_name"] + "'s Followers"}
+                    title={user.username + "'s Followers"}
                     type={UserPreviewTypes.followersList}
-                    name={user["user_name"]}
+                    name={user.userId}
                 />
                 <UserListDialog
                     open={followingOpen}
                     handleClose={() => setFollowingOpen(false)}
-                    title={user["user_name"] + "'s Following"}
+                    title={user.username + "'s Following"}
                     type={UserPreviewTypes.followingList}
-                    name={user["user_name"]}
+                    name={user.userId}
                 />
 
                 <CommentsDialog

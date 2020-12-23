@@ -85,7 +85,7 @@ export const RankedListEdit = (props) => {
     }, [props.listId, props.open, props.isNew]);
 
     const beforeExit = () => {
-        if (!rankedList || rankedList["rank_list"].length < 1 || !rankedList["title"]) {
+        if (!rankedList || rankedList.rankItems.length < 1 || !rankedList.title) {
             setValidList(true);
             setTimeout(() => setValidList(false), 3000);
             return;
@@ -221,11 +221,11 @@ export const RankedListEdit = (props) => {
                                             ref={provided.innerRef}
                                             {...provided.droppableProps}
                                         >
-                                            {rankedList["rank_list"].map((rItem, index) => (
+                                            {rankedList.rankItems.map((rItem, index) => (
                                                 <Draggable
                                                     style={{ width: "100%" }}
-                                                    key={rItem["_id"]["$oid"]}
-                                                    draggableId={rItem["_id"]["$oid"]}
+                                                    key={rItem.itemId}
+                                                    draggableId={rItem.itemId}
                                                     index={index}
                                                 >
                                                     {(provided) => (
@@ -261,7 +261,7 @@ export const RankedListEdit = (props) => {
                         <h2 style={textTheme}>No items yet</h2>
                     )}
                 </div>
-                {!listNull && rankedList["rank_list"].length < 10 ? (
+                {!listNull && rankedList.rankItems.length < 10 ? (
                     <AddCircleIcon
                         style={{ marginBottom: "8px", fontSize: "40px", cursor: "pointer" }}
                         onClick={() => setOpenNew(true)}

@@ -12,7 +12,7 @@ export const RankedListPreviewTypes = {
 /* 
     params: {
         endpointBase: string,
-        name: string,
+        userId: string,
         page: int,
         sort: int,
         token: string,
@@ -27,23 +27,17 @@ export const getRankedListPreview = async (params) => {
         token = "";
     }
 
-    let endpoint = getEndpoint(params.endpointBase, params.page, params.sort, params.name, params.query, refresh);
+    let endpoint = getEndpoint(params.endpointBase, params.page, params.sort, params.userId, params.query, refresh);
 
     const [e, res] = await api.get(endpoint, token);
     if (e) {
-        return res.includes("Page") ? [false, true, []] : [e, false, []];
-    } else if (res.length === 10) {
-        const [e1, res1] = await api.get(
-            getEndpoint(params.endpointBase, params.page + 1, params.sort, params.name, params.query, refresh),
-            token
-        );
-        return res1.includes("Page") ? [false, true, res] : [e1, false, res];
+        return [e, true, []];
     } else {
-        return [e, res.length < 10, res];
+        return [e, res.lastPage === params.page, res.items];
     }
 };
 
-function getEndpoint(endpointBase, page, sort, name, query, refresh) {
+function getEndpoint(endpointBase, page, sort, userId, query, refresh) {
     let endpoint = "/" + endpointBase;
 
     switch (endpointBase) {
@@ -54,7 +48,7 @@ function getEndpoint(endpointBase, page, sort, name, query, refresh) {
             endpoint += `/${page}/${sort}`;
             break;
         case RankedListPreviewTypes.userLists:
-            endpoint += `/${name}/${page}/${sort}`;
+            endpoint += `/${userId}/${page}/${sort}`;
             break;
         case RankedListPreviewTypes.userListsP:
             endpoint += `/${page}/${sort}`;

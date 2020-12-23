@@ -3,14 +3,14 @@ import * as api from "./RankApi";
 export const likeRes = { liked: "LIKED", unliked: "UNLIKED" };
 export const followRes = { follow: "FOLLOW", unfollow: "UNFOLLOW" };
 
-export const getUser = async (name) => await api.get("/users/" + name);
+export const getUser = async (userId) => await api.get("/users/" + userId);
 
 export const updateBio = async (bio, token) => await api.put("/users", token, { bio: bio });
 
-export const updateProfilePic = async (profPic, token) => await api.put("/users", token, { prof_pic: profPic });
+export const updateProfilePic = async (profPic, token) => await api.put("/users", token, { profilePic: profPic });
 
-export async function followUser(name, token) {
-    const [e, res] = await api.post("/follow/" + name, token);
+export async function followUser(userId, token) {
+    const [e, res] = await api.post("/follow/" + userId, token);
     if (e) {
         return [e, res];
     } else {

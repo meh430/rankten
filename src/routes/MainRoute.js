@@ -38,8 +38,8 @@ import "../App.css";
 import { SearchLists } from "../components/SearchLists";
 
 const renderOtherProfile = (routerProps) => {
-    let userName = routerProps.match.params.name;
-    return <Profile userName={userName} isMain={false} />;
+    let userId = routerProps.match.params.userId;
+    return <Profile userId={userId} isMain={false} />;
 };
 
 const drawerWidth = 240;
@@ -129,7 +129,6 @@ export const MainRoute = (props) => {
         color: currentTheme.palette.type === "dark" ? appThemeConstants.lavender : appThemeConstants.hanPurple,
     };
     const handleDrawerToggle = () => setMobileOpen(!mobileOpen);
-    console.log(tabIndex)
     const drawer = (
         <div className="col" style={{ width: "100%" }}>
             <Logo />
@@ -313,7 +312,7 @@ export const MainRoute = (props) => {
                         }}
                     />
                     <Route path="/main/profile" render={() => <Profile isMain={true} />} exact />
-                    <Route path="/main/profile/:name" render={(routerProps) => renderOtherProfile(routerProps)} />
+                    <Route path="/main/profile/:userId" render={(routerProps) => renderOtherProfile(routerProps)} />
                 </Switch>
             </main>
         </div>

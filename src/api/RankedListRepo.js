@@ -7,40 +7,40 @@ export async function getRankedList(listId) {
 /* rankedList
     {
         "title": string,
-        "rank_list": [
+        "rankItems": [
             {
-                "item_name": string,
-                "rank": int,
+                "itemName": string,
+                "ranking": int,
                 "description": optional string,
                 "picture": optional string
             }
         ]
 }
 */
+
+
 export async function createRankedList(rankedList, token) {
-    for (let i = 0; i < rankedList["rank_list"].length; i++) {
-        delete rankedList["rank_list"][i]["new"];
-        delete rankedList["rank_list"][i]["_id"];
+    for (let i = 0; i < rankedList["rankItems"].length; i++) {
+        delete rankedList["rankItems"][i]["new"];
+        delete rankedList["rankItems"][i]["itemId"];
     }
     return await api.post("/rankedlist", token, rankedList);
 }
 
 export async function updateRankedList(rankedList, listId, token) {
-    for (let i = 0; i < rankedList["rank_list"].length; i++) {
-        if (rankedList["rank_list"][i].new) {
-            delete rankedList["rank_list"][i]["new"];
-            delete rankedList["rank_list"][i]["_id"];
+    for (let i = 0; i < rankedList["rankItems"].length; i++) {
+        if (rankedList["rankItems"][i].new) {
+            delete rankedList["rankItems"][i]["new"];
+            delete rankedList["rankItems"][i]["itemId"];
         } else {
-            delete rankedList["rank_list"][i]["belongs_to"];
-            delete rankedList["rank_list"][i]["created_by"];
-            rankedList["rank_list"][i]["_id"] = rankedList["rank_list"][i]["_id"]["$oid"];
+            rankedList["rankItems"][i]["itemId"] = rankedList["rankItems"][i]["itemId"];
         }
     }
     
     return await api.put(`/rankedlist/${listId}`, token, {
         title: rankedList["title"],
         private: rankedList["private"],
-        rank_list: rankedList["rank_list"],
+        rankItems: rankedList["rankItems"],
     });
 }
 

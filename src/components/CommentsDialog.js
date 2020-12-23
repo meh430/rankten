@@ -19,7 +19,7 @@ import { LoadingDialog } from "./LoadingDialog";
 import { closeErrorSB, ErrorSnack } from "./ErrorSnack";
 import "../App.css";
 
-let page = 1;
+let page = 0;
 
 let commentContent = "";
 
@@ -71,25 +71,31 @@ export const CommentsDialog = (props) => {
         setListOpen(true);
     };
 
+    const getCommentData = async (refresh) => {
+        if (!props.open) {
+            return;
+        }
+        setLoading(true);
+        page = 0;
+        setCommentsList([]);
+        const [e, lastPage, res] = props.userComments
+            ? await getUserComments(page, sort, props.mainUser.userToken, refresh)
+            : await getComments(props.listId, page, sort, refresh);
+        setHitMax(lastPage);
+        setLoading(false);
+        setApiError(e);
+        if (!e) {
+            setCommentsList([...res]);
+        }
+    };
+
     useEffect(() => {
-        (async () => {
-            if (!props.open) {
-                return;
-            }
-            setLoading(true);
-            page = 1;
-            setCommentsList([]);
-            const [e, lastPage, res] = props.userComments
-                ? await getUserComments(page, sort, props.mainUser.userToken, refresh)
-                : await getComments(props.listId, page, sort, refresh);
-            setHitMax(lastPage);
-            setLoading(false);
-            setApiError(e);
-            if (!e) {
-                setCommentsList([...res]);
-            }
-        })();
-    }, [props.open, sort, refresh]);
+        getCommentData(false);
+    }, [props.open, sort]);
+
+    useEffect(() => {
+        getCommentData(true);
+    }, [refresh]);
 
     const onPaginate = async () => {
         page += 1;
@@ -156,7 +162,7 @@ export const CommentsDialog = (props) => {
                                 onUpdate={() => setRefresh(!refresh)}
                                 onListNav={onListNav}
                                 toList={props.userComments}
-                                key={uComment["_id"]["$oid"]}
+                                key={uComment.commentId}
                                 comment={uComment}
                                 mainUser={props.mainUser}
                                 cardTheme={cardTheme}

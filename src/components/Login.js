@@ -28,7 +28,7 @@ export const NameField = (props) => {
                 }
             }}
             error={props.error}
-            helperText={props.error ? "Name can only have 3-15 characters" : ""}
+            helperText={props.error ? "Name can only have 3-15 lowercase characters" : ""}
             style={fieldTheme}
             id="name-field"
             label="User Name"
@@ -148,7 +148,7 @@ export const Login = (props) => {
                 return;
             } else {
                 userDispatch({ type: UserReducerTypes.getUserAction, payload: { user: userInfo } });
-                setUserToken(userInfo["jwt_token"]);
+                setUserToken(userInfo.jwtToken);
                 setSuccess(true);
                 setLoading(false);
             }

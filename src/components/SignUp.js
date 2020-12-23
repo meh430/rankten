@@ -85,7 +85,7 @@ export const SignUp = (props) => {
 
         if (!error) {
             //make api call to login. If has error, show snackbar, else push main route
-            const [hasError, userInfo] = await signupUser(userName, password);
+            const [hasError, userInfo] = await signupUser(userName, password, bio);
 
             if (hasError) {
                 setSuccess(false);
@@ -94,7 +94,7 @@ export const SignUp = (props) => {
                 return;
             } else {
                 userDispatch({ type: UserReducerTypes.getUserAction, payload: { user: userInfo } });
-                setUserToken(userInfo["jwt_token"]);
+                setUserToken(userInfo.jwtToken);
                 setSuccess(true);
                 setLoading(false);
             }

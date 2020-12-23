@@ -58,14 +58,14 @@ export const NewListButton = () => {
             <LoadingDialog
                 open={saving}
                 asyncTask={() => {
-                    if (savedList && savedList["rank_list"].length >= 1) {
+                    if (savedList && savedList.rankItems.length >= 1) {
                         return createRankedList(savedList, mainUser.userToken);
                     }
 
                     return [true, null];
                 }}
                 onClose={() => setSaving(false)}
-                errorMessage="Failed Creating List"
+                errorMessage="Failed to Create List"
                 successMessage="Created List!"
             />
         </div>

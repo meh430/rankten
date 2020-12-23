@@ -12,6 +12,7 @@ import { NewListButton } from "./NewListButton";
 import "../App.css";
 
 //isMain: bool
+// userId: int
 //userName: string
 export const Profile = (props) => {
     const [otherUser, setOtherUser] = useState(null);
@@ -22,18 +23,18 @@ export const Profile = (props) => {
     const { userToken } = useContext(UserContext);
     useEffect(() => {
         (async () => {
-            if (props.isMain) {
+            if (props.isMain || !props.userId) {
                 return;
             }
 
-            const [e, userInfo] = await getUser(props.userName);
+            const [e, userInfo] = await getUser(props.userId);
             if (e) {
                 setErrorState(e);
             } else {
                 setOtherUser(userInfo);
             }
         })();
-    }, [props.userName]);
+    }, [props.userId]);
 
     if (props.isMain) {
         return (
@@ -63,11 +64,11 @@ export const Profile = (props) => {
                 <div className="col" style={{ alignItems: "center" }}>
                     <UserInfo isMain={false} user={otherUser} />
                     <SortedListContainer
-                        name={otherUser["user_name"]}
+                        userId={otherUser.userId}
                         textTheme={textTheme}
-                        title={`${otherUser["user_name"]}'s Lists`}
+                        title={`${otherUser.username}'s Lists`}
                         listType={RankedListPreviewTypes.userLists}
-                        emptyMessage={`${otherUser["user_name"]} hasn't made any lists`}
+                        emptyMessage={`${otherUser.username} hasn't made any lists`}
                     />
                 </div>
             );

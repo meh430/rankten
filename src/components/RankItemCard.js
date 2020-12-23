@@ -48,7 +48,7 @@ const RankItemInnerCard = (props) => {
                                 fontSize: "22px",
                             }}
                         >
-                            {props.rankItem.rank}
+                            {props.rankItem.ranking}
                         </h3>
                     </Avatar>
                     <h3
@@ -62,7 +62,7 @@ const RankItemInnerCard = (props) => {
                             textOverflow: "ellipsis",
                         }}
                     >
-                        {props.rankItem["item_name"]}
+                        {props.rankItem.itemName}
                     </h3>
                 </div>
                 <img

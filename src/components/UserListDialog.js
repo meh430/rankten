@@ -1,5 +1,6 @@
 import React, { useEffect, useState } from "react";
 import { useTheme, Dialog } from "@material-ui/core";
+import RefreshIcon from "@material-ui/icons/Refresh";
 import ReactLoading from "react-loading";
 
 import { BackButton } from "./BackButton";
@@ -14,28 +15,35 @@ import "../App.css";
 //type: string
 //name: string
 export const UserListDialog = (props) => {
-
     const currentTheme = useTheme();
     const textTheme = getTextTheme(currentTheme);
 
     const [usersList, setUsersList] = useState([]);
     const [loading, setLoading] = useState(false);
+    const [refresh, setRefresh] = useState(false);
+
+    const getUserList = async (refresh) => {
+        if (props.open) {
+            setLoading(true);
+            const [e, res] = await getUsers(props.type)(props.name, refresh);
+            if (!e) {
+                setUsersList([...res]);
+            }
+            setLoading(false);
+        }
+    };
 
     useEffect(() => {
-        (async () => {
-            if (props.open) {
-                setLoading(true);
-                const [e, res] = await getUsers(props.type)(props.name);
-                if (!e) {
-                    setUsersList([...res]);
-                }
-                setLoading(false);
-            }
-        })();
+        getUserList(false);
     }, [props.type, props.name, props.open]);
 
+    useEffect(() => {
+        getUserList(true);
+    }, [refresh]);
+    
+
     if (!props.open) {
-        return <i style={{display: "none"}}/>
+        return <i style={{ display: "none" }} />;
     }
 
     return (
@@ -52,8 +60,9 @@ export const UserListDialog = (props) => {
                     className="row"
                     style={{
                         alignItems: "center",
-                        alignSelf: "start",
-                        width: "fit-conent",
+                        alignSelf: "center",
+                        justifyContent: "space-between",
+                        width: "fit-content",
                         maxWidth: "100%",
                         position: "sticky",
                         top: "0",
@@ -65,6 +74,10 @@ export const UserListDialog = (props) => {
                     <h1 style={{ ...textTheme, marginLeft: "22px", fontSize: "22px", marginRight: "20px" }}>
                         {props.title}
                     </h1>
+                    <RefreshIcon
+                        style={{ marginLeft: "10px", cursor: "pointer", justifySelf: "end" }}
+                        onClick={() => setRefresh(!refresh)}
+                    />
                 </div>
                 <div
                     class="col"
@@ -84,9 +97,10 @@ export const UserListDialog = (props) => {
                     ) : (
                         usersList.map((user) => (
                             <UserPreviewCard
-                                key={`user_${user["user_name"]}`}
-                                userName={user["user_name"]}
-                                profPic={user["prof_pic"]}
+                                key={`user_${user.username}`}
+                                userName={user.username}
+                                profPic={user.profilePic}
+                                userId={user.userId}
                             />
                         ))
                     )}

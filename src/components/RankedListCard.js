@@ -9,7 +9,7 @@ import ReactLoading from "react-loading";
 
 import { resetUserContext, UserContext } from "../Contexts";
 import { appThemeConstants, getCardStyle, getTextTheme } from "../misc/AppTheme";
-import { containsId, tsToDelta } from "../misc/Utils";
+import { tsToDelta } from "../misc/Utils";
 import { UserListDialog } from "./UserListDialog";
 import { UserPreviewTypes } from "../api/UserPreviewRepo";
 import { likeList } from "../api/UserRepo";
@@ -32,11 +32,12 @@ export const CommentPreview = (props) => {
             <div className="col">
                 <CardHeader
                     isDark={props.isDark}
-                    name={props.commentPreview["user_name"]}
-                    profPic={props.commentPreview["prof_pic"]}
-                    timeStamp={props.commentPreview["date_created"]}
+                    userId={props.commentPreview.userId}
+                    name={props.commentPreview.username}
+                    profPic={props.commentPreview.profilePic}
+                    timeStamp={props.commentPreview.dateCreated}
                 />
-                <h3 style={{ ...props.textTheme, margin: "4px" }}>{props.commentPreview["comment"]}</h3>
+                <h3 style={{ ...props.textTheme, margin: "4px" }}>{props.commentPreview.comment}</h3>
                 <h4
                     onClick={props.onClick}
                     style={{
@@ -44,10 +45,10 @@ export const CommentPreview = (props) => {
                         margin: "4px",
                         textDecoration: "underline",
                         cursor: "pointer",
-                        display: props.commentPreview["num_comments"] <= 1 ? "none" : "inline",
+                        display: props.commentPreview.numComments <= 1 ? "none" : "inline",
                     }}
                 >
-                    View all {props.commentPreview["num_comments"]} comments
+                    View all {props.commentPreview.numComments} comments
                 </h4>
             </div>
         </Card>
@@ -84,7 +85,7 @@ export const CardLikeBar = (props) => {
             setLiked(res === "LIKED");
             props.mainUser.userDispatch({
                 type: UserReducerTypes.likeListAction,
-                payload: { hasLiked: res === "LIKED", targetId: { $oid: props.id } },
+                payload: { hasLiked: res === "LIKED", targetId: props.id },
             });
 
             setLoading(false);
@@ -149,7 +150,7 @@ export const CardLikeBar = (props) => {
     );
 };
 
-// rank: number
+// ranking: number
 // itemName: string
 // textTheme: object
 export const RankItemPreview = (props) => {
@@ -159,7 +160,7 @@ export const RankItemPreview = (props) => {
                 style={{ height: "50px", width: "50px", backgroundColor: appThemeConstants.lavender, margin: "12px" }}
             >
                 <h3 style={{ fontFamily: appThemeConstants.fontFamily, color: "white", fontSize: "26px" }}>
-                    {props.rank}
+                    {props.ranking}
                 </h3>
             </Avatar>
             <h3
@@ -180,6 +181,7 @@ export const RankItemPreview = (props) => {
 };
 
 // name: string
+// userId: number
 // profPic: string
 // timeStamp: number
 // isDark: bool
@@ -208,7 +210,7 @@ export const CardHeader = (props) => {
             <div
                 className="row"
                 style={{ cursor: "pointer" }}
-                onClick={() => history.push("/main/profile/" + props.name)}
+                onClick={() => history.push("/main/profile/" + props.userId)}
             >
                 <Avatar src={props.profPic} style={{ height: "50px", width: "50px", marginRight: "12px" }}>
                     <AccountCircleIcon style={{ height: "100%", width: "100%" }} />
@@ -237,13 +239,13 @@ export const RankedListCard = (props) => {
 
     const deleteList = async () => {
         setOpenEdit(false);
-        return await deleteRankedList(props.rankedList["_id"], mainUser.userToken);
+        return await deleteRankedList(props.rankedList.listId, mainUser.userToken);
     };
 
     const editList = async () => {
         console.log(savedList);
-        if (savedList && savedList["rank_list"].length >= 1) {
-            return await updateRankedList(savedList, props.rankedList["_id"], mainUser.userToken);
+        if (savedList && savedList.rankItems.length >= 1) {
+            return await updateRankedList(savedList, props.rankedList.listId, mainUser.userToken);
         } else {
             return [false, {}];
         }
@@ -270,24 +272,24 @@ export const RankedListCard = (props) => {
         >
             <div className="col" style={{ width: "100%" }}>
                 <CardHeader
-                    name={props.rankedList["user_name"]}
-                    profPic={props.rankedList["prof_pic"]}
-                    timeStamp={props.rankedList["date_created"]["$date"]}
+                    name={props.rankedList.username}
+                    profPic={props.rankedList.profilePic}
+                    timeStamp={props.rankedList.dateCreated}
                     isDark={currentTheme.palette.type === "dark"}
                 />
                 <h2 style={{ ...textTheme, marginTop: "0px", cursor: "pointer" }} onClick={onOpen}>
-                    {props.rankedList["title"]}
+                    {props.rankedList.title}
                 </h2>
                 <img
                     style={{ borderRadius: "15px", width: "375px", maxWidth: "98%", alignSelf: "center" }}
-                    src={props.rankedList["picture"]}
+                    src={props.rankedList.picture}
                 />
-                {props.rankedList["rank_list"].map((rItem) => (
+                {props.rankedList.rankItems.map((rItem) => (
                     <RankItemPreview
                         textTheme={textTheme}
-                        rank={rItem.rank}
-                        itemName={rItem["item_name"]}
-                        key={`rank_${rItem.rank}`}
+                        ranking={rItem.ranking}
+                        itemName={rItem.itemName}
+                        key={`rank_${rItem.ranking}`}
                     />
                 ))}
                 <h4
@@ -297,18 +299,18 @@ export const RankedListCard = (props) => {
                         margin: "0px",
                         textDecoration: "underline",
                         cursor: "pointer",
-                        display: props.rankedList["num_rank_items"] <= 3 ? "none" : "inline",
+                        display: props.rankedList.numItems <= 3 ? "none" : "inline",
                     }}
                 >
-                    View {props.rankedList["num_rank_items"] - props.rankedList["rank_list"].length} more items
+                    View {props.rankedList.numItems - props.rankedList.rankItems.length} more items
                 </h4>
 
                 <CardLikeBar
-                    numComments={props.rankedList["num_comments"]}
-                    numLikes={props.rankedList["num_likes"]}
+                    numComments={props.rankedList.numComments}
+                    numLikes={props.rankedList.numLikes}
                     textTheme={textTheme}
-                    id={props.rankedList["_id"]}
-                    isLiked={containsId(mainUser.user["liked_lists"], props.rankedList["_id"])}
+                    id={props.rankedList.listId}
+                    isLiked={mainUser.user.likedLists.includes(props.rankedList.listId)}
                     mainUser={mainUser}
                 />
 
@@ -316,8 +318,8 @@ export const RankedListCard = (props) => {
                     <CommentPreview
                         onClick={() => setOpenComments(true)}
                         commentPreview={{
-                            ...props.rankedList["comment_preview"],
-                            num_comments: props.rankedList["num_comments"],
+                            ...props.rankedList.commentPreview,
+                            numComments: props.rankedList.numComments,
                         }}
                         isDark={currentTheme.palette.type === "dark"}
                         textTheme={textTheme}
@@ -341,11 +343,11 @@ export const RankedListCard = (props) => {
 
                 <RankedListView
                     open={openList}
-                    listId={props.rankedList["_id"]}
+                    listId={props.rankedList.listId}
                     onClose={() => setOpenList(false)}
                     mainUser={mainUser}
-                    name={props.rankedList["user_name"]}
-                    profPic={props.rankedList["prof_pic"]}
+                    name={props.rankedList.userName}
+                    profPic={props.rankedList.profilePic}
                     onEdit={() => {
                         setOpenList(false);
                         setOpenEdit(true);
@@ -353,7 +355,7 @@ export const RankedListCard = (props) => {
                 />
                 <RankedListEdit
                     open={openEdit}
-                    listId={props.rankedList["_id"]}
+                    listId={props.rankedList.listId}
                     onClose={() => setOpenEdit(false)}
                     onDelete={() => setDeleted(true)}
                     onSave={(rankedList) => {
@@ -383,7 +385,7 @@ export const RankedListCard = (props) => {
                     open={openComments}
                     handleClose={() => setOpenComments(false)}
                     mainUser={mainUser}
-                    listId={props.rankedList["_id"]}
+                    listId={props.rankedList.listId}
                     userComments={false}
                 />
             </div>

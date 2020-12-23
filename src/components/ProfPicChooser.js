@@ -34,7 +34,7 @@ export const ProfilePicChooser = (props) => {
 
     const [loading, setLoading] = useState(false);
     const [error, setError] = useState(false);
-    const [profPic, setProfPic] = useState(user["prof_pic"]);
+    const [profPic, setProfPic] = useState(user.profilePic);
     if (!props.open) {
         return <i style={{ display: "none" }} />;
     }

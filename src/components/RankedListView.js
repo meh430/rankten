@@ -9,7 +9,6 @@ import { ListReducerTypes, rankedListReducer } from "../reducers/RankedListReduc
 import { getRankedList } from "../api/RankedListRepo";
 import { RankItemCard } from "./RankItemCard";
 import { CardHeader, CardLikeBar } from "./RankedListCard";
-import { containsId } from "../misc/Utils";
 
 import "../App.css";
 
@@ -77,7 +76,7 @@ export const RankedListView = (props) => {
                             {listNull ? "Loading..." : rankedList.title}
                         </h1>
                     </div>
-                    {props.mainUser.user["user_name"] === props.name ? (
+                    {props.mainUser.user.username === props.name ? (
                         <EditIcon style={{ cursor: "pointer", marginRight: "10px" }} onClick={props.onEdit} />
                     ) : (
                         <i style={{ display: "none" }} />
@@ -92,18 +91,19 @@ export const RankedListView = (props) => {
                     }}
                 >
                     <CardHeader
-                        name={listNull ? "Loading..." : rankedList["user_name"]}
+                        name={listNull ? "Loading..." : rankedList.username}
+                        userId={listNull ? 1 : rankedList.userId}
                         profPic={props.profPic}
-                        timeStamp={listNull ? 0 : rankedList["date_created"]["$date"]}
+                        timeStamp={listNull ? 0 : rankedList.dateCreated}
                         isDark={currentTheme.palette.type === "dark"}
                         full={true}
                     />
                     {listNull ? (
                         <ReactLoading type="bars" color={appThemeConstants.hanPurple} />
                     ) : (
-                        rankedList["rank_list"].map((rItem) => (
+                        rankedList.rankItems.map((rItem) => (
                             <RankItemCard
-                                key={rItem.rank}
+                                key={rItem.ranking}
                                 rankItem={rItem}
                                 textTheme={textTheme}
                                 cardTheme={cardTheme}
@@ -116,11 +116,11 @@ export const RankedListView = (props) => {
                     ) : (
                         <div style={{ width: "100%" }}>
                             <CardLikeBar
-                                numComments={rankedList["num_comments"]}
-                                numLikes={rankedList["num_likes"]}
+                                numComments={rankedList.numComments}
+                                numLikes={rankedList.numLikes}
                                 textTheme={textTheme}
-                                id={rankedList["_id"]["$oid"]}
-                                isLiked={containsId(props.mainUser.user["liked_lists"], rankedList["_id"]["$oid"])}
+                                id={rankedList.listId}
+                                isLiked={props.mainUser.user.likedLists.includes(rankedList.listId)}
                                 mainUser={props.mainUser}
                             />
                         </div>

@@ -13,7 +13,7 @@ import { SortMenu } from "./SearchUsers";
 import "./Mason.css";
 import { closeErrorSB, ErrorSnack } from "./ErrorSnack";
 
-let page = 1;
+let page = 0;
 
 const breakpointColumnsObj = {
     default: 3,
@@ -23,7 +23,7 @@ const breakpointColumnsObj = {
 };
 
 // sort: int
-// name: string
+// userId: string
 // token: string
 // query: string
 // refresh: bool
@@ -53,7 +53,7 @@ export const GenericList = (props) => {
             page += 1;
 
             const [e, lastPage, res] = await getRankedListPreview(
-                getParams(page, props.sort, props.name, props.token, props.query, props.refresh, props.listType)
+                getParams(page, props.sort, props.userId, props.token, props.query, props.refresh, props.listType)
             );
             setHitMax(lastPage);
             setApiError(e);
@@ -63,22 +63,28 @@ export const GenericList = (props) => {
         })();
     };
 
+    const getListPreviews = async (refresh) => {
+        setLoading(true);
+        page = 0;
+        setRankedLists([]);
+        const [e, lastPage, res] = await getRankedListPreview(
+            getParams(page, props.sort, props.userId, props.token, props.query, props.refresh, props.listType)
+        );
+        setHitMax(lastPage);
+        setApiError(e);
+        if (!e) {
+            setRankedLists([...res]);
+        }
+        setLoading(false);
+    };
+
     useEffect(() => {
-        (async () => {
-            setLoading(true);
-            page = 1;
-            setRankedLists([]);
-            const [e, lastPage, res] = await getRankedListPreview(
-                getParams(page, props.sort, props.name, props.token, props.query, props.refresh, props.listType)
-            );
-            setHitMax(lastPage);
-            setApiError(e);
-            if (!e) {
-                setRankedLists([...res]);
-            }
-            setLoading(false);
-        })();
-    }, [props.query, props.sort, props.refresh, props.listType]);
+        getListPreviews(false);
+    }, [props.query, props.sort, props.listType]);
+    
+    useEffect(() => {
+        getListPreviews(true);
+    }, [props.refresh]);
 
     if (loading) {
         return <ReactLoading type="bars" color={appThemeConstants.hanPurple} />;
@@ -100,11 +106,7 @@ export const GenericList = (props) => {
                     columnClassName="gen-list-col"
                 >
                     {rankedLists.map((rList) => (
-                        <RankedListCard
-                            onUpdate={props.onUpdate}
-                            rankedList={rList}
-                            key={"r_" + rList["date_created"]["$date"]}
-                        />
+                        <RankedListCard onUpdate={props.onUpdate} rankedList={rList} key={"r_" + rList.dateCreated} />
                     ))}
                 </Masonry>
             </InfiniteScroll>
@@ -121,7 +123,7 @@ export const GenericList = (props) => {
 
 // title: string
 // listType: string
-// name: string
+// userId: string
 // token: string
 // query: string
 // emptyMessage: string
@@ -150,7 +152,7 @@ export const SortedListContainer = (props) => {
                 refresh={refresh}
                 onUpdate={() => setRefresh(!refresh)}
                 sort={sort}
-                name={props.name}
+                userId={props.userId}
                 token={props.token}
                 emptyMessage={props.emptyMessage}
                 listType={props.listType}
@@ -159,11 +161,11 @@ export const SortedListContainer = (props) => {
     );
 };
 
-function getParams(page = 1, sort = 0, name = "", token = "", query = "", refresh = false, listType) {
+function getParams(page = 1, sort = 0, userId = "", token = "", query = "", refresh = false, listType) {
     return {
         page: page,
         sort: sort,
-        name: name,
+        userId: userId,
         token: token,
         query: query,
         refresh: refresh,
