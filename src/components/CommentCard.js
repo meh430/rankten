@@ -15,6 +15,7 @@ import { likeRes } from "../api/UserRepo";
 import { closeErrorSB, ErrorSnack } from "./ErrorSnack";
 import "../App.css";
 import { getRankedList } from "../api/RankedListRepo";
+import { UserReducerTypes } from "../reducers/UserReducer";
 
 let commentEdit = "";
 
@@ -44,6 +45,10 @@ const CommentLikeBar = (props) => {
             }
             setLiked(res == likeRes.liked);
 
+            props.mainUser.userDispatch({
+                type: UserReducerTypes.likeCommentAction,
+                payload: { hasLiked: res == likeRes.liked, targetId: props.id },
+            });
             setLoading(false);
         }
     };

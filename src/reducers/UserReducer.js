@@ -6,6 +6,7 @@ export const UserReducerTypes = {
     updateProfilePicAction: "UPDATE_PROFILE_PIC_ACTION",
     followUserAction: "FOLLOW_USER_ACTION",
     likeListAction: "LIKE_LIST_ACTION",
+    likeCommentAction: "LIKE_COMMENT_ACTION",
 };
 
 export function userReducer(state, action) {
@@ -56,6 +57,24 @@ export function userReducer(state, action) {
                 for (i = 0; i < stateCopy.likedLists.length; i++) {
                     if (stateCopy.likedLists[i] == targetId) {
                         stateCopy.likedLists.splice(i, 1);
+                        break;
+                    }
+                }
+            }
+
+            return stateCopy;
+        //{hasLiked: bool, targetId: objectId}
+        case UserReducerTypes.likeCommentAction:
+            stateCopy = clone(state);
+            const commentLiked = action.payload.hasLiked;
+            targetId = action.payload.targetId;
+
+            if (commentLiked) {
+                stateCopy.likedComments.push(targetId);
+            } else {
+                for (i = 0; i < stateCopy.likedComments.length; i++) {
+                    if (stateCopy.likedComments[i] == targetId) {
+                        stateCopy.likedComments.splice(i, 1);
                         break;
                     }
                 }

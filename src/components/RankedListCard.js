@@ -82,10 +82,10 @@ export const CardLikeBar = (props) => {
             } else {
                 setNumLikes(numLikes + 1);
             }
-            setLiked(res === "LIKED");
+            setLiked(res == "LIKED");
             props.mainUser.userDispatch({
                 type: UserReducerTypes.likeListAction,
-                payload: { hasLiked: res === "LIKED", targetId: props.id },
+                payload: { hasLiked: res == "LIKED", targetId: props.id },
             });
 
             setLoading(false);
@@ -347,7 +347,7 @@ export const RankedListCard = (props) => {
                     listId={props.rankedList.listId}
                     onClose={() => setOpenList(false)}
                     mainUser={mainUser}
-                    name={props.rankedList.userName}
+                    name={props.rankedList.username}
                     profPic={props.rankedList.profilePic}
                     onEdit={() => {
                         setOpenList(false);
