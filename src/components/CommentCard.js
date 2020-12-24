@@ -42,7 +42,7 @@ const CommentLikeBar = (props) => {
             } else {
                 setNumLikes(numLikes + 1);
             }
-            setLiked(res === likeRes.liked);
+            setLiked(res == likeRes.liked);
 
             setLoading(false);
         }
@@ -110,7 +110,7 @@ export const CommentCard = (props) => {
                 className="col"
                 style={{ width: "100%", paddingTop: "10px", paddingLeft: "10px", paddingRight: "10px" }}
             >
-                {props.mainUser.user.userId === comment.userId ? (
+                {props.mainUser.user.userId == comment.userId ? (
                     <div
                         className="row"
                         style={{ width: "100%", alignItems: "center", justifyContent: "space-between" }}

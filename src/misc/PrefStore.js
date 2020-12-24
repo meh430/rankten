@@ -3,6 +3,7 @@ const JWT_TOKEN = "JWTTOKEN";
 const USER_NAME_KEY = "USERNAME";
 const PASSWORD_KEY = "PASSWORD";
 const MAIN_TAB = "MAINTAB";
+const SAVED_SORT = "SAVEDSORT"
 
 export function saveTheme(value) {
     localStorage.setItem(CURRENT_THEME, value);
@@ -35,7 +36,16 @@ export function setMainTab(tab) {
 
 export function getMainTab() {
     var mainTab = localStorage.getItem(MAIN_TAB);
-    return mainTab ? mainTab : 0;
+    return mainTab ? Number(mainTab) : 0;
+}
+
+export function saveSort(sort) {
+    localStorage.setItem(SAVED_SORT, sort);
+}
+
+export function getSort() {
+    var sort = localStorage.getItem(SAVED_SORT);
+    return sort ? Number(sort) : 0;
 }
 
 export function clearStorage() {

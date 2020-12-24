@@ -85,14 +85,14 @@ export function rankedListReducer(state, action) {
         // {startIndex: number, endIndex: number}
         case ListReducerTypes.reOrderList:
             stateCopy = clone(state);
-            stateCopy.ranktItems = reOrder(
-                clone(stateCopy.ranktItems),
+            stateCopy.rankItems = reOrder(
+                clone(stateCopy.rankItems),
                 action.payload.startIndex,
                 action.payload.endIndex
             );
 
-            for (let i = 0; i < stateCopy.ranktItems.length; i++) {
-                stateCopy.ranktItems[i].rank = i + 1;
+            for (let i = 0; i < stateCopy.rankItems.length; i++) {
+                stateCopy.rankItems[i].ranking = i + 1;
             }
             updateParentProperties(stateCopy);
             return stateCopy;
@@ -100,9 +100,9 @@ export function rankedListReducer(state, action) {
         case ListReducerTypes.createItem:
             p = action.payload;
             stateCopy = clone(state);
-            stateCopy.ranktItems.push(
+            stateCopy.rankItems.push(
                 createRankedItem(
-                    stateCopy.ranktItems.length + 1,
+                    stateCopy.rankItems.length + 1,
                     p.itemName,
                     p.description,
                     p.picture,
@@ -115,9 +115,9 @@ export function rankedListReducer(state, action) {
         //{index: number}
         case ListReducerTypes.deleteItem:
             stateCopy = clone(state);
-            stateCopy.ranktItems.splice(action.payload.index, 1);
-            for (let i = 0; i < stateCopy.ranktItems.length; i++) {
-                stateCopy.ranktItems[i].rank = i + 1;
+            stateCopy.rankItems.splice(action.payload.index, 1);
+            for (let i = 0; i < stateCopy.rankItems.length; i++) {
+                stateCopy.rankItems[i].rank = i + 1;
             }
             updateParentProperties(stateCopy);
             return stateCopy;

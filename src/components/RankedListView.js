@@ -76,7 +76,7 @@ export const RankedListView = (props) => {
                             {listNull ? "Loading..." : rankedList.title}
                         </h1>
                     </div>
-                    {props.mainUser.user.username === props.name ? (
+                    {props.mainUser.user.username == props.name ? (
                         <EditIcon style={{ cursor: "pointer", marginRight: "10px" }} onClick={props.onEdit} />
                     ) : (
                         <i style={{ display: "none" }} />

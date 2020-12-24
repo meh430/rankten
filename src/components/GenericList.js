@@ -8,10 +8,10 @@ import useMediaQuery from "@material-ui/core/useMediaQuery";
 import { getRankedListPreview } from "../api/RankedListPreviewRepo";
 import { RankedListCard } from "./RankedListCard";
 import { appThemeConstants } from "../misc/AppTheme";
-import { SortOptions } from "../misc/Utils";
 import { SortMenu } from "./SearchUsers";
 import "./Mason.css";
 import { closeErrorSB, ErrorSnack } from "./ErrorSnack";
+import { getSort, saveSort } from "../misc/PrefStore";
 
 let page = 0;
 
@@ -131,9 +131,12 @@ export const GenericList = (props) => {
 // textTheme: object
 // noSort: bool
 export const SortedListContainer = (props) => {
-    const [sort, setSort] = useState(SortOptions.likesDesc);
+    const [sort, setSort] = useState(getSort());
     const [refresh, setRefresh] = useState(false);
-    const onSort = (sortOption) => setSort(sortOption);
+    const onSort = (sortOption) => {
+        saveSort(sortOption)
+        setSort(sortOption)
+    };
     return (
         <div className="col">
             <div className="row" style={{ alignItems: "center", justifyContent: "space-around" }}>

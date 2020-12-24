@@ -115,14 +115,14 @@ export const CardLikeBar = (props) => {
                     <FavoriteBorderIcon onClick={onLike} style={likeStyle} />
                 )}
                 <h3 style={{ ...props.textTheme, fontSize: "20px" }} onClick={() => setOpenLikers(true)}>
-                    {numLikes} {numLikes === 1 ? "like" : "likes"}
+                    {numLikes} {numLikes == 1 ? "like" : "likes"}
                 </h3>
             </div>
 
             <div className="row" style={{ alignItems: "center" }} onClick={() => setOpenComments(true)}>
                 <CommentIcon style={{ height: "25x", width: "25px", marginRight: "6px" }} />
                 <h3 style={{ ...props.textTheme, fontSize: "20px" }}>
-                    {props.numComments} {props.numComments === 1 ? "comment" : "comments"}
+                    {props.numComments} {props.numComments == 1 ? "comment" : "comments"}
                 </h3>
             </div>
 
@@ -273,6 +273,7 @@ export const RankedListCard = (props) => {
             <div className="col" style={{ width: "100%" }}>
                 <CardHeader
                     name={props.rankedList.username}
+                    userId={props.rankedList.userId}
                     profPic={props.rankedList.profilePic}
                     timeStamp={props.rankedList.dateCreated}
                     isDark={currentTheme.palette.type === "dark"}

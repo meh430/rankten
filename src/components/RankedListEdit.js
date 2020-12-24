@@ -211,7 +211,7 @@ export const RankedListEdit = (props) => {
                 >
                     {listNull ? (
                         <ReactLoading type="bars" color={appThemeConstants.hanPurple} />
-                    ) : rankedList["rank_list"].length ? (
+                    ) : rankedList.rankItems.length ? (
                         <DragDropContext onDragEnd={onDragEnd} style={{ width: "100%" }}>
                             <Droppable droppableId="list" style={{ width: "100%" }}>
                                 {(provided) => {
@@ -224,8 +224,8 @@ export const RankedListEdit = (props) => {
                                             {rankedList.rankItems.map((rItem, index) => (
                                                 <Draggable
                                                     style={{ width: "100%" }}
-                                                    key={rItem.itemId}
-                                                    draggableId={rItem.itemId}
+                                                    key={rItem.itemId.toString()}
+                                                    draggableId={rItem.itemId.toString()}
                                                     index={index}
                                                 >
                                                     {(provided) => (

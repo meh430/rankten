@@ -36,7 +36,7 @@ export function userReducer(state, action) {
                 stateCopy.following.push(targetId);
             } else {
                 for (i = 0; i < stateCopy.following.length; i++) {
-                    if (stateCopy.following[i] === targetId) {
+                    if (stateCopy.following[i] == targetId) {
                         stateCopy.following.splice(i, 1);
                         break;
                     }
@@ -53,8 +53,8 @@ export function userReducer(state, action) {
             if (hasLiked) {
                 stateCopy.likedLists.push(targetId);
             } else {
-                for (i = 0; i < stateCopy.following.length; i++) {
-                    if (stateCopy.likedLists[i] === targetId) {
+                for (i = 0; i < stateCopy.likedLists.length; i++) {
+                    if (stateCopy.likedLists[i] == targetId) {
                         stateCopy.likedLists.splice(i, 1);
                         break;
                     }
