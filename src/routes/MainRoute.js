@@ -25,6 +25,7 @@ import AccountCircleIcon from "@material-ui/icons/AccountCircle";
 import ListIcon from "@material-ui/icons/List";
 import MenuIcon from "@material-ui/icons/Menu";
 import ExitToAppIcon from "@material-ui/icons/ExitToApp";
+import SettingsIcon from "@material-ui/icons/Settings";
 
 import { ThemeContext } from "../Contexts";
 import { clearStorage, getMainTab, saveTheme, setMainTab } from "../misc/PrefStore";
@@ -36,6 +37,7 @@ import { Discover } from "../components/Discover";
 import { Feed } from "../components/Feed";
 import "../App.css";
 import { SearchLists } from "../components/SearchLists";
+import { Settings } from "../components/Settings";
 
 const renderOtherProfile = (routerProps) => {
     let userId = routerProps.match.params.userId;
@@ -101,6 +103,7 @@ export const MainRoute = (props) => {
     const [themeSwitch, setThemeSwitch] = useState(currentTheme.palette.type);
     const [searchLists, setSearchLists] = useState(true);
     const [menuAnchor, setMenuAnchor] = useState(null);
+    const [settings, openSettings] = useState(false);
 
     const searchItemClicked = (listSelected) => {
         setSearchLists(listSelected);
@@ -193,6 +196,10 @@ export const MainRoute = (props) => {
                         }
                         label="Dark Mode"
                     />
+                </ListItem>
+                <ListItem button key="settings" onClick={() => openSettings(true)}>
+                    <ListItemIcon>{<SettingsIcon style={iconColor} />}</ListItemIcon>
+                    <ListItemText primary={"Settings"} />
                 </ListItem>
                 <Link to="/auth" style={linkStyle} onClick={() => clearStorage()}>
                     <ListItem button key="logout">
@@ -296,6 +303,7 @@ export const MainRoute = (props) => {
             </nav>
             <main className={classes.content}>
                 <div className={classes.toolbar} />
+                <Settings open={settings} onClose={() => openSettings(false)} />
                 <Switch>
                     <Route path="/main" component={Feed} exact />
                     <Route path="/main/discover" component={Discover} />

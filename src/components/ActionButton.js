@@ -21,7 +21,7 @@ export const ActionButton = (props) => {
                 marginTop: "15px",
                 marginBottom: "15px",
                 color: "#ffffff",
-                backgroundColor: appThemeConstants.hanPurple,
+                backgroundColor: props.color ? props.color : appThemeConstants.hanPurple,
             }}
         >
             {props.label}

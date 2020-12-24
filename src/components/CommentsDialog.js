@@ -81,7 +81,7 @@ export const CommentsDialog = (props) => {
         const [e, lastPage, res] = props.userComments
             ? await getUserComments(page, sort, props.mainUser.userToken, refresh)
             : await getComments(props.listId, page, sort, refresh);
-        
+
         setHitMax(lastPage);
         setLoading(false);
         setApiError(e);

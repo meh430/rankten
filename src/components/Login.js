@@ -1,7 +1,9 @@
 import React, { useState, useContext } from "react";
 import { Redirect } from "react-router-dom";
-import { Button, Card, CardContent, useTheme, TextField } from "@material-ui/core";
+import { Button, Card, CardContent, useTheme, TextField, InputAdornment, IconButton } from "@material-ui/core";
 import ReactLoading from "react-loading";
+import VisibilityIcon from "@material-ui/icons/Visibility";
+import VisibilityOffIcon from "@material-ui/icons/VisibilityOff";
 
 import { UserContext } from "../Contexts";
 import { appThemeConstants, getCardStyle, getTextTheme } from "../misc/AppTheme";
@@ -40,7 +42,12 @@ export const NameField = (props) => {
 
 //error: bool
 //onChange: callback
+//label: string
+//errorMessage: string
 export const PasswordField = (props) => {
+    const [visible, setVisible] = useState(false);
+    const errorMessage = props.errorMessage ? props.errorMessage : "Password needs a number, an uppercase letter, and a special character";
+    const label = props.label ? props.label : "Password";
     return (
         <TextField
             error={props.error}
@@ -50,14 +57,23 @@ export const PasswordField = (props) => {
                     event.preventDefault();
                 }
             }}
-            helperText={props.error ? "Password needs a number, an uppercase letter, and a special character" : ""}
+            helperText={props.error ? errorMessage : ""}
             style={fieldTheme}
             id="password-field"
-            label="Password"
-            type="password"
+            label={label}
+            type={visible ? "text" : "password"}
             autoComplete="current-password"
             variant="outlined"
             onChange={props.onChange}
+            InputProps={{
+                endAdornment: (
+                    <InputAdornment position="end">
+                        <IconButton aria-label="toggle password visibility" onClick={() => setVisible(!visible)}>
+                            {visible ? <VisibilityIcon /> : <VisibilityOffIcon />}
+                        </IconButton>
+                    </InputAdornment>
+                ),
+            }}
         />
     );
 };

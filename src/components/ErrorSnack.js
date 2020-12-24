@@ -16,9 +16,10 @@ export const closeErrorSB = (event, reason, setOpen) => {
 // open: bool
 // handleClose: callback
 export const ErrorSnack = (props) => {
+    const severity = props.severity ? props.severity : "error";
     return (
         <Snackbar open={props.open} autoHideDuration={3000} onClose={props.handleClose}>
-            <Alert onClose={props.handleClose} severity="error">
+            <Alert onClose={props.handleClose} severity={severity}>
                 {props.message}
             </Alert>
         </Snackbar>

@@ -5,6 +5,10 @@ export const followRes = { follow: "FOLLOW", unfollow: "UNFOLLOW" };
 
 export const getUser = async (userId) => await api.get("/users/" + userId);
 
+export const deleteUser = async (token) => await api.del("/users", token);
+
+export const changePassword = async (password, token) => await api.put("/users", token, { password: password });
+
 export const updateBio = async (bio, token) => await api.put("/users", token, { bio: bio });
 
 export const updateProfilePic = async (profPic, token) => await api.put("/users", token, { profilePic: profPic });
