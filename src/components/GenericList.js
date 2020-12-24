@@ -68,7 +68,7 @@ export const GenericList = (props) => {
         page = 0;
         setRankedLists([]);
         const [e, lastPage, res] = await getRankedListPreview(
-            getParams(page, props.sort, props.userId, props.token, props.query, props.refresh, props.listType)
+            getParams(page, props.sort, props.userId, props.token, props.query, refresh, props.listType)
         );
         setHitMax(lastPage);
         setApiError(e);
@@ -100,7 +100,7 @@ export const GenericList = (props) => {
             >
                 <Masonry
                     breakpointCols={
-                        rankedLists.length <= 2 ? { ...breakPoints, default: rankedLists.length } : breakPoints
+                        rankedLists.length <= 2 && !isSmall ? { ...breakPoints, default: rankedLists.length } : breakPoints
                     }
                     className="gen-list-grid"
                     columnClassName="gen-list-col"

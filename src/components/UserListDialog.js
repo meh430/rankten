@@ -40,7 +40,6 @@ export const UserListDialog = (props) => {
     useEffect(() => {
         getUserList(true);
     }, [refresh]);
-    
 
     if (!props.open) {
         return <i style={{ display: "none" }} />;
@@ -59,10 +58,10 @@ export const UserListDialog = (props) => {
                 <div
                     className="row"
                     style={{
-                        alignItems: "center",
-                        alignSelf: "center",
                         justifyContent: "space-between",
-                        width: "fit-content",
+                        width: "400px",
+                        alignItems: "center",
+                        alignSelf: "start",
                         maxWidth: "100%",
                         position: "sticky",
                         top: "0",
@@ -70,22 +69,24 @@ export const UserListDialog = (props) => {
                         backgroundColor: currentTheme.palette.background.default,
                     }}
                 >
-                    <BackButton onClick={props.handleClose} />
-                    <h1 style={{ ...textTheme, marginLeft: "22px", fontSize: "22px", marginRight: "20px" }}>
-                        {props.title}
-                    </h1>
+                    <div className="row" style={{ alignItems: "center" }}>
+                        <BackButton onClick={props.handleClose} />
+                        <h1 style={{ ...textTheme, marginLeft: "22px", fontSize: "22px", marginRight: "20px" }}>
+                            {props.title}
+                        </h1>
+                    </div>
                     <RefreshIcon
-                        style={{ marginLeft: "10px", cursor: "pointer", justifySelf: "end" }}
+                        style={{ cursor: "pointer", marginRight: "8px" }}
                         onClick={() => setRefresh(!refresh)}
                     />
                 </div>
                 <div
-                    class="col"
+                    className="col"
                     style={{
                         alignItems: "center",
                         overscrollBehaviorY: "scroll",
                         maxHeight: "90%",
-                        width: "320px",
+                        width: "100%",
                         maxWidth: "100%",
                         marginBottom: "6px",
                     }}

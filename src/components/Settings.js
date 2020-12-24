@@ -32,6 +32,7 @@ export const Settings = (props) => {
     const [errorMessage, setErrorMessage] = useState("");
 
     const validatePassword = async () => {
+        console.log("enter");
         const [e, res] = await loginUser(mainUser.user.username, oldPassword);
         if (e) {
             setOldError(true);
@@ -48,6 +49,22 @@ export const Settings = (props) => {
         setNewError(false);
 
         return true;
+    };
+
+    const trySaving = async () => {
+        setApiError(false);
+        setSavedPassword(false);
+        setLoading(true);
+        if (await validatePassword()) {
+            const [e, res] = await changePassword(newPassword, mainUser.userToken);
+            if (e) {
+                setApiError(e);
+                setErrorMessage("Error saving password");
+            } else {
+                setSavedPassword(true);
+            }
+        }
+        setLoading(false);
     };
 
     return (
@@ -83,36 +100,21 @@ export const Settings = (props) => {
                     label="Old Password"
                     errorMessage="Incorrect password"
                     error={oldError}
+                    onEnter={trySaving}
                     onChange={(event) => setOldPassword(event.target.value)}
                 />
                 <PasswordField
                     label="New Password"
                     error={newError}
+                    onEnter={trySaving}
                     onChange={(event) => setNewPassword(event.target.value)}
                 />
 
                 {loading ? (
                     <ReactLoading type="bars" color={appThemeConstants.hanPurple} />
                 ) : (
-                    <div className="col" style={{width: "100%", alignItems:"center"}}>
-                        <ActionButton
-                            label="Save Password"
-                            onClick={async () => {
-                                setApiError(false);
-                                setSavedPassword(false);
-                                setLoading(true);
-                                if (await validatePassword()) {
-                                    const [e, res] = await changePassword(newPassword, mainUser.userToken);
-                                    if (e) {
-                                        setApiError(e);
-                                        setErrorMessage("Error saving password");
-                                    } else {
-                                        setSavedPassword(true);
-                                    }
-                                }
-                                setLoading(false);
-                            }}
-                        />
+                    <div className="col" style={{ width: "100%", alignItems: "center" }}>
+                        <ActionButton label="Save Password" onClick={trySaving} />
                         <ActionButton
                             label="Delete User"
                             color="red"

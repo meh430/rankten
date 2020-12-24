@@ -138,7 +138,7 @@ const UserBio = (props) => {
                 />
             ) : (
                 <h3 style={{ ...props.textTheme, textAlign: "start" }}>
-                    {props.bio === ""
+                    {!props.bio
                         ? props.isMain
                             ? "Set a bio to highlight your interests"
                             : "This user does not have a bio"
@@ -224,7 +224,7 @@ export const UserInfo = (props) => {
             }}
         >
             <CardContent className="col" style={{ alignItems: "center" }}>
-                <h1 style={textTheme}>{user.userName}</h1>
+                <h1 style={textTheme}>{user.username}</h1>
                 <div className="row" style={{ justifyContent: "space-around", alignItems: "center", width: "100%" }}>
                     <Avatar
                         src={avatarSrc}
@@ -257,7 +257,7 @@ export const UserInfo = (props) => {
                         mainUser={mainUser}
                         name={user.username}
                         isFollowing={mainUser.user.following.includes(user.userId)}
-                        id={user.userId}
+                        userId={user.userId}
                     />
                 )}
 

@@ -239,7 +239,7 @@ export const MainRoute = (props) => {
                         }}
                     >
                         <TextField
-                            style={{ width: "550px", maxWidth: "90%", margin: "12px" }}
+                            style={{ width: "550px", maxWidth: "50%", margin: "12px" }}
                             variant="outlined"
                             placeholder="Search..."
                             onKeyPress={(event) => {

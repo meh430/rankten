@@ -33,7 +33,7 @@ export const UserPreviewCard = (props) => {
             style={{
                 ...cardTheme,
                 maxWidth: "100%",
-                width: "300px",
+                width: "96%",
                 margin: "4px",
                 padding: "10px",
                 cursor: "pointer",
