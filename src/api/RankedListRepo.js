@@ -32,8 +32,6 @@ export async function updateRankedList(rankedList, listId, token) {
         if (rankedList["rankItems"][i].new) {
             delete rankedList["rankItems"][i]["new"];
             delete rankedList["rankItems"][i]["itemId"];
-        } else {
-            rankedList["rankItems"][i]["itemId"] = rankedList["rankItems"][i]["itemId"];
         }
     }
     

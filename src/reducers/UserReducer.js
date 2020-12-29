@@ -35,10 +35,12 @@ export function userReducer(state, action) {
 
             if (hasFollowed) {
                 stateCopy.following.push(targetId);
+                stateCopy.numFollowing += 1;
             } else {
                 for (i = 0; i < stateCopy.following.length; i++) {
                     if (stateCopy.following[i] == targetId) {
                         stateCopy.following.splice(i, 1);
+                        stateCopy.numFollowing -= 1;
                         break;
                     }
                 }

@@ -15,13 +15,6 @@ import { getSort, saveSort } from "../misc/PrefStore";
 
 let page = 0;
 
-const breakpointColumnsObj = {
-    default: 3,
-    1100: 3,
-    700: 2,
-    500: 1,
-};
-
 // sort: int
 // userId: string
 // token: string

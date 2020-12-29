@@ -30,11 +30,7 @@ export const getRankedListPreview = async (params) => {
     let endpoint = getEndpoint(params.endpointBase, params.page, params.sort, params.userId, params.query, refresh);
 
     const [e, res] = await api.get(endpoint, token);
-    if (e) {
-        return [e, true, []];
-    } else {
-        return [e, res.lastPage === params.page, res.items];
-    }
+    return getPagedResponse(e, res, params.page);
 };
 
 function getEndpoint(endpointBase, page, sort, userId, query, refresh) {
@@ -71,4 +67,12 @@ function getEndpoint(endpointBase, page, sort, userId, query, refresh) {
     }
 
     return endpoint;
+}
+
+export function getPagedResponse(error, response, currentPage) {
+    if (error) {
+        return [error, true, []];
+    } else {
+        return [error, response.lastPage === currentPage, response.items];
+    }    
 }

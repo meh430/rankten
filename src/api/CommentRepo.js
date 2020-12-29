@@ -1,33 +1,20 @@
 import * as api from "./RankApi";
-import {likeRes} from "./UserRepo"
+import { getPagedResponse } from "./RankedListPreviewRepo";
+import {getLikeResponse, likeRes} from "./UserRepo"
 
 export async function likeComment(commentId, token) {
     const [e, res] = await api.post("/like_comment/" + commentId, token);
-    if (e) {
-        return [e, res];
-    } else if (res.message.includes("unliked")) {
-        return [e, likeRes.unliked];
-    } else {
-        return [e, likeRes.liked];
-    }
+    return getLikeResponse(e, res);
 }
 
 export async function getUserComments(page, sort, token, refresh = false) {
     const [e, res] = await api.get(`/user_comments/${page}/${sort}${refresh ? "?re=True" : ""}`, token);
-    if (e) {
-        return [e, true, []];
-    } else {
-        return [e, res.lastPage === page, res.items];
-    }
+    return getPagedResponse(e, res, page);
 }
 
 export async function getComments(listId, page = 0, sort = 0, refresh = false) {
     const [e, res] = await api.get(`/comments/${listId}/${page}/${sort}${refresh ? "?re=True" : ""}`);
-    if (e) {
-        return [e, true, []];
-    } else {
-        return [e, res.lastPage === page, res.items];
-    }
+    return getPagedResponse(e, res, page);
 }
 
 export async function createComment(listId, comment, token, editing = false) {

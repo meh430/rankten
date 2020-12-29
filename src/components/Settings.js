@@ -61,6 +61,8 @@ export const Settings = (props) => {
                 setApiError(e);
                 setErrorMessage("Error saving password");
             } else {
+                setOldPassword("");
+                setNewPassword("");
                 setSavedPassword(true);
             }
         }

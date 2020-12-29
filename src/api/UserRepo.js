@@ -28,13 +28,15 @@ export async function followUser(userId, token) {
 
 export async function likeList(listId, token) {
     const [e, res] = await api.post("/like/" + listId, token);
-    if (e) {
-        return [e, res];
+    return getLikeResponse(e, res);
+}
+
+export function getLikeResponse(error, response) {
+    if (error) {
+        return [error, response];
+    } else if (response.message.includes("unliked")) {
+        return [error, likeRes.unliked];
     } else {
-        if (res.message.includes("unliked")) {
-            return [e, likeRes.unliked];
-        } else {
-            return [e, likeRes.liked];
-        }
+        return [error, likeRes.liked];
     }
 }

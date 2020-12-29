@@ -34,7 +34,7 @@ export const Profile = (props) => {
                 setOtherUser(userInfo);
             }
         })();
-    }, [props.userId]);
+    }, [props.userId, props.isMain]);
 
     if (props.isMain) {
         return (

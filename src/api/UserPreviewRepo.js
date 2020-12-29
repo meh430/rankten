@@ -1,4 +1,5 @@
 import * as api from "./RankApi";
+import { getPagedResponse } from "./RankedListPreviewRepo";
 
 export const UserPreviewTypes = {
     followingList: "FOLLOWING_LIST",
@@ -32,9 +33,6 @@ export async function searchUsers(params, refresh = false) {
     const [e, res] = await api.get(
         "/search_users/" + params.page + "/" + params.sort + "?q=" + params.query + (refresh ? "&re=true" : "")
     );
-    if (e) {
-        return [e, true, []];
-    } else {
-        return [e, res.lastPage === params.lastPage, res.items];
-    }
+
+    return getPagedResponse(e, res, params.page);
 }

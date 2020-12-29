@@ -6,16 +6,15 @@ import FavoriteIcon from "@material-ui/icons/Favorite";
 import FavoriteBorderIcon from "@material-ui/icons/FavoriteBorder";
 
 import { CardHeader } from "./RankedListCard";
-import { containsId } from "../misc/Utils";
-import { createComment, deleteComment, getCommentParent, likeComment } from "../api/CommentRepo";
+import { createComment, deleteComment, likeComment } from "../api/CommentRepo";
 import { fieldTheme } from "./Login";
 import { appThemeConstants } from "../misc/AppTheme";
 import { LoadingDialog } from "./LoadingDialog";
 import { likeRes } from "../api/UserRepo";
 import { closeErrorSB, ErrorSnack } from "./ErrorSnack";
-import "../App.css";
 import { getRankedList } from "../api/RankedListRepo";
 import { UserReducerTypes } from "../reducers/UserReducer";
+import "../App.css";
 
 let commentEdit = "";
 

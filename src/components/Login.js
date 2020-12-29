@@ -30,7 +30,7 @@ export const NameField = (props) => {
                 }
             }}
             error={props.error}
-            helperText={props.error ? "Name can only have 3-15 lowercase characters" : ""}
+            helperText={props.error ? "Name needs at least 3 characters" : ""}
             style={fieldTheme}
             id="name-field"
             label="User Name"
@@ -46,7 +46,7 @@ export const NameField = (props) => {
 //errorMessage: string
 export const PasswordField = (props) => {
     const [visible, setVisible] = useState(false);
-    const errorMessage = props.errorMessage ? props.errorMessage : "Password needs a number, an uppercase letter, and a special character";
+    const errorMessage = props.errorMessage ? props.errorMessage : "Password needs at least 6 characters";
     const label = props.label ? props.label : "Password";
     return (
         <TextField
@@ -117,8 +117,8 @@ export const AltAuth = (props) => {
     );
 };
 
-export const namePattern = new RegExp("^[a-z0-9_-]{3,15}$");
-export const passwordPattern = new RegExp("^(?=.*?[A-Z])(?=.*?[a-z])(?=.*?[0-9])(?=.*?[#?!@$ %^&*-]).{8,}$");
+export const namePattern = new RegExp("^[a-zA-Z0-9_#?!@$ %^&*-]{3,}$");
+export const passwordPattern = new RegExp("^[a-zA-Z0-9_#?!@$ %^&*-]{6,}$");
 let userName = "";
 let password = "";
 
