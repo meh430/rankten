@@ -13,6 +13,7 @@ import { loginUser } from "../api/Auth";
 import { useHistory } from "react-router-dom";
 import { clearStorage } from "../misc/PrefStore";
 import { closeErrorSB, ErrorSnack } from "./ErrorSnack";
+import { ProfilePicChooser } from "./ProfPicChooser";
 
 //<ReactLoading type="bars" color={appThemeConstants.hanPurple} />
 
@@ -29,7 +30,13 @@ export const Settings = (props) => {
     const [loading, setLoading] = useState(false);
     const [apiError, setApiError] = useState(false);
     const [savedPassword, setSavedPassword] = useState(false);
+    const [profPickerOpen, setProfPickerOpen] = useState(false);
     const [errorMessage, setErrorMessage] = useState("");
+
+    const resetPwdErrors = () => {
+        setOldError(false);
+        setNewError(false);
+    }
 
     const validatePassword = async () => {
         console.log("enter");
@@ -45,8 +52,7 @@ export const Settings = (props) => {
             return false;
         }
 
-        setOldError(false);
-        setNewError(false);
+        resetPwdErrors();
 
         return true;
     };
@@ -54,6 +60,7 @@ export const Settings = (props) => {
     const trySaving = async () => {
         setApiError(false);
         setSavedPassword(false);
+        resetPwdErrors();
         setLoading(true);
         if (await validatePassword()) {
             const [e, res] = await changePassword(newPassword, mainUser.userToken);
@@ -97,6 +104,8 @@ export const Settings = (props) => {
                         Settings
                     </h1>
                 </div>
+                <ActionButton label="Change Profile Picture" width="320px" onClick={() => setProfPickerOpen(true)} />
+                <ProfilePicChooser open={profPickerOpen} handleClose={() => setProfPickerOpen(false)} />
                 <h3 style={{ ...textTheme, alignSelf: "start", margin: "0px", marginLeft: "18px" }}>Change Password</h3>
                 <PasswordField
                     label="Old Password"

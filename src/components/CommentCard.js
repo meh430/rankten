@@ -42,11 +42,12 @@ const CommentLikeBar = (props) => {
             } else {
                 setNumLikes(numLikes + 1);
             }
-            setLiked(res == likeRes.liked);
+
+            setLiked(res === likeRes.liked);
 
             props.mainUser.userDispatch({
                 type: UserReducerTypes.likeCommentAction,
-                payload: { hasLiked: res == likeRes.liked, targetId: props.id },
+                payload: { hasLiked: res === likeRes.liked, targetId: props.id },
             });
             setLoading(false);
         }
@@ -107,14 +108,13 @@ export const CommentCard = (props) => {
     const editComment = async () => {
         return await createComment(comment.commentId, commentEdit, props.mainUser.userToken, true);
     };
-
     return (
         <Card style={{ ...props.cardTheme, width: "400px", marginTop: "0px", marginBottom: "8px", maxWidth: "94%" }}>
             <div
                 className="col"
                 style={{ width: "100%", paddingTop: "10px", paddingLeft: "10px", paddingRight: "10px" }}
             >
-                {props.mainUser.user.userId == comment.userId ? (
+                {props.mainUser.user.userId === comment.userId ? (
                     <div
                         className="row"
                         style={{ width: "100%", alignItems: "center", justifyContent: "space-between" }}

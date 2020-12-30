@@ -30,7 +30,7 @@ export const NameField = (props) => {
                 }
             }}
             error={props.error}
-            helperText={props.error ? "Name needs at least 3 characters" : ""}
+            helperText={props.error ? "Name needs 3-15 characters" : ""}
             style={fieldTheme}
             id="name-field"
             label="User Name"
@@ -46,7 +46,7 @@ export const NameField = (props) => {
 //errorMessage: string
 export const PasswordField = (props) => {
     const [visible, setVisible] = useState(false);
-    const errorMessage = props.errorMessage ? props.errorMessage : "Password needs at least 6 characters";
+    const errorMessage = props.errorMessage ? props.errorMessage : "Password needs 6-20 characters";
     const label = props.label ? props.label : "Password";
     return (
         <TextField
@@ -117,8 +117,8 @@ export const AltAuth = (props) => {
     );
 };
 
-export const namePattern = new RegExp("^[a-zA-Z0-9_#?!@$ %^&*-]{3,}$");
-export const passwordPattern = new RegExp("^[a-zA-Z0-9_#?!@$ %^&*-]{6,}$");
+export const namePattern = new RegExp("^[a-zA-Z0-9_#?!@$ %^&*-]{3,15}$");
+export const passwordPattern = new RegExp("^[a-zA-Z0-9_#?!@$ %^&*-]{6,20}$");
 let userName = "";
 let password = "";
 

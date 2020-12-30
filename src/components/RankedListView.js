@@ -45,7 +45,6 @@ export const RankedListView = (props) => {
     }, [props.listId, props.open]);
 
     const listNull = loading || !rankedList;
-
     return (
         <Dialog onClose={props.onClose} aria-labelledby="customized-dialog-title" open={props.open}>
             <div
@@ -76,7 +75,7 @@ export const RankedListView = (props) => {
                             {listNull ? "Loading..." : rankedList.title}
                         </h1>
                     </div>
-                    {props.mainUser.user.username == props.name ? (
+                    {props.mainUser.user.username === props.name ? (
                         <EditIcon style={{ cursor: "pointer", marginRight: "10px" }} onClick={props.onEdit} />
                     ) : (
                         <i style={{ display: "none" }} />

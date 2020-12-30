@@ -38,7 +38,7 @@ export function userReducer(state, action) {
                 stateCopy.numFollowing += 1;
             } else {
                 for (i = 0; i < stateCopy.following.length; i++) {
-                    if (stateCopy.following[i] == targetId) {
+                    if (stateCopy.following[i] === targetId) {
                         stateCopy.following.splice(i, 1);
                         stateCopy.numFollowing -= 1;
                         break;
@@ -57,7 +57,7 @@ export function userReducer(state, action) {
                 stateCopy.likedLists.push(targetId);
             } else {
                 for (i = 0; i < stateCopy.likedLists.length; i++) {
-                    if (stateCopy.likedLists[i] == targetId) {
+                    if (stateCopy.likedLists[i] === targetId) {
                         stateCopy.likedLists.splice(i, 1);
                         break;
                     }
@@ -75,7 +75,7 @@ export function userReducer(state, action) {
                 stateCopy.likedComments.push(targetId);
             } else {
                 for (i = 0; i < stateCopy.likedComments.length; i++) {
-                    if (stateCopy.likedComments[i] == targetId) {
+                    if (stateCopy.likedComments[i] === targetId) {
                         stateCopy.likedComments.splice(i, 1);
                         break;
                     }

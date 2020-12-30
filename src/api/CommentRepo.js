@@ -1,13 +1,13 @@
 import * as api from "./RankApi";
 import { getPagedResponse } from "./RankedListPreviewRepo";
-import {getLikeResponse, likeRes} from "./UserRepo"
+import {getLikeResponse} from "./UserRepo"
 
 export async function likeComment(commentId, token) {
     const [e, res] = await api.post("/like_comment/" + commentId, token);
     return getLikeResponse(e, res);
 }
 
-export async function getUserComments(page, sort, token, refresh = false) {
+export async function getUserComments(page=0, sort=0, token, refresh = false) {
     const [e, res] = await api.get(`/user_comments/${page}/${sort}${refresh ? "?re=True" : ""}`, token);
     return getPagedResponse(e, res, page);
 }

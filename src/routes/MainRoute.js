@@ -35,9 +35,10 @@ import { Profile } from "../components/Profile";
 import { SearchUsers } from "../components/SearchUsers";
 import { Discover } from "../components/Discover";
 import { Feed } from "../components/Feed";
-import "../App.css";
 import { SearchLists } from "../components/SearchLists";
 import { Settings } from "../components/Settings";
+import "../App.css";
+
 
 const renderOtherProfile = (routerProps) => {
     let userId = routerProps.match.params.userId;

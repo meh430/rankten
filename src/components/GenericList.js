@@ -9,9 +9,10 @@ import { getRankedListPreview } from "../api/RankedListPreviewRepo";
 import { RankedListCard } from "./RankedListCard";
 import { appThemeConstants } from "../misc/AppTheme";
 import { SortMenu } from "./SearchUsers";
-import "./Mason.css";
 import { closeErrorSB, ErrorSnack } from "./ErrorSnack";
 import { getSort, saveSort } from "../misc/PrefStore";
+import "./Mason.css";
+
 
 let page = 0;
 

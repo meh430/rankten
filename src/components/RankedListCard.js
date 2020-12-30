@@ -12,7 +12,7 @@ import { appThemeConstants, getCardStyle, getTextTheme } from "../misc/AppTheme"
 import { tsToDelta } from "../misc/Utils";
 import { UserListDialog } from "./UserListDialog";
 import { UserPreviewTypes } from "../api/UserPreviewRepo";
-import { likeList } from "../api/UserRepo";
+import { likeList, likeRes } from "../api/UserRepo";
 import { UserReducerTypes } from "../reducers/UserReducer";
 import { RankedListView } from "./RankedListView";
 import { CommentsDialog } from "./CommentsDialog";
@@ -82,10 +82,11 @@ export const CardLikeBar = (props) => {
             } else {
                 setNumLikes(numLikes + 1);
             }
-            setLiked(res == "LIKED");
+
+            setLiked(res === likeRes.liked);
             props.mainUser.userDispatch({
                 type: UserReducerTypes.likeListAction,
-                payload: { hasLiked: res == "LIKED", targetId: props.id },
+                payload: { hasLiked: res === likeRes.liked, targetId: props.id },
             });
 
             setLoading(false);
@@ -93,7 +94,6 @@ export const CardLikeBar = (props) => {
     };
 
     const likeStyle = { color: "red", height: "45px", width: "45px", marginRight: "6px" };
-
     return loading ? (
         <ReactLoading type="bubbles" color={appThemeConstants.hanPurple} />
     ) : (
@@ -115,14 +115,14 @@ export const CardLikeBar = (props) => {
                     <FavoriteBorderIcon onClick={onLike} style={likeStyle} />
                 )}
                 <h3 style={{ ...props.textTheme, fontSize: "20px" }} onClick={() => setOpenLikers(true)}>
-                    {numLikes} {numLikes == 1 ? "like" : "likes"}
+                    {numLikes} {numLikes === 1 ? "like" : "likes"}
                 </h3>
             </div>
 
             <div className="row" style={{ alignItems: "center" }} onClick={() => setOpenComments(true)}>
                 <CommentIcon style={{ height: "25x", width: "25px", marginRight: "6px" }} />
                 <h3 style={{ ...props.textTheme, fontSize: "20px" }}>
-                    {props.numComments} {props.numComments == 1 ? "comment" : "comments"}
+                    {props.numComments} {props.numComments === 1 ? "comment" : "comments"}
                 </h3>
             </div>
 
