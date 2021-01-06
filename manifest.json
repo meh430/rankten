@@ -1,0 +1,15 @@
+{
+  "short_name": "Rank 10",
+  "name": "Rank 10",
+  "icons": [
+    {
+      "src": "web_hi_res_512.png",
+      "type": "image/png",
+      "sizes": "512x512"
+    }
+  ],
+  "start_url": ".",
+  "display": "standalone",
+  "theme_color": "#000000",
+  "background_color": "#ffffff"
+}

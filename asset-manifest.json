@@ -1,0 +1,23 @@
+{
+  "files": {
+    "main.css": "/rankten/static/css/main.1f415eea.chunk.css",
+    "main.js": "/rankten/static/js/main.f40ad684.chunk.js",
+    "main.js.map": "/rankten/static/js/main.f40ad684.chunk.js.map",
+    "runtime-main.js": "/rankten/static/js/runtime-main.1841f665.js",
+    "runtime-main.js.map": "/rankten/static/js/runtime-main.1841f665.js.map",
+    "static/js/2.c277e0c0.chunk.js": "/rankten/static/js/2.c277e0c0.chunk.js",
+    "static/js/2.c277e0c0.chunk.js.map": "/rankten/static/js/2.c277e0c0.chunk.js.map",
+    "index.html": "/rankten/index.html",
+    "precache-manifest.47cc14cef9c5599b500146349b37d1d7.js": "/rankten/precache-manifest.47cc14cef9c5599b500146349b37d1d7.js",
+    "service-worker.js": "/rankten/service-worker.js",
+    "static/css/main.1f415eea.chunk.css.map": "/rankten/static/css/main.1f415eea.chunk.css.map",
+    "static/js/2.c277e0c0.chunk.js.LICENSE.txt": "/rankten/static/js/2.c277e0c0.chunk.js.LICENSE.txt",
+    "static/media/ranktenlogo.png": "/rankten/static/media/ranktenlogo.6a7b3d01.png"
+  },
+  "entrypoints": [
+    "static/js/runtime-main.1841f665.js",
+    "static/js/2.c277e0c0.chunk.js",
+    "static/css/main.1f415eea.chunk.css",
+    "static/js/main.f40ad684.chunk.js"
+  ]
+}
