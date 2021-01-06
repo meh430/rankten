@@ -86,10 +86,14 @@ export const SignUp = (props) => {
         if (!error) {
             //make api call to login. If has error, show snackbar, else push main route
             const [hasError, userInfo] = await signupUser(userName, password, bio);
-
+            console.log(userInfo);
             if (hasError) {
                 setSuccess(false);
-                props.setAuthFail((prevState) => ({ message: "Username already exists", failed: true }));
+                if (userInfo === "Bad request") {
+                    props.setAuthFail((prevState) => ({ message: "Username in use", failed: true }));
+                } else {
+                    props.setAuthFail((prevState) => ({ message: userInfo, failed: true }));
+                }
                 setLoading(false);
                 return;
             } else {

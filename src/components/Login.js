@@ -159,7 +159,7 @@ export const Login = (props) => {
 
             if (hasError) {
                 setSuccess(false);
-                props.setAuthFail((prevState) => ({ message: "Incorrect username or password", failed: true }));
+                props.setAuthFail((prevState) => ({ message: userInfo, failed: true }));
                 setLoading(false);
                 return;
             } else {

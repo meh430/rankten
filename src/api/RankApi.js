@@ -1,4 +1,4 @@
-const baseUrl = "http://localhost:3000"//"http://192.168.0.22:5000";
+import { baseUrl } from "../config";
 
 export async function validateImage(imageUrl) {
     var isValid = false;
@@ -106,24 +106,11 @@ function getHeaders(bearerToken = "") {
 }
 
 async function parseResponse(response) {
-    var parsed;
-    switch (response.status) {
-        case 200:
-            parsed = await response.json();
-            return parsed;
-        case 400:
-            parsed = await response.json();
-            if (parsed.message.includes("page")) {
-                throw new Error("Page does not exist");
-            } else {
-                throw new Error("Bad request");
-            }
-        case 401:
-            throw new Error("Authentication error");
-        case 403:
-            throw new Error("Unauthorized");
-        default:
-            throw new Error("Something went wrong");
+    var parsed = await response.json();
+    if(response.status == 200) {
+        return parsed;
+    } else {
+        throw new Error(parsed.message);
     }
 }
 
