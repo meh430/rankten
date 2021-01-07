@@ -108,6 +108,7 @@ export const CommentCard = (props) => {
     const editComment = async () => {
         return await createComment(comment.commentId, commentEdit, props.mainUser.userToken, true);
     };
+
     return (
         <Card style={{ ...props.cardTheme, width: "400px", marginTop: "0px", marginBottom: "8px", maxWidth: "94%" }}>
             <div
@@ -121,7 +122,7 @@ export const CommentCard = (props) => {
                     >
                         <div style={{ width: "93%" }}>
                             <CardHeader
-                                name={comment.userName}
+                                name={comment.username}
                                 userId={comment.userId}
                                 profPic={comment.profilePic}
                                 timeStamp={comment.dateCreated}

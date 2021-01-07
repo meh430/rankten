@@ -117,7 +117,7 @@ export function rankedListReducer(state, action) {
             stateCopy = clone(state);
             stateCopy.rankItems.splice(action.payload.index, 1);
             for (let i = 0; i < stateCopy.rankItems.length; i++) {
-                stateCopy.rankItems[i].rank = i + 1;
+                stateCopy.rankItems[i].ranking = i + 1;
             }
             updateParentProperties(stateCopy);
             return stateCopy;
