@@ -17,3 +17,20 @@ Rank 10 is a platform that allows users to create and share top ten lists on any
 
 ## Showcase
 <img src="screens/edit.gif" height="320"><img src="screens/reorder.gif" height="320"><img src="screens/discover_light.png" height="320"><img src="screens/discover_dark.png" height="320"><img src="screens/list_light.png" height="320"><img src="screens/comments_light.png" height="320"><img src="screens/comments_dark.png" height="320">
+
+## Running Locally
+To run this react app, you must have Node and NPM installed on your machine.
+Clone the repository and cd into the project directory. Create a file named config.js in the src directory with the following contents:
+```js
+export const baseUrl = "http://localhost:3000";
+```
+
+Then run the following commands in the project directory:
+```
+npm install
+```
+
+```
+npm start
+```
+Make sure you have an instance of the [Rank 10 API](https://github.com/meh430/rankten-express) running as well!
