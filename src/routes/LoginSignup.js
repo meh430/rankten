@@ -6,9 +6,11 @@ import { Logo } from "../components/Logo";
 import { Login } from "../components/Login";
 import { SignUp } from "../components/SignUp";
 import { appThemeConstants } from "../misc/AppTheme";
+import { setMainTab } from "../misc/PrefStore";
 import "../App.css";
 
 export const LoginSignUp = (props) => {
+    setMainTab(0);
     const currentTheme = useTheme();
     const [authFail, setAuthFail] = useState({ message: "", failed: false });
     const [isLogin, setLogin] = useState(true);

@@ -8,6 +8,7 @@ import { Logo } from "../components/Logo";
 import { UserReducerTypes } from "../reducers/UserReducer";
 import { UserContext } from "../Contexts";
 import { tokenValid } from "../api/Auth";
+import { setMainTab } from "../misc/PrefStore";
 import "../App.css";
 
 export const Splash = () => {
@@ -16,7 +17,7 @@ export const Splash = () => {
     const { userDispatch, userToken } = useContext(UserContext);
     useEffect(() => {
         console.log("called splash");
-
+        setMainTab(0);
         if (userToken) {
             console.log(userToken);
             (async () => {
