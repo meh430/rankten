@@ -1,14 +1,14 @@
 {
   "files": {
     "main.css": "/rankten/static/css/main.1f415eea.chunk.css",
-    "main.js": "/rankten/static/js/main.bdcf99e7.chunk.js",
-    "main.js.map": "/rankten/static/js/main.bdcf99e7.chunk.js.map",
+    "main.js": "/rankten/static/js/main.36d2e49c.chunk.js",
+    "main.js.map": "/rankten/static/js/main.36d2e49c.chunk.js.map",
     "runtime-main.js": "/rankten/static/js/runtime-main.1841f665.js",
     "runtime-main.js.map": "/rankten/static/js/runtime-main.1841f665.js.map",
     "static/js/2.c277e0c0.chunk.js": "/rankten/static/js/2.c277e0c0.chunk.js",
     "static/js/2.c277e0c0.chunk.js.map": "/rankten/static/js/2.c277e0c0.chunk.js.map",
     "index.html": "/rankten/index.html",
-    "precache-manifest.18ee60ef04b69605ecb16af943955d4e.js": "/rankten/precache-manifest.18ee60ef04b69605ecb16af943955d4e.js",
+    "precache-manifest.574ffa560f457e4ec537e97127c3a40a.js": "/rankten/precache-manifest.574ffa560f457e4ec537e97127c3a40a.js",
     "service-worker.js": "/rankten/service-worker.js",
     "static/css/main.1f415eea.chunk.css.map": "/rankten/static/css/main.1f415eea.chunk.css.map",
     "static/js/2.c277e0c0.chunk.js.LICENSE.txt": "/rankten/static/js/2.c277e0c0.chunk.js.LICENSE.txt",
@@ -18,6 +18,6 @@
     "static/js/runtime-main.1841f665.js",
     "static/js/2.c277e0c0.chunk.js",
     "static/css/main.1f415eea.chunk.css",
-    "static/js/main.bdcf99e7.chunk.js"
+    "static/js/main.36d2e49c.chunk.js"
   ]
 }
